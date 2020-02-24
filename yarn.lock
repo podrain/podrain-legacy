@@ -5574,10 +5574,9 @@ pn@^1.1.0:
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
 
-podcast-feed-parser@^1.0.1:
+"podcast-feed-parser@https://github.com/jcs224/podcast-feed-parser":
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/podcast-feed-parser/-/podcast-feed-parser-1.0.1.tgz#227a84fa4f51b413cf0f38f1e4839c154b7e3fd3"
-  integrity sha512-jnCr+UL2CtSwdQOVZwD0nqCbNymDH5gP/3dqXQ/ZqMUR5wXyy0GdX1BN93PkPjHApvyeSZZpl2bb70sz48TMWw==
+  resolved "https://github.com/jcs224/podcast-feed-parser#05860b2f6ca57ae681311ce33f4e27702fffef55"
   dependencies:
     isomorphic-fetch "^2.2.1"
     npm "^6.4.1"

@@ -3,7 +3,7 @@
     "@fortawesome/fontawesome-free": "^5.12.1",
     "lodash": "^4.17.15",
     "mithril": "^2.0.4",
-    "podcast-feed-parser": "^1.0.1",
+    "podcast-feed-parser": "https://github.com/jcs224/podcast-feed-parser",
     "pouchdb": "^7.2.1",
     "pouchdb-find": "^7.2.1",
     "tailwindcss": "^1.2.0",
