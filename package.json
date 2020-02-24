@@ -1,9 +1,13 @@
 {
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.1",
+    "lodash": "^4.17.15",
     "mithril": "^2.0.4",
+    "podcast-feed-parser": "^1.0.1",
     "pouchdb": "^7.2.1",
-    "tailwindcss": "^1.2.0"
+    "pouchdb-find": "^7.2.1",
+    "tailwindcss": "^1.2.0",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
