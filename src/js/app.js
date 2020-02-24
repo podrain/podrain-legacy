@@ -1,3 +1,14 @@
-import m from 'mithril'
+import '../css/app.css'
 
-m.render(document.body, m('h1', 'hey there'))
+import m from 'mithril'
+import PouchDB from 'pouchdb'
+
+let db = new PouchDB('http://localhost:5984/kittens')
+
+let App = {
+  view() {
+    return m('h1', 'hey!!')
+  }
+}
+
+m.mount(document.body, App)
