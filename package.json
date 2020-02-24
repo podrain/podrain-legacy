@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "mithril": "^2.0.4",
+    "pouchdb": "^7.2.1",
+    "tailwindcss": "^1.2.0"
+  }
+}
