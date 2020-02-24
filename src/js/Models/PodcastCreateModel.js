@@ -21,8 +21,10 @@ let PodcastCreateModel = {
 
       delete podcastOnly.episodes
 
+      let podcastID = uuidv4()
+
       State.db.put(_.merge(podcastOnly, {
-        '_id': uuidv4(),
+        '_id': podcastID,
         'type': 'podcast'
       })).then(() => {
         PodcastListModel.getPodcasts()
@@ -31,6 +33,7 @@ let PodcastCreateModel = {
       for (let ep of podcast.episodes) {
         State.db.put(_.merge(ep, {
           '_id': uuidv4(),
+          'podcast_id': podcastID,
           'type': 'episode'
         }))
       }
