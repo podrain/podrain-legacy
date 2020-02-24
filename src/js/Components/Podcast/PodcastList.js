@@ -8,7 +8,7 @@ class PodcastList {
           m('img', {
             src: pc.meta.imageURL,
             onclick() {
-              m.route.set('/podcasts/'+pc.id)
+              m.route.set('/podcasts/'+pc._id)
             }
           })
         ])
