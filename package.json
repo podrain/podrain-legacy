@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.1",
     "mithril": "^2.0.4",
     "pouchdb": "^7.2.1",
     "tailwindcss": "^1.2.0"
