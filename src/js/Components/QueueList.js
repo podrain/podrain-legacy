@@ -9,7 +9,7 @@ class QueueList {
         return m('li.p-3', {
           class: [
             index != 0 ? 'mt-3' : '',
-            'bg-gray-700'
+            ep.currently_playing ? 'bg-orange-500' : 'bg-gray-700'
           ].join(' '),
           onclick() {
             EpisodeCurrentlyPlaying.playEpisode(ep._id)
