@@ -35,7 +35,10 @@ let PodcastCreateModel = {
           '_id': uuidv4(),
           'podcast_id': podcastID,
           'type': 'episode',
-          'queue': 0
+          'queue': 0,
+          'playhead': 0,
+          'currently_playing': false,
+          'played': false
         }))
       }
     })
