@@ -1,5 +1,5 @@
 import m from 'mithril'
-import PodcastShowModel from '../../Models/PodcastShowModel'
+import PodcastShowModel from '../Models/PodcastShowModel'
 
 class PodcastShow {
   view() {

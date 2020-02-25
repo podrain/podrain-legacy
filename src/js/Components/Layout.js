@@ -1,5 +1,5 @@
 import m from 'mithril'
-import PodcastCreateModel from '../../Models/PodcastCreateModel'
+import PodcastCreateModel from '../Models/PodcastCreateModel'
 
 class Layout {
   constructor() {

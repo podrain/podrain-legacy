@@ -1,5 +1,5 @@
 import m from 'mithril'
-import PodcastListModel from '../../Models/PodcastListModel'
+import PodcastListModel from '../Models/PodcastListModel'
 class PodcastList {
   view() {
     return [

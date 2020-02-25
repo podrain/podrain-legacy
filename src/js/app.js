@@ -6,10 +6,10 @@ import PouchDB from 'pouchdb'
 import PouchDBFind from 'pouchdb-find'
 PouchDB.plugin(PouchDBFind)
 
-import Layout from './Components/Layout/Layout'
-import PodcastList from './Components/Podcast/PodcastList'
+import Layout from './Components/Layout'
+import PodcastList from './Components/PodcastList'
 import PodcastListModel from './Models/PodcastListModel'
-import PodcastShow from './Components/Podcast/PodcastShow'
+import PodcastShow from './Components/PodcastShow'
 import PodcastShowModel from './Models/PodcastShowModel'
 import State from './State'
 
