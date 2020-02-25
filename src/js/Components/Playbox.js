@@ -56,7 +56,7 @@ class PlayBox {
         ]),
         m('.flex.items-center.justify-between', [
           m('.relative.w-full', [
-            m('input#play-slider.w-full.appearance-none', {
+            m('input#play-slider.w-full.appearance-none.bg-gray-200', {
               type: 'range',
               min: 0,
               max: EpisodeCurrentlyPlaying.episode
