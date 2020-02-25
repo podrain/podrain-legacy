@@ -11,6 +11,8 @@ import PodcastList from './Components/PodcastList'
 import PodcastListModel from './Models/PodcastListModel'
 import PodcastShow from './Components/PodcastShow'
 import PodcastShowModel from './Models/PodcastShowModel'
+import QueueList from './Components/QueueList'
+import QueueModel from './Models/QueueModel'
 import State from './State'
 
 let db = new PouchDB('http://localhost:5984/podrain')
@@ -39,6 +41,18 @@ m.route(document.body, '/podcasts', {
       PodcastListModel.getPodcasts()
       
       return PodcastList
+    },
+
+    render(vnode) {
+      return m(Layout, vnode)
+    }
+  },
+
+  '/queue': {
+    onmatch() {
+      QueueModel.getQueue()
+
+      return QueueList
     },
 
     render(vnode) {

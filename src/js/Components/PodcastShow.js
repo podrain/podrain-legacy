@@ -28,14 +28,21 @@ class PodcastShow {
               m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
             ])
           ]),
-          m('.bg-green-500.h-8.flex.justify-center.items-center', {
+          m('.h-8.flex.justify-center.items-center', {
+            class: ep.queue ? 'bg-red-500' : 'bg-green-500',
             onclick() {
-              QueueModel.addToQueue(ep._id).then(() => {
-                return PodcastShowModel.getEpisodes(PodcastShowModel.podcast._id)
-              })
+              if (ep.queue) {
+                QueueModel.removeFromQueue(ep._id).then(() => {
+                  return PodcastShowModel.getEpisodes(PodcastShowModel.podcast._id)
+                })
+              } else {
+                QueueModel.addToQueue(ep._id).then(() => {
+                  return PodcastShowModel.getEpisodes(PodcastShowModel.podcast._id)
+                })
+              }
             }
           }, [
-            ep.hasOwnProperty('queue') ? m('span', 'queued') : m('i.fas.fa-plus')
+            ep.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue']
           ])
         ])
       }))

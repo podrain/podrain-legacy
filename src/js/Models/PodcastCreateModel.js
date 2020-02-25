@@ -34,7 +34,8 @@ let PodcastCreateModel = {
         State.db.put(_.merge(ep, {
           '_id': uuidv4(),
           'podcast_id': podcastID,
-          'type': 'episode'
+          'type': 'episode',
+          'queue': 0
         }))
       }
     })

@@ -39,7 +39,6 @@ let PodcastShowModel = {
         limit: 99999
       })
     }).then(response => {
-      console.log(response.docs)
       this.episodes = response.docs
       m.redraw()
     })
