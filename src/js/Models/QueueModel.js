@@ -22,13 +22,25 @@ let QueueModel = {
 
   addToQueue(id) {
     return State.db.get(id).then((doc) => {
-      let updatedDoc = _.merge(doc, {
-        _id: id,
-        _rev: doc._rev,
-        queue: 1
-      })
+      return State.db.find({
+        selector: {
+          type: 'episode',
+          queue: {
+            $gt: 0
+          }
+        }
+      }).then((result) => {
+        let highestQueue = result.docs.length > 0 ? Math.max(...result.docs.map(ep => ep.queue)) : 0
+        console.log(highestQueue)
 
-      return State.db.put(updatedDoc)
+        let updatedDoc = _.merge(doc, {
+          _id: id,
+          _rev: doc._rev,
+          queue: highestQueue + 1
+        })
+  
+        return State.db.put(updatedDoc)
+      })
     }).then(() => {
       m.redraw()
     })
