@@ -8,54 +8,54 @@ let EpisodeCurrentlyPlaying = {
   audio: null,
   playhead: 0,
 
-  playEpisode(id) {
+  async playEpisode(id) {
     if (this.audio && !this.audio.paused) {
       this.audio.pause()
       this.audio = null
     }
 
-    return State.db.find({
+    let currentlyPlayingEpisode = await State.db.find({
       selector: {
         currently_playing: true
       }
-    }).then((result) => {
-      return State.db.bulkDocs(result.docs.map(doc => {
-        doc.currently_playing = false
-        return doc
-      }))
-    }).then(() => {
-      return State.db.find({
-        selector: {
-          _id: id,
-          type: 'episode'
-        }
-      })
-    }).then((result) => {
-      this.episode = result.docs[0]
-
-      return State.db.find({
-        selector: {
-          _id: this.episode.podcast_id,
-          type: 'podcast'
-        }
-      })
-    }).then((result) => {
-      this.episode.podcast = result.docs[0]
-
-      let currentlyPlayingEpisode = _.merge(this.episode, {
-        currently_playing: true
-      })
-
-      return State.db.put(currentlyPlayingEpisode)
-    }).then(() => {
-      this.audio = new Audio
-      this.audio.src = this.episode.enclosure.url
-      this.audio.currentTime = this.episode.playhead
-      this.audio.load()
-      this.audio.play()
-
-      QueueModel.getQueue()
     })
+
+    await State.db.bulkDocs(currentlyPlayingEpisode.docs.map(doc => {
+      doc.currently_playing = false
+      return doc
+    }))
+
+    let episodeToPlay = await State.db.find({
+      selector: {
+        _id: id,
+        type: 'episode'
+      }
+    })
+
+    this.episode = episodeToPlay.docs[0]
+
+    let episodePodcast = await State.db.find({
+      selector: {
+        _id: this.episode.podcast_id,
+        type: 'podcast'
+      }
+    })
+        
+    this.episode.podcast = episodePodcast.docs[0]
+
+    let currentlyPlayingEpisodeUpdate = _.merge(this.episode, {
+      currently_playing: true
+    })
+
+    await State.db.put(currentlyPlayingEpisodeUpdate)
+
+    this.audio = new Audio
+    this.audio.src = this.episode.enclosure.url
+    this.audio.currentTime = this.episode.playhead
+    this.audio.load()
+    this.audio.play()
+
+    await QueueModel.getQueue()
   },
 
   playOrPause() {
