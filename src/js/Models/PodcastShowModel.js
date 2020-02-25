@@ -41,7 +41,6 @@ let PodcastShowModel = {
     }).then(response => {
       this.episodes = response.docs
       m.redraw()
-      console.log(this.episodes)
     })
   }
 }

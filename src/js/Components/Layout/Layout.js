@@ -31,7 +31,6 @@ class Layout {
             type: 'text',
             oninput(e) {
               PodcastCreateModel.url = e.target.value
-              console.log(PodcastCreateModel.url)
             },
             value: PodcastCreateModel.url
           }, [
