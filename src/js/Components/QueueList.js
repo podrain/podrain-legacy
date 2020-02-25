@@ -1,5 +1,6 @@
 import m from 'mithril'
 import QueueModel from '../Models/QueueModel'
+import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 
 class QueueList {
   view() {
@@ -10,6 +11,9 @@ class QueueList {
             index != 0 ? 'mt-3' : '',
             'bg-gray-700'
           ].join(' '),
+          onclick() {
+            EpisodeCurrentlyPlaying.playEpisode(ep._id)
+          }
         }, [
           m('.leading-tight.text-xs.font-bold', ep.title),
           m('.flex.mt-3', [

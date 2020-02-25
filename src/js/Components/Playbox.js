@@ -13,7 +13,7 @@ class PlayBox {
           m('.flex.flex-col', [
             m('.w-full.text-grey-800.text-sm',
               EpisodeCurrentlyPlaying.episode
-              ? EpisodeCurrentlyPlaying.episode.podcast.title
+              ? EpisodeCurrentlyPlaying.episode.podcast.meta.title
               : ''),
             m('.w-full',
               EpisodeCurrentlyPlaying.episode
