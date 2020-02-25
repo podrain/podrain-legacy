@@ -6,6 +6,7 @@ import QueueModel from './QueueModel'
 let EpisodeCurrentlyPlaying = {
   episode: null,
   audio: null,
+  playhead: 0,
 
   playEpisode(id) {
     if (this.audio && !this.audio.paused) {
@@ -68,12 +69,12 @@ let EpisodeCurrentlyPlaying = {
   },
 
   updatePlayhead() {
-    this.episode.playhead = this.audio.currentTime
+    this.playhead = this.audio.currentTime
     m.redraw()
   },
 
   setPlayhead(value) {
-    this.episode.playhead = this.audio.currentTime = value
+    this.playhead = this.audio.currentTime = value
   },
 
   jumpAhead() {

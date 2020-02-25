@@ -69,7 +69,7 @@ class PlayBox {
               ? EpisodeCurrentlyPlaying.episode.duration
               : 0,
               value: EpisodeCurrentlyPlaying.episode
-              ? EpisodeCurrentlyPlaying.episode.playhead
+              ? EpisodeCurrentlyPlaying.playhead
               : 0,
               onchange(e) {
                 EpisodeCurrentlyPlaying.setPlayhead(e.target.value)
