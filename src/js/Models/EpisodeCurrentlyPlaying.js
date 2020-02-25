@@ -65,7 +65,19 @@ let EpisodeCurrentlyPlaying = {
     }
 
     m.redraw()
-  }
+  },
+
+  setPlayhead(value) {
+    this.episode.playhead = this.audio.currentTime = value
+  },
+
+  jumpAhead() {
+    this.setPlayhead(this.audio.currentTime += 15)
+  },
+
+  jumpBack() {
+    this.setPlayhead(this.audio.currentTime -= 15)
+  },
 }
 
 export default EpisodeCurrentlyPlaying
