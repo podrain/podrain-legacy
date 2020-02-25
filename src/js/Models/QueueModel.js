@@ -15,35 +15,34 @@ let QueueModel = {
       },
       limit: 99999
     }).then(response => {
-      this.queue = response.docs
+      this.queue = _.sortBy(response.docs, 'queue')
       m.redraw()
     })
   },
 
-  addToQueue(id) {
-    return State.db.get(id).then((doc) => {
-      return State.db.find({
-        selector: {
-          type: 'episode',
-          queue: {
-            $gt: 0
-          }
-        }
-      }).then((result) => {
-        let highestQueue = result.docs.length > 0 ? Math.max(...result.docs.map(ep => ep.queue)) : 0
-        console.log(highestQueue)
+  async addToQueue(id) {
+    let episodeToAdd = await State.db.get(id)
 
-        let updatedDoc = _.merge(doc, {
-          _id: id,
-          _rev: doc._rev,
-          queue: highestQueue + 1
-        })
-  
-        return State.db.put(updatedDoc)
-      })
-    }).then(() => {
-      m.redraw()
+    let episodesInQueue = await State.db.find({
+      selector: {
+        type: 'episode',
+        queue: {
+          $gt: 0
+        }
+      }
     })
+
+    let highestQueue = episodesInQueue.docs.length > 0 ? Math.max(...episodesInQueue.docs.map(ep => ep.queue)) : 0
+
+    let updatedDoc = _.merge(episodeToAdd, {
+      _id: id,
+      _rev: episodeToAdd._rev,
+      queue: highestQueue + 1
+    })
+
+    await State.db.put(updatedDoc)
+
+    m.redraw()
   },
 
   removeFromQueue(id) {
