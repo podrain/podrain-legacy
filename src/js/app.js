@@ -1,6 +1,5 @@
 import '../css/app.css'
 import '@fortawesome/fontawesome-free/css/all.css'
-import 'babel-polyfill'
 
 import m from 'mithril'
 import PouchDB from 'pouchdb'
