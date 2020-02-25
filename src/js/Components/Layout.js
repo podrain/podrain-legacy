@@ -1,5 +1,6 @@
 import m from 'mithril'
 import PodcastCreateModel from '../Models/PodcastCreateModel'
+import Playbox from './Playbox'
 
 class Layout {
   constructor() {
@@ -43,7 +44,8 @@ class Layout {
             }
           }, 'Add podcast')
         ]) : null,
-        m('.flex-1.overflow-y-auto.bg-gray-800', vnode.children)
+        m('.flex-1.overflow-y-auto.bg-gray-800', vnode.children),
+        m(Playbox)
       ])
     ]
   }
