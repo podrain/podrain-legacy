@@ -36,7 +36,7 @@ let PodcastShowModel = {
         sort: [
           {'pubDate': 'desc'}
         ],
-        limit: 10000
+        limit: 99999
       })
     }).then(response => {
       this.episodes = response.docs
