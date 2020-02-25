@@ -6,6 +6,11 @@ let EpisodeCurrentlyPlaying = {
   audio: null,
 
   playEpisode(id) {
+    if (this.audio && !this.audio.paused) {
+      this.audio.pause()
+      this.audio = null
+    }
+
     return State.db.find({
       selector: {
         _id: id,
@@ -13,10 +18,6 @@ let EpisodeCurrentlyPlaying = {
       }
     }).then((result) => {
       this.episode = result.docs[0]
-      this.audio = new Audio
-      this.audio.pause()
-      this.audio.src = this.episode.enclosure.url
-      // this.audio.currentTime = this.episode.playhead
 
       return State.db.find({
         selector: {
@@ -26,12 +27,24 @@ let EpisodeCurrentlyPlaying = {
       })
     }).then((result) => {
       this.episode.podcast = result.docs[0]
-      console.log(result.docs[0])
+      this.audio = new Audio
+      this.audio.src = this.episode.enclosure.url
+      this.audio.currentTime = 0
       this.audio.load()
       this.audio.play()
 
-      m.redraw()
+      return m.redraw()
     })
+  },
+
+  playOrPause() {
+    if (this.audio.paused) {
+      this.audio.play()
+    } else {
+      this.audio.pause()
+    }
+
+    m.redraw()
   }
 }
 
