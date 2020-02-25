@@ -6,6 +6,12 @@ class PlayBox {
     this.expanded = true
   }
 
+  oninit() {
+    setInterval(() => {
+      EpisodeCurrentlyPlaying.updatePlayhead()
+    }, 1000)
+  }
+
   view() {
     return this.expanded ? [
       m('.h-48.bg-gray-200.p-3.flex.flex-col.justify-between', [

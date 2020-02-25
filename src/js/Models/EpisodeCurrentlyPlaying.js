@@ -49,7 +49,7 @@ let EpisodeCurrentlyPlaying = {
     }).then(() => {
       this.audio = new Audio
       this.audio.src = this.episode.enclosure.url
-      this.audio.currentTime = 0
+      this.audio.currentTime = this.episode.playhead
       this.audio.load()
       this.audio.play()
 
@@ -64,6 +64,11 @@ let EpisodeCurrentlyPlaying = {
       this.audio.pause()
     }
 
+    m.redraw()
+  },
+
+  updatePlayhead() {
+    this.episode.playhead = this.audio.currentTime
     m.redraw()
   },
 
