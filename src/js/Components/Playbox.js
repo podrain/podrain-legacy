@@ -13,6 +13,10 @@ class PlayBox {
       EpisodeCurrentlyPlaying.updatePlayhead()
     }, 1000)
 
+    setInterval(() => {
+      EpisodeCurrentlyPlaying.updatePlayhead(true)
+    }, 5000)
+
     EpisodeCurrentlyPlaying.audio.addEventListener('ended', async () => {
       await EpisodeCurrentlyPlaying.playNext(true, true)
     })

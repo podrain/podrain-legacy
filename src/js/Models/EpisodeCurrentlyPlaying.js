@@ -61,6 +61,8 @@ let EpisodeCurrentlyPlaying = {
       this.audio.play()
     }
 
+    this.updatePlayhead(true)
+
     // Refresh the queue
     await QueueModel.getQueue()
     m.redraw()
@@ -76,9 +78,18 @@ let EpisodeCurrentlyPlaying = {
     m.redraw()
   },
 
-  updatePlayhead() {
+  async updatePlayhead(updateDB = false) {
     this.playhead = this.audio.currentTime
-    m.redraw()
+
+    if (updateDB) {
+      let episode = await State.db.get(this.episode._id)
+
+      await State.db.put(_.merge(episode, {
+        playhead: this.playhead
+      }))
+    }
+
+    await m.redraw()
   },
 
   setPlayhead(value) {
@@ -87,10 +98,12 @@ let EpisodeCurrentlyPlaying = {
 
   jumpAhead() {
     this.setPlayhead(this.audio.currentTime += 15)
+    this.updatePlayhead(true)
   },
 
   jumpBack() {
     this.setPlayhead(this.audio.currentTime -= 15)
+    this.updatePlayhead(true)
   },
 
   async playNext(startPlaying = false, finishEpisode = false) {
@@ -112,8 +125,6 @@ let EpisodeCurrentlyPlaying = {
   },
 
   async playPrev(startPlaying = false) {
-    await QueueModel.getQueue()
-
     if (this.episode.queue == 1) {
       let lastInQueue = await QueueModel.lastInQueue()
       this.playEpisode(lastInQueue._id, startPlaying)
@@ -121,6 +132,8 @@ let EpisodeCurrentlyPlaying = {
       let prevInQueue = QueueModel.queue.filter(q => q.queue == this.episode.queue - 1)[0]
       this.playEpisode(prevInQueue._id, startPlaying)
     }
+
+    QueueModel.getQueue()
   }
 }
 
