@@ -52,13 +52,11 @@ let QueueModel = {
     m.redraw()
   },
 
-  removeFromQueue(id) {
-    return State.db.get(id).then((doc) => {
-      delete doc.queue
-      return State.db.put(doc)
-    }).then(() => {
-      m.redraw()
-    })
+  async removeFromQueue(id) {
+    let episode = await State.db.get(id)
+    episode.queue = 0
+    await State.db.put(episode)
+    m.redraw()
   }
 }
 
