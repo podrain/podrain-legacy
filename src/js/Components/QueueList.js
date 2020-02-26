@@ -12,7 +12,7 @@ class QueueList {
             ep.currently_playing ? 'bg-orange-500' : 'bg-gray-700'
           ].join(' '),
           onclick() {
-            EpisodeCurrentlyPlaying.playEpisode(ep._id)
+            EpisodeCurrentlyPlaying.playEpisode(ep._id, true)
           }
         }, [
           m('.leading-tight.text-xs.font-bold', ep.title),
