@@ -7,6 +7,8 @@ class PlayBox {
   }
 
   oninit() {
+    EpisodeCurrentlyPlaying.audio = new Audio
+
     setInterval(() => {
       EpisodeCurrentlyPlaying.updatePlayhead()
     }, 1000)

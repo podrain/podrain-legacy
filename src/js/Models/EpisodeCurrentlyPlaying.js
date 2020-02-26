@@ -7,12 +7,12 @@ let EpisodeCurrentlyPlaying = {
   episode: null,
   audio: null,
   playhead: 0,
-  playing: false,
 
   async playEpisode(id, startPlaying = false) {
+    let alreadyPlaying = this.audio.paused ? false : true
+
     if (this.audio && !this.audio.paused) {
       this.audio.pause()
-      this.audio = null
     }
 
     // Get currently playing episode
@@ -53,11 +53,10 @@ let EpisodeCurrentlyPlaying = {
     await State.db.put(currentlyPlayingEpisodeUpdate)
 
     // Start playing the episode
-    this.audio = new Audio
     this.audio.src = this.episode.enclosure.url
     this.audio.currentTime = this.episode.playhead
     this.audio.load()
-    if (this.playing || startPlaying) {
+    if (alreadyPlaying || startPlaying) {
       this.audio.play()
     }
 
@@ -68,10 +67,8 @@ let EpisodeCurrentlyPlaying = {
 
   playOrPause() {
     if (this.audio.paused) {
-      this.playing = true
       this.audio.play()
     } else {
-      this.playing = false
       this.audio.pause()
     }
 
