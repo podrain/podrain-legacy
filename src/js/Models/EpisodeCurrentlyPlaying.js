@@ -107,7 +107,7 @@ let EpisodeCurrentlyPlaying = {
   },
 
   async playNext(startPlaying = false, finishEpisode = false) {
-    let oldEpisode = _.clone(this.episode)
+    let oldEpisodeId = _.clone(this.episode._id)
 
     // if last in queue, play the first in queue after
     if (this.episode.queue == (await QueueModel.lastInQueue()).queue) {
@@ -119,7 +119,17 @@ let EpisodeCurrentlyPlaying = {
     }
 
     if (finishEpisode) {
-      await QueueModel.removeFromQueue(oldEpisode._id)
+      // Remove from queue
+      await QueueModel.removeFromQueue(oldEpisodeId)
+
+      // set mark as done and reset playhead
+      let oldEpisode = await State.db.get(oldEpisodeId)
+
+      await State.db.put(_.merge(oldEpisode, {
+        playhead: 0,
+        played: true
+      }))
+
       this.episode = await EpisodeModel.getEpisode(this.episode._id)
     }
   },

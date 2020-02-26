@@ -21,7 +21,10 @@ class PodcastShow {
         return m('li.flex.flex-col', {
           class: index != 0 ? 'mt-3' : ''
         }, [
-          m('.flex-1.p-3.bg-gray-700', [
+          m('.flex-1.p-3.bg-gray-700.relative', [
+            ep.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
+              m('i.fas.fa-check.text-black')
+            ]) : null,
             m('.leading-tight.text-xs.font-bold', ep.title),
             m('.flex.mt-3', [
               m('.w-1/5', m('img', { src: ep.imageURL || PodcastShowModel.podcast.meta.imageURL })),

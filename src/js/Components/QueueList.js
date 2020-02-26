@@ -6,7 +6,7 @@ class QueueList {
   view() {
     return [
       m('ul.text-white.m-3', QueueModel.queue.map((ep, index) => {
-        return m('li.p-3', {
+        return m('li.p-3.relative', {
           class: [
             index != 0 ? 'mt-3' : '',
             ep.currently_playing ? 'bg-orange-500' : 'bg-gray-700'
@@ -15,6 +15,9 @@ class QueueList {
             EpisodeCurrentlyPlaying.playEpisode(ep._id, true)
           }
         }, [
+          ep.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
+            m('i.fas.fa-check.text-black')
+          ]) : null,
           m('.leading-tight.text-xs.font-bold', ep.title),
           m('.flex.mt-3', [
             m('.w-1/5', m('img', { src: ep.imageURL || ep.podcast.meta.imageURL })),
