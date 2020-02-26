@@ -17,7 +17,7 @@ class QueueList {
         }, [
           m('.leading-tight.text-xs.font-bold', ep.title),
           m('.flex.mt-3', [
-            m('.w-1/5', m('img', { src: ep.imageURL })),
+            m('.w-1/5', m('img', { src: ep.imageURL || ep.podcast.meta.imageURL })),
             m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
           ])
         ])

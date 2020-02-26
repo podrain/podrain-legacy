@@ -5,8 +5,8 @@ import _ from 'lodash'
 let QueueModel = {
   queue: [],
 
-  getQueue() {
-    return State.db.find({
+  async getQueue() {
+    let queuedEpisodes = await State.db.find({
       selector: {
         type: 'episode',
         queue: {
@@ -14,10 +14,17 @@ let QueueModel = {
         }
       },
       limit: 99999
-    }).then(response => {
-      this.queue = _.sortBy(response.docs, 'queue')
-      m.redraw()
     })
+
+    let episodesWithPodcastsPromises = queuedEpisodes.docs.map(async (qe) => {
+      qe.podcast = await State.db.get(qe.podcast_id)
+      return qe
+    })
+
+    let episodesWithPodcasts = await Promise.all(episodesWithPodcastsPromises)
+
+    this.queue = _.sortBy(episodesWithPodcasts, 'queue')
+    m.redraw()
   },
 
   async addToQueue(id) {
