@@ -2,6 +2,7 @@ import State from '../State'
 import m from 'mithril'
 import _ from 'lodash'
 import QueueModel from './QueueModel'
+import EpisodeModel from './EpisodeModel'
 
 let EpisodeCurrentlyPlaying = {
   episode: null,
@@ -93,7 +94,7 @@ let EpisodeCurrentlyPlaying = {
   },
 
   async playNext(startPlaying = false, finishEpisode = false) {
-    console.log(this.episode.queue)
+    let oldEpisode = _.clone(this.episode)
 
     // if last in queue, play the first in queue after
     if (this.episode.queue == (await QueueModel.lastInQueue()).queue) {
@@ -104,7 +105,10 @@ let EpisodeCurrentlyPlaying = {
       await this.playEpisode(nextInQueue._id, startPlaying)
     }
 
-    console.log(this.episode)
+    if (finishEpisode) {
+      await QueueModel.removeFromQueue(oldEpisode._id)
+      this.episode = await EpisodeModel.getEpisode(this.episode._id)
+    }
   },
 
   async playPrev(startPlaying = false) {
