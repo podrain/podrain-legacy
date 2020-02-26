@@ -69,11 +69,13 @@ let QueueModel = {
       }
     })).docs
 
-    for (let hiq of higherInQueue) {
-      hiq.queue -= 1
-      await State.db.put(hiq)
+    if (higherInQueue.length > 0) {
+      for (let hiq of higherInQueue) {
+        hiq.queue -= 1
+        await State.db.put(hiq)
+      }
     }
-
+    await this.getQueue()
     m.redraw()
   },
 

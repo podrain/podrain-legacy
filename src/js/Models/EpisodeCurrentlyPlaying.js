@@ -61,7 +61,7 @@ let EpisodeCurrentlyPlaying = {
     }
 
     // Refresh the queue
-    QueueModel.getQueue()
+    await QueueModel.getQueue()
     m.redraw()
   },
 
@@ -92,27 +92,30 @@ let EpisodeCurrentlyPlaying = {
     this.setPlayhead(this.audio.currentTime -= 15)
   },
 
-  async playNext() {
-    await QueueModel.getQueue()
+  async playNext(startPlaying = false, finishEpisode = false) {
+    console.log(this.episode.queue)
+
     // if last in queue, play the first in queue after
     if (this.episode.queue == (await QueueModel.lastInQueue()).queue) {
       let firstInQueue = QueueModel.queue.filter(q => q.queue == 1)[0]
-      this.playEpisode(firstInQueue._id)
+      await this.playEpisode(firstInQueue._id, startPlaying)
     } else { // Otherwise, play next in queue
       let nextInQueue = QueueModel.queue.filter(q => q.queue == this.episode.queue + 1)[0]
-      this.playEpisode(nextInQueue._id)
+      await this.playEpisode(nextInQueue._id, startPlaying)
     }
+
+    console.log(this.episode)
   },
 
-  async playPrev() {
+  async playPrev(startPlaying = false) {
     await QueueModel.getQueue()
 
     if (this.episode.queue == 1) {
       let lastInQueue = await QueueModel.lastInQueue()
-      this.playEpisode(lastInQueue._id)
+      this.playEpisode(lastInQueue._id, startPlaying)
     } else { // Otherwise, play next in queue
       let prevInQueue = QueueModel.queue.filter(q => q.queue == this.episode.queue - 1)[0]
-      this.playEpisode(prevInQueue._id)
+      this.playEpisode(prevInQueue._id, startPlaying)
     }
   }
 }
