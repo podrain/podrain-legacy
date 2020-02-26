@@ -75,6 +75,21 @@ let QueueModel = {
     }
 
     m.redraw()
+  },
+
+  async lastInQueue() {
+    let episodesInQueue = (await State.db.find({
+      selector: {
+        type: 'episode',
+        queue: {
+          $gt: 0
+        }
+      }
+    })).docs
+
+    let highestQueue = episodesInQueue.length > 0 ? Math.max(...episodesInQueue.map(ep => ep.queue)) : 0
+    let lastEpisodeInQueue = episodesInQueue.filter(eiq => eiq.queue == highestQueue)[0]
+    return lastEpisodeInQueue
   }
 }
 
