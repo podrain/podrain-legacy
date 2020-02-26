@@ -54,8 +54,26 @@ let QueueModel = {
 
   async removeFromQueue(id) {
     let episode = await State.db.get(id)
-    episode.queue = 0
+
+    let currentEpisodeQueue = _.clone(episode.queue) // clone current episode queue value for later use
+    episode.queue = 0 // Remove episode from queue
     await State.db.put(episode)
+
+    // Subract queue from episodes after
+    let higherInQueue = (await State.db.find({
+      selector: {
+        type: 'episode',
+        queue: {
+          $gt: currentEpisodeQueue
+        }
+      }
+    })).docs
+
+    for (let hiq of higherInQueue) {
+      hiq.queue -= 1
+      await State.db.put(hiq)
+    }
+
     m.redraw()
   }
 }
