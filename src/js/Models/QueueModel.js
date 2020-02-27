@@ -96,7 +96,6 @@ let QueueModel = {
 
   async reorder(episodeID, newOrder) {
     let currentEpisode = await State.db.get(episodeID)
-    let newEpisode = _.cloneDeep(currentEpisode)
 
     if (newOrder < currentEpisode.queue) {
       let higherInQueue = (await State.db.find({

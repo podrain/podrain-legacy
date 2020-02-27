@@ -65,7 +65,6 @@ let EpisodeCurrentlyPlaying = {
 
     // Refresh the queue
     await QueueModel.getQueue()
-    m.redraw()
   },
 
   playOrPause() {
@@ -107,8 +106,8 @@ let EpisodeCurrentlyPlaying = {
   },
 
   async playNext(startPlaying = false, finishEpisode = false) {
-    await QueueModel.getQueue()
     let oldEpisodeId = _.clone(this.episode._id)
+    this.episode = await State.db.get(this.episode._id)
 
     // if last in queue, play the first in queue after
     if (this.episode.queue == (await QueueModel.lastInQueue()).queue) {
@@ -133,9 +132,13 @@ let EpisodeCurrentlyPlaying = {
 
       this.episode = await EpisodeModel.getEpisode(this.episode._id)
     }
+
+    QueueModel.getQueue()
   },
 
   async playPrev(startPlaying = false) {
+    this.episode = await State.db.get(this.episode._id)
+
     if (this.episode.queue == 1) {
       let lastInQueue = await QueueModel.lastInQueue()
       this.playEpisode(lastInQueue._id, startPlaying)

@@ -11,10 +11,10 @@ class QueueList {
       scroll: true,
       animation: 150,
 
-      async onUpdate(evt) {
+      onUpdate(evt) {
         let newOrder = evt.newIndex + 1
         let episodeID = evt.item.dataset.id
-        await QueueModel.reorder(episodeID, newOrder)
+        QueueModel.reorder(episodeID, newOrder)
       }
     })
   }
