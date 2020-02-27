@@ -44,7 +44,7 @@ class Layout {
             }
           }, 'Add podcast')
         ]) : null,
-        m('.flex-1.overflow-y-auto.bg-gray-800', vnode.children),
+        m('.flex-1.overflow-y-scroll.bg-gray-800', vnode.children),
         m(Playbox)
       ])
     ]
