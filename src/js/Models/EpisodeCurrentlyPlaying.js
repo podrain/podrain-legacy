@@ -107,6 +107,7 @@ let EpisodeCurrentlyPlaying = {
   },
 
   async playNext(startPlaying = false, finishEpisode = false) {
+    await QueueModel.getQueue()
     let oldEpisodeId = _.clone(this.episode._id)
 
     // if last in queue, play the first in queue after

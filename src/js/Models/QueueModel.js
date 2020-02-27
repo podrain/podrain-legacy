@@ -92,6 +92,67 @@ let QueueModel = {
     let highestQueue = episodesInQueue.length > 0 ? Math.max(...episodesInQueue.map(ep => ep.queue)) : 0
     let lastEpisodeInQueue = episodesInQueue.filter(eiq => eiq.queue == highestQueue)[0]
     return lastEpisodeInQueue
+  },
+
+  async reorder(episodeID, newOrder) {
+    let currentEpisode = await State.db.get(episodeID)
+    let newEpisode = _.cloneDeep(currentEpisode)
+
+    if (newOrder < currentEpisode.queue) {
+      let higherInQueue = (await State.db.find({
+        selector: {
+          type: 'episode',
+          $and: [
+            {
+              queue: {
+                $gte: newOrder
+              }
+            },
+            {
+              queue: {
+                $lt: currentEpisode.queue
+              }
+            },
+          ]
+        }
+      })).docs
+
+      for (let hiq of higherInQueue) {
+        await State.db.put(_.merge(hiq, {
+          queue: hiq.queue + 1
+        }))
+      }
+    } else if (newOrder > currentEpisode.queue) {
+      let lowerInQueue = (await State.db.find({
+        selector: {
+          type: 'episode',
+          $and: [
+            {
+              queue: {
+                $lte: newOrder
+              }
+            },
+            {
+              queue: {
+                $gt: currentEpisode.queue
+              }
+            },
+          ]
+        }
+      })).docs
+
+      for (let liq of lowerInQueue) {
+        await State.db.put(_.merge(liq, {
+          queue: liq.queue - 1
+        }))
+      }
+    }
+
+    await State.db.put(_.merge(currentEpisode, {
+      queue: newOrder
+    }))
+
+    await this.getQueue()
   }
 }
 

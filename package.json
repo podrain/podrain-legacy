@@ -6,6 +6,7 @@
     "podcast-feed-parser": "https://github.com/jcs224/podcast-feed-parser",
     "pouchdb": "^7.2.1",
     "pouchdb-find": "^7.2.1",
+    "sortablejs": "^1.10.2",
     "tailwindcss": "^1.2.0",
     "uuid": "^3.4.0"
   },

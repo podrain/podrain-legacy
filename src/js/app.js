@@ -49,8 +49,8 @@ m.route(document.body, '/podcasts', {
   },
 
   '/queue': {
-    onmatch() {
-      QueueModel.getQueue()
+    async onmatch() {
+      await QueueModel.getQueue()
 
       return QueueList
     },

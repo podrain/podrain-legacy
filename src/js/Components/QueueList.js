@@ -1,28 +1,51 @@
 import m from 'mithril'
 import QueueModel from '../Models/QueueModel'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
+import Sortable from 'sortablejs'
 
 class QueueList {
+  oncreate() {
+    let queueList = document.getElementById('queue-list')
+    let sortable = Sortable.create(queueList, {
+      handle: '.queue-dragbar',
+      scroll: true,
+      animation: 150,
+
+      async onUpdate(evt) {
+        let newOrder = evt.newIndex + 1
+        let episodeID = evt.item.dataset.id
+        await QueueModel.reorder(episodeID, newOrder)
+      }
+    })
+  }
+
   view() {
     return [
-      m('ul.text-white.m-3', QueueModel.queue.map((ep, index) => {
-        return m('li.p-3.relative', {
+      m('ul#queue-list.text-white.mt-3.mx-3', QueueModel.queue.map((ep, index) => {
+        return m('li.flex', {
           class: [
-            index != 0 ? 'mt-3' : '',
+            'mb-3',
             ep.currently_playing ? 'bg-orange-500' : 'bg-gray-700'
           ].join(' '),
           onclick() {
             EpisodeCurrentlyPlaying.playEpisode(ep._id, true)
-          }
+          },
+          'data-id': ep._id,
+          key: ep._id
         }, [
-          ep.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
-            m('i.fas.fa-check.text-black')
-          ]) : null,
-          m('.leading-tight.text-xs.font-bold', ep.title),
-          m('.flex.mt-3', [
-            m('.w-1/5', m('img', { src: ep.imageURL || ep.podcast.meta.imageURL })),
-            m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
-          ])
+          m('.p-3.relative.w-full', [
+            ep.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
+              m('i.fas.fa-check.text-black')
+            ]) : null,
+            m('.leading-tight.text-xs.font-bold', ep.title),
+            m('.flex.mt-3', [
+              m('.w-1/5', m('img', { src: ep.imageURL || ep.podcast.meta.imageURL })),
+              m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
+            ])
+          ]),
+          m('.queue-dragbar.w-10.bg-indigo-500.flex.items-center.justify-center', [
+            m('i.fas.fa-bars')
+          ]),
         ])
       }))
     ]
