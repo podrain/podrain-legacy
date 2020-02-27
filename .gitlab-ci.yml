@@ -7,7 +7,7 @@ cache:
 pages:
     script:
     - yarn install
-    - npx parcel build src/index.html --out-dir public
+    - npx parcel build src/index.html --out-dir public --public-url .
 
     artifacts:
         paths:
