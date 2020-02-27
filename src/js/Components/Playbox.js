@@ -1,5 +1,6 @@
 import m from 'mithril'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
+import State from '../State'
 
 class PlayBox {
   constructor() {
@@ -19,6 +20,16 @@ class PlayBox {
 
     EpisodeCurrentlyPlaying.audio.addEventListener('ended', async () => {
       await EpisodeCurrentlyPlaying.playNext(true, true)
+    })
+
+    // Get currently playing episode if available
+    State.db.find({
+      selector: {
+        type: 'episode',
+        currently_playing: true
+      }
+    }).then(result => {
+      return EpisodeCurrentlyPlaying.playEpisode(result.docs[0]._id)
     })
   }
 
