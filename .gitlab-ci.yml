@@ -6,7 +6,6 @@ cache:
 
 pages:
     script:
-    - npm install -g yarn
     - yarn install
     - npx parcel build src/index.html --out-dir public
 
