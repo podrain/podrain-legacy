@@ -22,9 +22,11 @@ m.route(document.body, '/podcasts', {
   '/podcasts/:id': {
     onmatch(args) {
       PodcastShowModel.loading = true
-      PodcastShowModel.getPodcast(args.id).then(() => {
-        return PodcastShowModel.getEpisodes(args.id)
-      }).then(() => {
+
+      let getPodcasts = PodcastShowModel.getPodcast(args.id)
+      let getEpisodes = PodcastShowModel.getEpisodes(args.id)
+
+      Promise.all([getPodcasts, getEpisodes]).then(() => {
         PodcastShowModel.loading = false
       })
 
