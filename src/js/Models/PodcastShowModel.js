@@ -1,5 +1,6 @@
 import m from 'mithril'
 import State from '../State'
+import _ from 'lodash'
 
 let PodcastShowModel = {
   podcast: {},
@@ -33,13 +34,10 @@ let PodcastShowModel = {
           podcast_id: id,
           type: "episode",
         },
-        sort: [
-          {'pubDate': 'desc'}
-        ],
         limit: 99999
       })
     }).then(response => {
-      this.episodes = response.docs
+      this.episodes = _.orderBy(response.docs, ['pubDate'], ['desc'])
       m.redraw()
     })
   }
