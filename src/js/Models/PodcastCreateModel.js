@@ -8,9 +8,20 @@ import PodcastListModel from './PodcastListModel'
 let PodcastCreateModel = {
   proxyUrl: 'https://example.com/',
   url: '',
+  search: '',
+  searchResults: [],
+  searching: false,
+  addingPodcast: false,
+
+  setSearch(value) {
+    this.search = value
+    this.searching = true
+    this.searchPodcastsDelay()
+  },
 
   addPodcast() {
-    m.request(this.proxyUrl + this.url, {
+    this.addingPodcast = true
+    return m.request(this.proxyUrl + this.url, {
       extract: function(xhr) {
         return xhr
       }
@@ -23,15 +34,19 @@ let PodcastCreateModel = {
 
       let podcastID = uuidv4()
 
-      State.db.put(_.merge(podcastOnly, {
+      let addPodcast = State.db.put(_.merge(podcastOnly, {
         '_id': podcastID,
         'type': 'podcast'
       })).then(() => {
         PodcastListModel.getPodcasts()
+        this.search = ''
+        this.searchResults = []
+        this.url = ''
       })
 
+      let addPodcastEpisodes = []
       for (let ep of podcast.episodes) {
-        State.db.put(_.merge(ep, {
+        addPodcastEpisodes.push(State.db.put(_.merge(ep, {
           '_id': uuidv4(),
           'podcast_id': podcastID,
           'type': 'episode',
@@ -39,8 +54,29 @@ let PodcastCreateModel = {
           'playhead': 0,
           'currently_playing': false,
           'played': false
-        }))
+        })))
       }
+
+      return Promise.all([addPodcast, ...addPodcastEpisodes])
+    }).then(() => {
+      this.addingPodcast = false
+    })
+  },
+
+  searchPodcastsDelay: _.debounce(() => {
+    PodcastCreateModel.searchPodcasts()
+  }, 250),
+
+  searchPodcasts() {
+    return m.request('https://itunes.apple.com/search', {
+      params: {
+        term: this.search,
+        media: 'podcast',
+        entity: 'podcast'
+      }
+    }).then(result => {
+      this.searchResults = result.results
+      this.searching = false
     })
   }
 }

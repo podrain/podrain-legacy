@@ -1,12 +1,7 @@
 import m from 'mithril'
-import PodcastCreateModel from '../Models/PodcastCreateModel'
 import Playbox from './Playbox'
 
 class Layout {
-  constructor() {
-    this.addPodcastDialog = false
-  }
-
   view(vnode) {
     return [
       m('.flex.flex-col.h-screen', [
@@ -23,27 +18,10 @@ class Layout {
           }),
           m('i.fas.fa-plus.text-4xl', {
             onclick: () => {
-              this.addPodcastDialog = !this.addPodcastDialog
+              m.route.set('/podcasts/add')
             }
           }),
         ]),
-        this.addPodcastDialog ? m('.flex.flex-col', [
-          m('input.h-12', {
-            type: 'text',
-            oninput(e) {
-              PodcastCreateModel.url = e.target.value
-            },
-            value: PodcastCreateModel.url
-          }, [
-  
-          ]),
-          m('button.bg-green-500.text-white', {
-            onclick: () => {
-              PodcastCreateModel.addPodcast()
-              this.addPodcastDialog = false
-            }
-          }, 'Add podcast')
-        ]) : null,
         m('.flex-1.overflow-y-scroll.bg-gray-800', vnode.children),
         m(Playbox)
       ])

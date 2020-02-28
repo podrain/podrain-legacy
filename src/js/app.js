@@ -11,6 +11,7 @@ import PodcastList from './Components/PodcastList'
 import PodcastListModel from './Models/PodcastListModel'
 import PodcastShow from './Components/PodcastShow'
 import PodcastShowModel from './Models/PodcastShowModel'
+import PodcastCreate from './Components/PodcastCreate'
 import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
 import State from './State'
@@ -19,6 +20,16 @@ let db = new PouchDB('podrain')
 State.db = db
 
 m.route(document.body, '/podcasts', {
+  '/podcasts/add': {
+    onmatch() {
+      return PodcastCreate
+    },
+
+    render(vnode) {
+      return m(Layout, vnode)
+    }
+  },
+
   '/podcasts/:id': {
     onmatch(args) {
       PodcastShowModel.loading = true
