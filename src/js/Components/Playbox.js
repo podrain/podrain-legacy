@@ -6,8 +6,6 @@ import * as d3 from 'd3'
 class PlayBox {
   constructor() {
     this.expanded = true
-    this.marqueeContainerWidth = 0
-    this.marqueeTextWidth = 0
   }
 
   oninit() {
@@ -36,34 +34,6 @@ class PlayBox {
     })
   }
 
-  async doMarqueeLoop() {
-
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms))
-    }
-
-    let marqueeContainerTextDifference = this.marqueeTextWidth - this.marqueeContainerWidth
-    console.log(marqueeContainerTextDifference)
-    let increment = 0
-    let request
-    await sleep(3000)
-    let doSomethingEachLoop = async () => {
-      increment++
-      document.getElementById('marquee').style.marginLeft = '-'+ (increment) + 'px'
-      request = requestAnimationFrame(doSomethingEachLoop)
-      if (marqueeContainerTextDifference <= increment) {
-        cancelAnimationFrame(request)
-        await sleep(2000)
-        increment = 0
-        document.getElementById('marquee').style.marginLeft = '-'+ (increment) + 'px'
-        await sleep(3000)
-        request = requestAnimationFrame(doSomethingEachLoop)
-      }
-    }
-
-    requestAnimationFrame(doSomethingEachLoop)
-  }
-
   view() {
     return this.expanded ? [
       m('.h-48.bg-gray-200.p-3.flex.flex-col.justify-between', [
@@ -73,22 +43,9 @@ class PlayBox {
               EpisodeCurrentlyPlaying.episode
               ? EpisodeCurrentlyPlaying.episode.podcast.meta.title
               : ''),
-            m('.w-full.whitespace-no-wrap.overflow-x-hidden', {
-              onupdate: (vnode) => {
-                if (vnode.dom.offsetWidth !== this.marqueeContainerWidth) {
-                  this.marqueeContainerWidth = vnode.dom.offsetWidth
-                  console.log('marquee container width: '+vnode.dom.offsetWidth)
-                }
-              }
-            }, [
-              m('span#marquee.inline-block', {
-                onupdate: (vnode) => {
-                  if ((vnode.dom.offsetWidth !== this.marqueeTextWidth) && this.marqueeContainerWidth) {
-                    this.marqueeTextWidth = vnode.dom.offsetWidth
-                    console.log('marquee text width: '+vnode.dom.offsetWidth)
-                    this.doMarqueeLoop()
-                  }
-                }
+            m('.w-full.whitespace-no-wrap.overflow-x-hidden', [
+              m('marquee', {
+                'scrollamount': 4,
               }, EpisodeCurrentlyPlaying.episode
               ? EpisodeCurrentlyPlaying.episode.title
               : '')
