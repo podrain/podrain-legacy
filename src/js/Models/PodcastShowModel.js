@@ -8,6 +8,7 @@ let PodcastShowModel = {
   podcast: {},
   episodes: [],
   loading: false,
+  refreshing: false,
 
   async getPodcast(id) {
     let podcast = (await State.db.find({
@@ -45,6 +46,7 @@ let PodcastShowModel = {
   },
 
   async refreshEpisodes(id) {
+    this.refreshing = true
     let podcast = await State.db.get(id)
 
     let currentEpisodes = (await State.db.find({
@@ -81,6 +83,7 @@ let PodcastShowModel = {
     })
 
     await State.db.bulkDocs(newEpisodes)
+    this.refreshing = false
   }
 }
 

@@ -23,7 +23,9 @@ class PodcastShow {
                 })
               }
             }, [
-              m('i.fas.fa-sync-alt.mr-3'),
+              m('i.fas.fa-sync-alt.mr-3', {
+                class: PodcastShowModel.refreshing ? 'fa-pulse' : ''
+              }),
               'Refresh'
             ])
           ])
