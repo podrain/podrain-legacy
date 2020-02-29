@@ -13,8 +13,20 @@ class PodcastShow {
             src: PodcastShowModel.podcast.meta.imageURL
           })
         ]),
-        m('.w-2/3.flex.justify-center.items-center.text-lg', [
-          m('h1.text-white.font-bold.leading.snug', PodcastShowModel.podcast.meta.title)
+        m('.w-2/3.flex.flex-col.justify-center.text-lg.py-3.pr-3', [
+          m('h1.text-white.font-bold.leading.snug', PodcastShowModel.podcast.meta.title),
+          m('.mt-3.flex', [
+            m('button.text-white.bg-indigo-500.p-2.text-sm.flex-1', {
+              onclick() {
+                PodcastShowModel.refreshEpisodes(PodcastShowModel.podcast._id).then(() => {
+                  PodcastShowModel.getEpisodes(PodcastShowModel.podcast._id)
+                })
+              }
+            }, [
+              m('i.fas.fa-sync-alt.mr-3'),
+              'Refresh'
+            ])
+          ])
         ])
       ]),
       m('ul.text-white.mx-3.mb-3', PodcastShowModel.episodes.map((ep, index) => {

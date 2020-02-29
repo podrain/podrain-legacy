@@ -16,7 +16,7 @@ import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
 import State from './State'
 
-let db = new PouchDB('podrain')
+let db = new PouchDB('http://localhost:5984/podrain')
 State.db = db
 
 m.route(document.body, '/podcasts', {

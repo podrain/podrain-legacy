@@ -36,7 +36,8 @@ let PodcastCreateModel = {
 
       let addPodcast = State.db.put(_.merge(podcastOnly, {
         '_id': podcastID,
-        'type': 'podcast'
+        'type': 'podcast',
+        'feed_url': this.url
       })).then(() => {
         PodcastListModel.getPodcasts()
         this.search = ''
