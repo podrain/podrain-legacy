@@ -11,13 +11,24 @@ let EpisodeModel = {
   },
 
   async downloadEpisode(id) {
-    this.downloading.push(id)
+    this.downloading.push({
+      id: id,
+      progress: 0
+    })
     let episode = await State.db.get(id)
     let proxyUrl = 'https://example.com/'
 
     let episodeAudio = await m.request(proxyUrl + episode.enclosure.url, {
       extract: function(xhr) {
         return xhr
+      },
+      config: function(xhr) {
+        xhr.onprogress = function(event) {
+          let episodeDownloading = EpisodeModel.downloading.filter(ed => ed.id == id)[0]
+          let episodeIndex = EpisodeModel.downloading.indexOf(episodeDownloading)
+          EpisodeModel.downloading[episodeIndex].progress = Math.floor((event.loaded / event.total) * 100)
+          m.redraw()
+        }
       },
       responseType: 'arraybuffer'
     })
@@ -26,9 +37,10 @@ let EpisodeModel = {
     // let audioBlob = new Blob([episodeAudio.response], {type: audioType})
     await localforage.setItem('podrain_episode_'+id, episodeAudio.response)
     
+    let episodeDownloading = EpisodeModel.downloading.filter(ed => ed.id == id)[0]
+    let episodeIndex = EpisodeModel.downloading.indexOf(episodeDownloading)
     await this.syncDownloadedEpisodes()
-    this.downloading.splice(this.downloading.indexOf(id), 1)
-
+    this.downloading.splice(episodeIndex, 1)
 
     // let audioSrcUrl = window.URL.createObjectURL(audioBlob)
     // let audio = new Audio
