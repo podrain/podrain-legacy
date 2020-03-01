@@ -17,7 +17,7 @@ import QueueModel from './Models/QueueModel'
 import EpisodeModel from './Models/EpisodeModel'
 import State from './State'
 
-let db = new PouchDB('http://localhost:5984/podrain')
+let db = new PouchDB('podrain')
 State.db = db
 
 EpisodeModel.syncDownloadedEpisodes()
