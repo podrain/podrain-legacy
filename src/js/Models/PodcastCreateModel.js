@@ -24,6 +24,9 @@ let PodcastCreateModel = {
     return m.request(this.proxyUrl + this.url, {
       extract: function(xhr) {
         return xhr
+      },
+      headers: {
+        'Accept': 'application/rss+xml'
       }
     }).then(response => {
       let feedData = response.responseText
