@@ -60,15 +60,22 @@ class QueueList {
             }, [
               m('i.fas.fa-minus.mr-3'),'Remove'
             ]),
-            !EpisodeModel.isDownloaded(ep._id) ? m('.flex-1.flex.justify-center.items-center', {
+            m('.flex-1.flex.justify-center.items-center', {
               class: 'bg-blue-500',
               onclick() {
-                EpisodeModel.downloadEpisode(ep._id)
+                if (EpisodeModel.isDownloaded(ep._id)) {
+                  EpisodeModel.removeDownload(ep._id)
+                } else {
+                  EpisodeModel.downloadEpisode(ep._id)
+                }
               }
-            }, [
+            }, EpisodeModel.isDownloaded(ep._id) ?  [
+              m('i.fas.fa-check.mr-3'),
+              'Downloaded'
+            ] : [
               m('i.fas.fa-download.mr-3'),
-              'Download'
-            ]) : null
+              EpisodeModel.downloading.includes(ep._id) ? 'Downloading...' : 'Download'
+            ]) 
           ]),
         ])
       }))

@@ -15,10 +15,16 @@ import PodcastCreate from './Components/PodcastCreate'
 import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
 import EpisodeModel from './Models/EpisodeModel'
+import localforage from 'localforage'
 import State from './State'
 
 let db = new PouchDB('podrain')
 State.db = db
+
+localforage.config({
+  driver: localforage.INDEXEDDB,
+  name: 'Podrain Episodes'
+})
 
 EpisodeModel.syncDownloadedEpisodes()
 

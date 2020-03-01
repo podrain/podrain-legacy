@@ -4,11 +4,14 @@ import m from 'mithril'
 import _ from 'lodash'
 
 let EpisodeModel = {
+  downloading: [],
+
   async getEpisode(id) {
     return await State.db.get(id)
   },
 
   async downloadEpisode(id) {
+    this.downloading.push(id)
     let episode = await State.db.get(id)
     let proxyUrl = 'https://example.com/'
 
@@ -19,11 +22,12 @@ let EpisodeModel = {
       responseType: 'arraybuffer'
     })
 
-    let audioType = episodeAudio.getResponseHeader('content-type')
-    let audioBlob = new Blob([episodeAudio.response], {type: audioType})
-    await localforage.setItem('podrain_episode_'+id, audioBlob)
+    // let audioType = episodeAudio.getResponseHeader('content-type')
+    // let audioBlob = new Blob([episodeAudio.response], {type: audioType})
+    await localforage.setItem('podrain_episode_'+id, episodeAudio.response)
     
-    this.syncDownloadedEpisodes()
+    await this.syncDownloadedEpisodes()
+    this.downloading.splice(this.downloading.indexOf(id), 1)
 
 
     // let audioSrcUrl = window.URL.createObjectURL(audioBlob)
@@ -31,6 +35,11 @@ let EpisodeModel = {
     // audio.src = audioSrcUrl
     // audio.load()
     // audio.play()
+  },
+
+  async removeDownload(id) {
+    await localforage.removeItem('podrain_episode_'+id)
+    await this.syncDownloadedEpisodes()
   },
 
   isDownloaded(id) {
