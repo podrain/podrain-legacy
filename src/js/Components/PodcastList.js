@@ -2,7 +2,9 @@ import m from 'mithril'
 import PodcastListModel from '../Models/PodcastListModel'
 class PodcastList {
   view() {
-    return [
+    return PodcastListModel.loading
+    ? m('.flex.text-white.text-5xl.h-full.justify-center.items-center', 'Loading...')
+    : [
       m('.flex.flex-wrap', PodcastListModel.podcasts.map((pc) => {
         return m('.w-1/3.flex-none', [
           m('img', {

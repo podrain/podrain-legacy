@@ -18,7 +18,13 @@ import EpisodeModel from './Models/EpisodeModel'
 import localforage from 'localforage'
 import State from './State'
 
-let db = new PouchDB('podrain')
+let dbURL = 'podrain'
+
+if (process.env.COUCHDB_SERVER) {
+  dbURL = process.env.COUCHDB_SERVER
+}
+
+let db = new PouchDB(dbURL)
 State.db = db
 
 localforage.config({
@@ -71,8 +77,8 @@ m.route(document.body, '/podcasts', {
   },
 
   '/queue': {
-    async onmatch() {
-      await QueueModel.getQueue()
+    onmatch() {
+      QueueModel.getQueue()
 
       return QueueList
     },
