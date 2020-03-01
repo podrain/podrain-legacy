@@ -3,6 +3,7 @@ import m from 'mithril'
 import _ from 'lodash'
 import QueueModel from './QueueModel'
 import EpisodeModel from './EpisodeModel'
+import localforage from 'localforage'
 
 let EpisodeCurrentlyPlaying = {
   episode: null,
@@ -54,7 +55,15 @@ let EpisodeCurrentlyPlaying = {
     await State.db.put(currentlyPlayingEpisodeUpdate)
 
     // Start playing the episode
-    this.audio.src = this.episode.enclosure.url
+    // Check if episode is downloaded
+    let lfKeys = await localforage.keys()
+    let downloadedAudioKey = 'podrain_episode_'+this.episode._id
+    if (lfKeys.includes(downloadedAudioKey)) {
+      let downloadedAudioBlob = await localforage.getItem(downloadedAudioKey)
+      this.audio.src = URL.createObjectURL(downloadedAudioBlob)
+    } else {
+      this.audio.src = this.episode.enclosure.url
+    }
     this.audio.currentTime = this.episode.playhead
     this.audio.load()
     if (alreadyPlaying || startPlaying) {

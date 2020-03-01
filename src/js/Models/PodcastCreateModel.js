@@ -54,7 +54,8 @@ let PodcastCreateModel = {
           'queue': 0,
           'playhead': 0,
           'currently_playing': false,
-          'played': false
+          'played': false,
+          'downloaded': false
         })))
       }
 

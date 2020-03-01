@@ -2,6 +2,7 @@ import m from 'mithril'
 import QueueModel from '../Models/QueueModel'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import Sortable from 'sortablejs'
+import EpisodeModel from '../Models/EpisodeModel'
 
 class QueueList {
   oncreate() {
@@ -25,17 +26,18 @@ class QueueList {
         return m('li.flex.flex-col', {
           class: [
             'mb-3',
-            ep.currently_playing ? 'bg-orange-500' : 'bg-gray-700'
           ].join(' '),
           'data-id': ep._id,
           key: ep._id
         }, [
           m('.flex', {
-            onclick() {
-              EpisodeCurrentlyPlaying.playEpisode(ep._id, true)
-            },
+            class: ep.currently_playing ? 'bg-orange-500' : 'bg-gray-700',
           }, [
-            m('.p-3.relative.w-full', [
+            m('.p-3.relative.w-full', {
+              onclick() {
+                EpisodeCurrentlyPlaying.playEpisode(ep._id, true)
+              },
+            }, [
               ep.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
                 m('i.fas.fa-check.text-black')
               ]) : null,
@@ -49,14 +51,25 @@ class QueueList {
               m('i.fas.fa-bars')
             ]),
           ]),
-          m('.h-8.flex.justify-center.items-center', {
-            class: 'bg-red-500',
-            onclick() {
-              QueueModel.removeFromQueue(ep._id)
-            }
-          }, [
-            m('i.fas.fa-minus.mr-3'),'Remove from queue'
-          ])
+          m('.h-8.flex', [
+            m('.flex-1.flex.justify-center.items-center', {
+              class: 'bg-red-500',
+              onclick() {
+                QueueModel.removeFromQueue(ep._id)
+              }
+            }, [
+              m('i.fas.fa-minus.mr-3'),'Remove'
+            ]),
+            m('.flex-1.flex.justify-center.items-center', {
+              class: 'bg-blue-500',
+              onclick() {
+                EpisodeModel.downloadEpisode(ep._id)
+              }
+            }, [
+              m('i.fas.fa-download.mr-3'),
+              'Download'
+            ])
+          ]),
         ])
       }))
     ]
