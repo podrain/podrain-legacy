@@ -6,7 +6,7 @@ import _ from 'lodash'
 import PodcastListModel from './PodcastListModel'
 
 let PodcastCreateModel = {
-  proxyUrl: 'https://example.com/',
+  proxyUrl: process.env.PROXY_URL+'/',
   url: '',
   search: '',
   searchResults: [],
@@ -24,6 +24,9 @@ let PodcastCreateModel = {
     return m.request(this.proxyUrl + this.url, {
       extract: function(xhr) {
         return xhr
+      },
+      headers: {
+        'accept': 'application/rss+xml, application/rdf+xml;q=0.8, application/atom+xml;q=0.6, application/xml;q=0.4, text/xml;q=0.4'
       }
     }).then(response => {
       let feedData = response.responseText
