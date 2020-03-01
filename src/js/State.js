@@ -1,3 +1,4 @@
 export default {
-  db: null
+  db: null,
+  downloadedEpisodes: []
 }

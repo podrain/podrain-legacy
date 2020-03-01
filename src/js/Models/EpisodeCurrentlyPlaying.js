@@ -56,10 +56,8 @@ let EpisodeCurrentlyPlaying = {
 
     // Start playing the episode
     // Check if episode is downloaded
-    let lfKeys = await localforage.keys()
-    let downloadedAudioKey = 'podrain_episode_'+this.episode._id
-    if (lfKeys.includes(downloadedAudioKey)) {
-      let downloadedAudioBlob = await localforage.getItem(downloadedAudioKey)
+    if (State.downloadedEpisodes.includes(this.episode._id)) {
+      let downloadedAudioBlob = await localforage.getItem('podrain_episode_'+this.episode._id)
       this.audio.src = URL.createObjectURL(downloadedAudioBlob)
     } else {
       this.audio.src = this.episode.enclosure.url

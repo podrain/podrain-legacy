@@ -22,6 +22,9 @@ let EpisodeModel = {
     let audioType = episodeAudio.getResponseHeader('content-type')
     let audioBlob = new Blob([episodeAudio.response], {type: audioType})
     await localforage.setItem('podrain_episode_'+id, audioBlob)
+    
+    this.syncDownloadedEpisodes()
+
 
     // let audioSrcUrl = window.URL.createObjectURL(audioBlob)
     // let audio = new Audio
@@ -30,10 +33,21 @@ let EpisodeModel = {
     // audio.play()
   },
 
-  async isDownloaded(id) {
-    let lfKeys = await localforage.keys()
-    let downloadedAudioKey = 'podrain_episode_'+id
-    return lfKeys.includes(downloadedAudioKey)
+  isDownloaded(id) {
+    return State.downloadedEpisodes.includes(id)
+  },
+
+  syncDownloadedEpisodes() {
+    return localforage.keys().then(keys => {
+      let episodes = keys.filter(key => {
+        return key.includes('podrain_episode_')
+      }).map(key => {
+        return key.substr('podrain_episode_'.length)
+      })
+    
+      State.downloadedEpisodes = episodes
+      m.redraw()
+    })
   }
 }
 

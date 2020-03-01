@@ -60,7 +60,7 @@ class QueueList {
             }, [
               m('i.fas.fa-minus.mr-3'),'Remove'
             ]),
-            m('.flex-1.flex.justify-center.items-center', {
+            !EpisodeModel.isDownloaded(ep._id) ? m('.flex-1.flex.justify-center.items-center', {
               class: 'bg-blue-500',
               onclick() {
                 EpisodeModel.downloadEpisode(ep._id)
@@ -68,7 +68,7 @@ class QueueList {
             }, [
               m('i.fas.fa-download.mr-3'),
               'Download'
-            ])
+            ]) : null
           ]),
         ])
       }))

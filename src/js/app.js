@@ -14,10 +14,13 @@ import PodcastShowModel from './Models/PodcastShowModel'
 import PodcastCreate from './Components/PodcastCreate'
 import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
+import EpisodeModel from './Models/EpisodeModel'
 import State from './State'
 
 let db = new PouchDB('http://localhost:5984/podrain')
 State.db = db
+
+EpisodeModel.syncDownloadedEpisodes()
 
 m.route(document.body, '/podcasts', {
   '/podcasts/add': {
