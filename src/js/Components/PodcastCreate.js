@@ -41,20 +41,39 @@ function PodcastCreate() {
             ? m('h2.mt-3.text-white', 'Searching...')
             : m('ul.mt-3', [
               PodcastCreateModel.searchResults.map((sr, index) => {
-                return m('li.text-white', {
+                return m('li.flex.text-white', {
                   class: index > 0 ? 'mt-3' : '',
-                  onclick() {
-                    PodcastCreateModel.url = sr.feedUrl
-                    PodcastCreateModel.addPodcast().then(() => {
-                      m.route.set('/podcasts')
-                    })
-                  }
                 }, [
-                  m('.p-3.bg-gray-700.flex', [
+                  m('.p-3.bg-gray-700.w-full.flex', [
                     m('img.w-1/4', {
                       src: sr.artworkUrl100
                     }),
-                    m('.w-3/4.ml-3', sr.collectionName)
+                    m('.w-3/4.ml-3', [
+                      m('h3', sr.collectionName),
+                      PodcastCreateModel
+                        .addingPodcastSearchIds
+                        .map(apsi => apsi.id)
+                        .includes(sr.collectionId)
+                      ? PodcastCreateModel
+                        .addingPodcastSearchIds
+                        .filter(apsi => apsi.id == sr.collectionId)[0]
+                        .episodesAdded 
+                        + ' / ' 
+                        + PodcastCreateModel
+                        .addingPodcastSearchIds
+                        .filter(apsi => apsi.id == sr.collectionId)[0]
+                        .episodesTotal
+                      : 'coolbeans'
+                    ])
+                  ]),
+                  m('.w-12.flex.justify-center.items-center.bg-green-500', {
+                    onclick() {
+                      PodcastCreateModel.addPodcast(sr.collectionId).then(() => {
+                        m.route.set('/podcasts')
+                      })
+                    }
+                  }, [
+                    m('i.fas.fa-plus')
                   ])
                 ])
               })

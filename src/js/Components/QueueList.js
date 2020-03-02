@@ -74,7 +74,7 @@ class QueueList {
               'Downloaded'
             ] : [
               EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) 
-              ? + EpisodeModel.downloading.filter(dl => dl.id == ep._id)[0].progress + '% Downloading...' 
+              ? EpisodeModel.downloading.filter(dl => dl.id == ep._id)[0].progress + '% Downloading...' 
               : [
                 m('i.fas.fa-download.mr-3'),
                 'Download'

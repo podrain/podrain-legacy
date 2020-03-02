@@ -12,6 +12,7 @@ let PodcastCreateModel = {
   searchResults: [],
   searching: false,
   addingPodcast: false,
+  addingPodcastSearchIds: [],
 
   setSearch(value) {
     this.search = value
@@ -19,9 +20,16 @@ let PodcastCreateModel = {
     this.searchPodcastsDelay()
   },
 
-  addPodcast() {
-    this.addingPodcast = true
-    return m.request(this.proxyUrl + this.url, {
+  addPodcast(podcastId) {
+    this.addingPodcastSearchIds.push({
+      id: podcastId,
+      episodesAdded: 0,
+      episodesTotal: 0,
+    })
+
+    let podcastBeingAdded = this.searchResults.filter(sr => sr.collectionId == podcastId)[0]
+
+    return m.request(this.proxyUrl + podcastBeingAdded.feedUrl, {
       extract: function(xhr) {
         return xhr
       },
@@ -37,16 +45,17 @@ let PodcastCreateModel = {
 
       let podcastID = uuidv4()
 
+      let addingPodcastIndex = _.findIndex(this.addingPodcastSearchIds, (apsi) => {
+        return apsi.id == podcastId
+      })
+
+      this.addingPodcastSearchIds[addingPodcastIndex].episodesTotal = podcast.episodes.length
+
       let addPodcast = State.db.put(_.merge(podcastOnly, {
         '_id': podcastID,
         'type': 'podcast',
         'feed_url': this.url
-      })).then(() => {
-        PodcastListModel.getPodcasts()
-        this.search = ''
-        this.searchResults = []
-        this.url = ''
-      })
+      }))
 
       let addPodcastEpisodes = []
       for (let ep of podcast.episodes) {
@@ -58,7 +67,10 @@ let PodcastCreateModel = {
           'playhead': 0,
           'currently_playing': false,
           'played': false
-        })))
+        })).then(() => {
+          this.addingPodcastSearchIds[addingPodcastIndex].episodesAdded += 1
+          m.redraw()
+        }))
       }
 
       return Promise.all([addPodcast, ...addPodcastEpisodes])
