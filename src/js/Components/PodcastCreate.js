@@ -52,23 +52,23 @@ function PodcastCreate() {
                       m('h3', sr.collectionName),
                       PodcastCreateModel
                         .addingPodcastSearchIds
-                        .map(apsi => apsi.id)
-                        .includes(sr.collectionId)
+                        .map(apsi => apsi.feed_url)
+                        .includes(sr.feedUrl)
                       ? PodcastCreateModel
                         .addingPodcastSearchIds
-                        .filter(apsi => apsi.id == sr.collectionId)[0]
+                        .filter(apsi => apsi.feed_url == sr.feedUrl)[0]
                         .episodesAdded 
                         + ' / ' 
                         + PodcastCreateModel
                         .addingPodcastSearchIds
-                        .filter(apsi => apsi.id == sr.collectionId)[0]
+                        .filter(apsi => apsi.feed_url == sr.feedUrl)[0]
                         .episodesTotal
                       : 'coolbeans'
                     ])
                   ]),
                   m('.w-12.flex.justify-center.items-center.bg-green-500', {
                     onclick() {
-                      PodcastCreateModel.addPodcast(sr.collectionId).then(() => {
+                      PodcastCreateModel.addPodcast(sr.feedUrl, true).then(() => {
                         m.route.set('/podcasts')
                       })
                     }
@@ -84,12 +84,12 @@ function PodcastCreate() {
               type: 'text',
               placeholder: 'URL to podcast feed...',
               oninput(e) {
-                PodcastCreateModel.url = e.target.value
+                PodcastCreateModel.feedUrl = e.target.value
               }
             }),
             m('button.w-full.bg-green-500.mt-3.p-2.text-white', {
               onclick() {
-                PodcastCreateModel.addPodcast().then(() => {
+                PodcastCreateModel.addPodcast(PodcastCreateModel.feedUrl).then(() => {
                   m.route.set('/podcasts')
                 })
               }
