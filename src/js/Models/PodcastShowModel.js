@@ -26,9 +26,9 @@ let PodcastShowModel = {
     await State.db.createIndex({
       index: {
         fields: [
+          'pubDate',
           'podcast_id',
-          'type',
-          'pubDate'
+          'type'
         ]
       }
     })
@@ -36,12 +36,50 @@ let PodcastShowModel = {
     let episodes = (await State.db.find({
       selector: {
         podcast_id: id,
-        type: 'episode'
+        type: 'episode',
+        pubDate: {
+          $gt: true
+        }
       },
-      limit: 99999
+      sort: [
+        {'pubDate': 'desc'}
+      ],
+      limit: 10
     })).docs
 
-    this.episodes = _.orderBy(episodes, ['pubDate'], ['desc'])
+    this.episodes = episodes
+    m.redraw()
+  },
+
+  async getMoreEpisodes(id, numEpisodes) {
+    await State.db.createIndex({
+      index: {
+        fields: [
+          'pubDate',
+          'podcast_id',
+          'type'
+        ]
+      }
+    })
+
+    let newEpisodes = (await State.db.find({
+      selector: {
+        podcast_id: id,
+        type: 'episode',
+        pubDate: {
+          $lt: this.episodes[this.episodes.length - 1].pubDate
+        }
+      },
+      sort: [
+        {'pubDate': 'desc'}
+      ],
+      limit: numEpisodes
+    })).docs
+
+    for (let ne of newEpisodes) {
+      this.episodes.push(ne)
+    }
+
     m.redraw()
   },
 
