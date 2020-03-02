@@ -65,7 +65,6 @@ class PodcastShow {
                 let episodeIndex = _.findIndex(PodcastShowModel.episodes, (fep) => {
                   return fep._id == ep._id
                 })
-                console.log(episodeIndex)
                 PodcastShowModel.episodes[episodeIndex] = updatedEpisode
               })
             }
