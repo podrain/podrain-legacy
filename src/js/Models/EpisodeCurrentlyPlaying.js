@@ -57,8 +57,13 @@ let EpisodeCurrentlyPlaying = {
     // Start playing the episode
     // Check if episode is downloaded
     if (State.downloadedEpisodes.includes(this.episode._id)) {
-      let downloadedAudioArrayBuffer = await localforage.getItem('podrain_episode_'+this.episode._id)
-      let daBlob = new Blob([downloadedAudioArrayBuffer], { type: this.episode.enclosure.type })
+      // Array buffer loading strategy
+      // let downloadedAudioArrayBuffer = await localforage.getItem('podrain_episode_'+this.episode._id)
+      // let daBlob = new Blob([downloadedAudioArrayBuffer], { type: this.episode.enclosure.type })
+      // this.audio.src = URL.createObjectURL(daBlob)
+      
+      // Blob loading strategy
+      let daBlob = await localforage.getItem('podrain_episode_'+this.episode._id)
       this.audio.src = URL.createObjectURL(daBlob)
     } else {
       this.audio.src = this.episode.enclosure.url

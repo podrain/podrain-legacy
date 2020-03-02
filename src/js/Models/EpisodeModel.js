@@ -30,12 +30,15 @@ let EpisodeModel = {
           m.redraw()
         }
       },
+      headers: {
+        'Accept': 'audio/*'
+      },
       responseType: 'arraybuffer'
     })
 
-    // let audioType = episodeAudio.getResponseHeader('content-type')
-    // let audioBlob = new Blob([episodeAudio.response], {type: audioType})
-    await localforage.setItem('podrain_episode_'+id, episodeAudio.response)
+    let audioType = episodeAudio.getResponseHeader('content-type')
+    let audioBlob = new Blob([episodeAudio.response], {type: audioType})
+    await localforage.setItem('podrain_episode_'+id, audioBlob)
     
     let episodeDownloading = EpisodeModel.downloading.filter(ed => ed.id == id)[0]
     let episodeIndex = EpisodeModel.downloading.indexOf(episodeDownloading)
