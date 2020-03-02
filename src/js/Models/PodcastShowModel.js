@@ -11,13 +11,7 @@ let PodcastShowModel = {
   refreshing: false,
 
   async getPodcast(id) {
-    let podcast = (await State.db.find({
-      selector: {
-        type: 'podcast',
-        _id: id
-      }
-    })).docs[0]
-
+    let podcast = await State.db.get(id)
     this.podcast = podcast
     m.redraw()
   },
