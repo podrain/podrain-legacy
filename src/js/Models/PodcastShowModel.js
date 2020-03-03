@@ -104,7 +104,7 @@ let PodcastShowModel = {
     let podcastParsed = pfp.getPodcastFromFeed(feedData)
 
     let newEpisodes = podcastParsed.episodes.filter((ep) => {
-      return !currentEpisodes.map(epCurr => epCurr.enclosure.url).includes(ep.enclosure.url)
+      return ep.pubDate > _.max(currentEpisodes.map(epCurr => epCurr.pubDate))
     }).map(ep => {
       return _.merge(ep, {
         '_id': uuidv4(),

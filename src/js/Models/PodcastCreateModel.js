@@ -57,6 +57,19 @@ let PodcastCreateModel = {
         'feed_url': podcastUrl
       }))
 
+      /* Test refresh podcast by not including all episodes at first */
+      // podcast.episodes = _.sortBy(podcast.episodes, function(ep) {
+      //   return ep.pubDate
+      // })
+
+      // podcast.episodes.pop()
+      // podcast.episodes.pop()
+      // podcast.episodes.pop()
+      // podcast.episodes.pop()
+      // podcast.episodes.pop()
+
+      // console.log(podcast.episodes.length)
+
       let addPodcastEpisodes = []
       for (let ep of podcast.episodes) {
         addPodcastEpisodes.push(State.db.put(_.merge(ep, {
