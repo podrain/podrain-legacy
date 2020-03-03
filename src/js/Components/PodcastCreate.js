@@ -82,12 +82,12 @@ function PodcastCreate() {
               type: 'text',
               placeholder: 'URL to podcast feed...',
               oninput(e) {
-                PodcastCreateModel.feedUrl = e.target.value
+                PodcastCreateModel.manualRssUrl = e.target.value
               }
             }),
             m('button.w-full.bg-green-500.mt-3.p-2.text-white', {
               onclick() {
-                PodcastCreateModel.addPodcast().then(() => {
+                PodcastCreateModel.addPodcast(PodcastCreateModel.manualRssUrl).then(() => {
                   m.route.set('/podcasts')
                 })
               }

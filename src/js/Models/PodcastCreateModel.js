@@ -8,6 +8,7 @@ import PodcastListModel from './PodcastListModel'
 let PodcastCreateModel = {
   proxyUrl: process.env.PROXY_URL+'/',
   feedUrl: '',
+  manualRssUrl: '',
   search: '',
   searchResults: [],
   searching: false,
