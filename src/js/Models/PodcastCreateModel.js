@@ -11,8 +11,8 @@ let PodcastCreateModel = {
   search: '',
   searchResults: [],
   searching: false,
-  addingPodcast: false,
-  addingPodcastSearchIds: [],
+  episodesAdded: 0,
+  episodesTotal: 0,
 
   setSearch(value) {
     this.search = value
@@ -20,14 +20,9 @@ let PodcastCreateModel = {
     this.searchPodcastsDelay()
   },
 
-  addPodcast(podcastUrl, fromSearch = false) {
-    this.addingPodcastSearchIds.push({
-      feed_url: podcastUrl,
-      episodesAdded: 0,
-      episodesTotal: 0,
-    })
-
-    return m.request(this.proxyUrl + podcastUrl, {
+  addPodcast(podcastUrl) {
+    this.feedUrl = podcastUrl
+    return m.request(this.proxyUrl + this.feedUrl, {
       extract: function(xhr) {
         return xhr
       },
@@ -42,19 +37,12 @@ let PodcastCreateModel = {
       delete podcastOnly.episodes
 
       let podcastID = uuidv4()
-
-      let addingPodcastIndex = null
-      if (fromSearch) {
-        addingPodcastIndex = _.findIndex(this.addingPodcastSearchIds, (apsi) => {
-          return apsi.feed_url == podcastUrl
-        })
-        this.addingPodcastSearchIds[addingPodcastIndex].episodesTotal = podcast.episodes.length
-      }
+      this.episodesTotal = podcast.episodes.length
 
       let addPodcast = State.db.put(_.merge(podcastOnly, {
         '_id': podcastID,
         'type': 'podcast',
-        'feed_url': podcastUrl
+        'feed_url': this.feedUrl
       }))
 
       /* Test refresh podcast by not including all episodes at first */
@@ -81,16 +69,16 @@ let PodcastCreateModel = {
           'currently_playing': false,
           'played': false
         })).then(() => {
-          if (fromSearch) {
-            this.addingPodcastSearchIds[addingPodcastIndex].episodesAdded += 1
-          }
+          this.episodesAdded += 1
           m.redraw()
         }))
       }
 
       return Promise.all([addPodcast, ...addPodcastEpisodes])
     }).then(() => {
-      this.addingPodcast = false
+      this.feedUrl = ''
+      this.episodesAdded = 0
+      this.episodesTotal = 0
     })
   },
 

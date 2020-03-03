@@ -50,30 +50,28 @@ function PodcastCreate() {
                     }),
                     m('.w-3/4.ml-3', [
                       m('h3', sr.collectionName),
-                      PodcastCreateModel
-                        .addingPodcastSearchIds
-                        .map(apsi => apsi.feed_url)
-                        .includes(sr.feedUrl)
-                      ? PodcastCreateModel
-                        .addingPodcastSearchIds
-                        .filter(apsi => apsi.feed_url == sr.feedUrl)[0]
-                        .episodesAdded 
+                      PodcastCreateModel.feedUrl == sr.feedUrl
+                      ? PodcastCreateModel.episodesAdded
                         + ' / ' 
-                        + PodcastCreateModel
-                        .addingPodcastSearchIds
-                        .filter(apsi => apsi.feed_url == sr.feedUrl)[0]
-                        .episodesTotal
+                        + PodcastCreateModel.episodesTotal
                       : 'coolbeans'
                     ])
                   ]),
-                  m('.w-12.flex.justify-center.items-center.bg-green-500', {
+                  PodcastCreateModel.feedUrl 
+                    && PodcastCreateModel.feedUrl != sr.feedUrl 
+                    ? null 
+                    : m('.w-12.flex.justify-center.items-center.bg-green-500', {
                     onclick() {
-                      PodcastCreateModel.addPodcast(sr.feedUrl, true).then(() => {
+                      PodcastCreateModel.addPodcast(sr.feedUrl).then(() => {
                         m.route.set('/podcasts')
                       })
                     }
                   }, [
-                    m('i.fas.fa-plus')
+                    PodcastCreateModel.feedUrl == sr.feedUrl
+                    ? m('i.fas.fa-spinner.fa-spin', {
+                      disabled: true
+                    })
+                    : m('i.fas.fa-plus')
                   ])
                 ])
               })
@@ -89,7 +87,7 @@ function PodcastCreate() {
             }),
             m('button.w-full.bg-green-500.mt-3.p-2.text-white', {
               onclick() {
-                PodcastCreateModel.addPodcast(PodcastCreateModel.feedUrl).then(() => {
+                PodcastCreateModel.addPodcast().then(() => {
                   m.route.set('/podcasts')
                 })
               }
