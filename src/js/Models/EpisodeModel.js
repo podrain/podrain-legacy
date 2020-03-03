@@ -36,9 +36,13 @@ let EpisodeModel = {
       responseType: 'arraybuffer'
     })
 
+    // Save blob strategy
     let audioType = episodeAudio.getResponseHeader('content-type')
     let audioBlob = new Blob([episodeAudio.response], {type: audioType})
     await localforage.setItem('podrain_episode_'+id, audioBlob)
+
+    // Save as arraybuffer strategy
+    // await localforage.setItem('podrain_episode_'+id, episodeAudio.response)
     
     let episodeDownloading = EpisodeModel.downloading.filter(ed => ed.id == id)[0]
     let episodeIndex = EpisodeModel.downloading.indexOf(episodeDownloading)

@@ -63,8 +63,14 @@ let EpisodeCurrentlyPlaying = {
       // this.audio.src = URL.createObjectURL(daBlob)
       
       // Blob loading strategy
+      // let daBlob = await localforage.getItem('podrain_episode_'+this.episode._id)
+      // this.audio.src = URL.createObjectURL(daBlob)
+
+      // Blob load and convert to array buffer (and back to blob)
       let daBlob = await localforage.getItem('podrain_episode_'+this.episode._id)
-      this.audio.src = URL.createObjectURL(daBlob)
+      let blobAB = await daBlob.arrayBuffer()
+      let newBlob = new Blob([blobAB], { type: this.episode.enclosure.type })
+      this.audio.src = URL.createObjectURL(newBlob)
     } else {
       this.audio.src = this.episode.enclosure.url
     }
