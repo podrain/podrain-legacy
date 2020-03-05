@@ -15,6 +15,8 @@ import PodcastCreate from './Components/PodcastCreate'
 import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
 import EpisodeModel from './Models/EpisodeModel'
+import EpisodeShowModel from './Models/EpisodeShowModel'
+import EpisodeShow from './Components/EpisodeShow'
 import localforage from 'localforage'
 import State from './State'
 
@@ -67,8 +69,18 @@ m.route(document.body, '/podcasts', {
   '/podcasts': {
     onmatch() {
       PodcastListModel.getPodcasts()
-      
       return PodcastList
+    },
+
+    render(vnode) {
+      return m(Layout, vnode)
+    }
+  },
+
+  '/episodes/:id': {
+    onmatch(args) {
+      EpisodeShowModel.getEpisode(args.id)
+      return EpisodeShow
     },
 
     render(vnode) {
@@ -79,7 +91,6 @@ m.route(document.body, '/podcasts', {
   '/queue': {
     onmatch() {
       QueueModel.getQueue()
-
       return QueueList
     },
 

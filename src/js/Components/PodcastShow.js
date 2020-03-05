@@ -36,16 +36,20 @@ class PodcastShow {
       m('ul.text-white.mx-3.mb-3', PodcastShowModel.episodes.map((ep, index) => {
         return m('li.flex.flex-col', {
           key: ep._id,
-          class: index != 0 ? 'mt-3' : ''
+          class: index != 0 ? 'mt-3' : '',
         }, [
-          m('.flex-1.p-3.bg-gray-700.relative', [
+          m('.flex-1.p-3.bg-gray-700.relative', {
+            onclick() {
+              m.route.set('/episodes/'+ep._id)
+            }
+          }, [
             ep.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
               m('i.fas.fa-check.text-black')
             ]) : null,
-            m('.leading-tight.text-xs.font-bold', ep.title),
+            m('.leading-tight.text-xs.font-bold.truncate', ep.title),
             m('.flex.mt-3', [
               m('.w-1/5', m('img', { src: ep.imageURL || PodcastShowModel.podcast.meta.imageURL })),
-              m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
+              // m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
             ])
           ]),
           m('.h-8.flex.justify-center.items-center', {
