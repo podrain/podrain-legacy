@@ -16,7 +16,7 @@ let EpisodeModel = {
       progress: 0
     })
     let episode = await State.db.get(id)
-    let proxyUrl = process.env.PROXY_URL+'/'
+    let proxyUrl = process.env.PROXY_URL || ""
 
     let episodeAudio = await m.request(proxyUrl + episode.enclosure.url, {
       extract: function(xhr) {

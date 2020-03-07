@@ -7,7 +7,7 @@ cache:
 pages:
     script:
     - yarn install
-    - echo "PROXY_URL=https://example.com" > .env
+    - echo "PROXY_URL=https://example.com/" > .env
     - npx parcel build src/index.html --out-dir public --public-url .
 
     artifacts:
