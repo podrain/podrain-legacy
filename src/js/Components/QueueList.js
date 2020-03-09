@@ -60,7 +60,7 @@ class QueueList {
             }, [
               m('i.fas.fa-minus.mr-3'),'Remove'
             ]),
-            m('.flex-1.flex.justify-center.items-center', {
+            m('.flex-1.relative', {
               class: 'bg-blue-500',
               onclick() {
                 if (EpisodeModel.isDownloaded(ep._id)) {
@@ -69,16 +69,22 @@ class QueueList {
                   EpisodeModel.downloadEpisode(ep._id)
                 }
               }
-            }, EpisodeModel.isDownloaded(ep._id) ?  [
-              m('i.fas.fa-check.mr-3'),
-              'Downloaded'
-            ] : [
-              EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) 
-              ? EpisodeModel.downloading.filter(dl => dl.id == ep._id)[0].progress + '% Downloading...' 
-              : [
-                m('i.fas.fa-download.mr-3'),
-                'Download'
-              ]
+            }, [
+              m('.h-full.bg-green-500.absolute', {
+                style: 'width: ' + (EpisodeModel.isDownloaded(ep._id) ? '100' : (EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) 
+                ? EpisodeModel.downloading.filter(dl => dl.id == ep._id)[0].progress : '0')) + '%;'
+              }),
+              m('.flex.h-full.justify-center.items-center.relative', EpisodeModel.isDownloaded(ep._id) ?  [
+                m('i.fas.fa-check.mr-3'),
+                'Downloaded'
+              ] : [
+                EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) 
+                ? 'Downloading...' 
+                : [
+                  m('i.fas.fa-download.mr-3'),
+                  'Download'
+                ]
+              ]) 
             ]) 
           ]),
         ])
