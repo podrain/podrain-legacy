@@ -22,3 +22,40 @@
 /* .marquee {
   transform: translate(100px);
 } */
+
+.markdown {
+  /* @apply text-lg leading-normal; */
+  & > * + *,  & li + li, & li > p + p {
+    @apply mt-6;
+  }
+  & strong {
+    @apply font-bold;
+  }
+  & a {
+    @apply font-semibold text-blue-400;
+  }
+  & strong a {
+    @apply font-bold;
+  }
+  & h2 {
+    @apply leading-tight text-xl font-bold mb-2 mt-10;
+  }
+  & h3 {
+    @apply leading-tight text-lg font-bold mt-8 -mb-2;
+  }
+  & code {
+    @apply font-mono text-sm inline px-1;
+  }
+  & pre code {
+    @apply block p-4 rounded;
+  }
+  & blockquote {
+    @apply border-l-4 pl-4 italic;
+  }
+  & ul, & ol {
+    @apply pl-5;
+    @screen sm {
+      @apply pl-10;
+    }
+  }
+}
