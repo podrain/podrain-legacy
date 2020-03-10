@@ -20,14 +20,19 @@ import EpisodeShow from './Components/EpisodeShow'
 import localforage from 'localforage'
 import State from './State'
 
-let dbURL = 'podrain'
-
 if (process.env.COUCHDB_SERVER) {
-  dbURL = process.env.COUCHDB_SERVER
+  let remoteDB = new PouchDB(process.env.COUCHDB_SERVER)
+  State.remoteDB = remoteDB
 }
 
-let db = new PouchDB(dbURL)
+let db = new PouchDB('podrain')
 State.db = db
+
+// State.db.replicate.to(State.remoteDB).on('complete', function() {
+//   console.log('data synced')
+// }).on('error', function() {
+//   console.log('something went wrong with sync')
+// })
 
 localforage.config({
   driver: localforage.INDEXEDDB,
