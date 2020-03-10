@@ -54,12 +54,13 @@ class QueueList {
             ]),
           ]),
           m('.h-8.flex', [
-            m('.flex-1.flex.justify-center.items-center', {
+            m('button.flex-1.flex.justify-center.items-center', {
               class: 'bg-red-500',
               onclick() {
                 QueueModel.removeFromQueue(ep._id)
-              }
-            }, [
+              },
+              disabled: QueueModel.queueChanging
+            }, QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : [
               m('i.fas.fa-minus.mr-3'),'Remove'
             ]),
             m('.flex-1.relative', {

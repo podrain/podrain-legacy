@@ -52,7 +52,7 @@ class PodcastShow {
               // m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
             ])
           ]),
-          m('.h-8.flex.justify-center.items-center', {
+          m('button.h-8.flex.justify-center.items-center', {
             class: ep.queue ? 'bg-red-500' : 'bg-green-500',
             onclick() {
               let method = null
@@ -71,9 +71,10 @@ class PodcastShow {
                 })
                 PodcastShowModel.episodes[episodeIndex] = updatedEpisode
               })
-            }
+            },
+            disabled: QueueModel.queueChanging
           }, [
-            ep.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue']
+            QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : (ep.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue'])
           ])
         ])
       })),
