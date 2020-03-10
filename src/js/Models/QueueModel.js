@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 let QueueModel = {
   queue: [],
+  queueChanging: false,
 
   async getQueue() {
     let queuedEpisodes = await State.db.find({
@@ -28,6 +29,7 @@ let QueueModel = {
   },
 
   async addToQueue(id) {
+    this.queueChanging = true
     let episodeToAdd = await State.db.get(id)
 
     let episodesInQueue = await State.db.find({
@@ -48,11 +50,12 @@ let QueueModel = {
     })
 
     await State.db.put(updatedDoc)
-
+    this.queueChanging = false
     m.redraw()
   },
 
   async removeFromQueue(id) {
+    this.queueChanging = true
     let episode = await State.db.get(id)
 
     let currentEpisodeQueue = _.clone(episode.queue) // clone current episode queue value for later use
@@ -76,6 +79,7 @@ let QueueModel = {
       }
     }
     await this.getQueue()
+    this.queueChanging = false
     m.redraw()
   },
 
@@ -95,6 +99,7 @@ let QueueModel = {
   },
 
   async reorder(episodeID, newOrder) {
+    this.queueChanging = true
     let currentEpisode = await State.db.get(episodeID)
 
     if (newOrder < currentEpisode.queue) {
@@ -152,6 +157,7 @@ let QueueModel = {
     }))
 
     await this.getQueue()
+    this.queueChanging = false
   }
 }
 

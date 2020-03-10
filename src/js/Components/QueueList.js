@@ -13,6 +13,8 @@ class QueueList {
       animation: 150,
 
       onUpdate(evt) {
+        QueueModel.queueChanging = true
+        m.redraw()
         let newOrder = evt.newIndex + 1
         let episodeID = evt.item.dataset.id
         QueueModel.reorder(episodeID, newOrder)
@@ -48,7 +50,7 @@ class QueueList {
               ])
             ]),
             m('.queue-dragbar.w-10.bg-indigo-500.flex.items-center.justify-center', [
-              m('i.fas.fa-bars')
+              QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : m('i.fas.fa-bars')
             ]),
           ]),
           m('.h-8.flex', [
