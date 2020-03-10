@@ -1,7 +1,6 @@
 import m from 'mithril'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import State from '../State'
-import * as d3 from 'd3'
 
 class PlayBox {
   constructor() {
