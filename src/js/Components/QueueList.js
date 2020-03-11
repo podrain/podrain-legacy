@@ -3,6 +3,7 @@ import QueueModel from '../Models/QueueModel'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import Sortable from 'sortablejs'
 import EpisodeModel from '../Models/EpisodeModel'
+import Helpers from '../Helpers'
 
 class QueueList {
   oncreate() {
@@ -46,7 +47,11 @@ class QueueList {
               m('.leading-tight.text-xs.font-bold', ep.title),
               m('.flex.mt-3', [
                 m('.w-1/5', m('img', { src: ep.imageURL || ep.podcast.meta.imageURL })),
-                m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
+                m('.w-4/5.text-xs.font-light.ml-3', ep.description 
+                  ? (Helpers.cleanHTMLString(ep.description).length > 125 
+                    ? Helpers.cleanHTMLString(ep.description).substr(0, 125) + '...' 
+                    : Helpers.cleanHTMLString(ep.description)) 
+                  : 'No description provided')
               ])
             ]),
             m('.queue-dragbar.w-10.bg-indigo-500.flex.items-center.justify-center', [
