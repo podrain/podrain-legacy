@@ -17,6 +17,7 @@ import QueueModel from './Models/QueueModel'
 import EpisodeModel from './Models/EpisodeModel'
 import EpisodeShowModel from './Models/EpisodeShowModel'
 import EpisodeShow from './Components/EpisodeShow'
+import Settings from './Components/Settings'
 import localforage from 'localforage'
 import State from './State'
 
@@ -42,6 +43,16 @@ localforage.config({
 EpisodeModel.syncDownloadedEpisodes()
 
 m.route(document.body, '/podcasts', {
+  '/settings': {
+    onmatch() {
+      return Settings
+    },
+
+    render(vnode) {
+      return m(Layout, vnode)
+    }
+  },
+
   '/podcasts/add': {
     onmatch() {
       return PodcastCreate
@@ -104,3 +115,7 @@ m.route(document.body, '/podcasts', {
     }
   }
 })
+
+if (!localStorage.getItem('proxy_url')) {
+  m.route.set('/settings')
+}

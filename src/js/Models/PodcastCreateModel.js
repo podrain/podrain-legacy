@@ -6,7 +6,7 @@ import _ from 'lodash'
 import PodcastListModel from './PodcastListModel'
 
 let PodcastCreateModel = {
-  proxyUrl: process.env.PROXY_URL || "",
+  proxyUrl: localStorage.getItem('proxy_url') || "",
   feedUrl: '',
   manualRssUrl: '',
   search: '',

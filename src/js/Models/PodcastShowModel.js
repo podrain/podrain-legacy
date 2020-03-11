@@ -89,7 +89,7 @@ let PodcastShowModel = {
       limit: 99999
     })).docs
 
-    let proxyUrl = process.env.PROXY_URL || ""
+    let proxyUrl = localStorage.getItem('proxy_url') || ""
 
     let feedResponse = await m.request(proxyUrl + podcast.feed_url, {
       extract: function(xhr) {

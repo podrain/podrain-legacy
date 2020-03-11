@@ -21,6 +21,11 @@ class Layout {
               m.route.set('/podcasts/add')
             }
           }),
+          m('i.fas.fa-cog.text-4xl', {
+            onclick: () => {
+              m.route.set('/settings')
+            }
+          }),
         ]),
         m('.flex-1.overflow-y-scroll.bg-gray-800', vnode.children),
         m(Playbox)
