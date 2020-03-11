@@ -1,6 +1,7 @@
 import m from 'mithril'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import State from '../State'
+import Helpers from '../Helpers'
 
 class PlayBox {
   constructor() {
@@ -86,7 +87,11 @@ class PlayBox {
             }
           }),
         ]),
-        m('.flex.items-center.justify-between', [
+        m('div', Helpers.floatToISO(EpisodeCurrentlyPlaying.playhead) 
+          + ' / ' 
+          + (EpisodeCurrentlyPlaying.episode ? Helpers.floatToISO(EpisodeCurrentlyPlaying.episode.duration) : '00:00:00'),
+        ),
+          m('.flex.items-center.justify-between', [
           m('.relative.w-full', [
             m('input#play-slider.w-full.appearance-none.bg-gray-200', {
               type: 'range',
