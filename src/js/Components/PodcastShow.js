@@ -3,6 +3,7 @@ import PodcastShowModel from '../Models/PodcastShowModel'
 import QueueModel from '../Models/QueueModel'
 import EpisodeModel from '../Models/EpisodeModel'
 import _ from 'lodash'
+import Helpers from '../Helpers'
 
 class PodcastShow {
   view() {
@@ -50,7 +51,11 @@ class PodcastShow {
             m('.leading-tight.text-xs.font-bold.truncate', ep.title),
             m('.flex.mt-3', [
               m('.w-1/5', m('img', { src: ep.imageURL || PodcastShowModel.podcast.meta.imageURL })),
-              // m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (ep.description.length > 125 ? ep.description.substr(0, 125) + '...' : ep.description) : 'No description provided')
+              m('.w-4/5.text-xs.font-light.ml-3', ep.description ? (
+                Helpers.cleanHTMLString(ep.description).length > 125 
+                ? Helpers.cleanHTMLString(ep.description).substr(0, 125) + '...' 
+                : Helpers.cleanHTMLString(ep.description)) 
+              : 'No description provided')
             ])
           ]),
           m('button.h-8.flex.justify-center.items-center', {
