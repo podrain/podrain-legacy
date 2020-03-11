@@ -4,6 +4,7 @@ import QueueModel from '../Models/QueueModel'
 import EpisodeModel from '../Models/EpisodeModel'
 import _ from 'lodash'
 import Helpers from '../Helpers'
+import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 
 class PodcastShow {
   view() {
@@ -58,30 +59,40 @@ class PodcastShow {
               : 'No description provided')
             ])
           ]),
-          m('button.h-8.flex.justify-center.items-center', {
-            class: ep.queue ? 'bg-red-500' : 'bg-green-500',
-            onclick() {
-              let method = null
-
-              if (ep.queue) {
-                method = QueueModel.removeFromQueue(ep._id)
-              } else {
-                method = QueueModel.addToQueue(ep._id)
+          m('.flex.h-8.w-full', [
+            m('button.w-1/4.flex.justify-center.items-center.bg-blue-500', {
+              onclick() {
+                EpisodeCurrentlyPlaying.playEpisode(ep._id, true)
               }
-
-              method.then(() => {
-                return EpisodeModel.getEpisode(ep._id)
-              }).then(updatedEpisode => {
-                let episodeIndex = _.findIndex(PodcastShowModel.episodes, (fep) => {
-                  return fep._id == ep._id
+            }, [
+              !EpisodeCurrentlyPlaying.audio.paused 
+              && EpisodeCurrentlyPlaying.episode._id == ep._id ? m('i.fas.fa-pause') : m('i.fas.fa-play')
+            ]),
+            m('button.w-3/4.flex.justify-center.items-center', {
+              class: ep.queue ? 'bg-red-500' : 'bg-green-500',
+              onclick() {
+                let method = null
+  
+                if (ep.queue) {
+                  method = QueueModel.removeFromQueue(ep._id)
+                } else {
+                  method = QueueModel.addToQueue(ep._id)
+                }
+  
+                method.then(() => {
+                  return EpisodeModel.getEpisode(ep._id)
+                }).then(updatedEpisode => {
+                  let episodeIndex = _.findIndex(PodcastShowModel.episodes, (fep) => {
+                    return fep._id == ep._id
+                  })
+                  PodcastShowModel.episodes[episodeIndex] = updatedEpisode
                 })
-                PodcastShowModel.episodes[episodeIndex] = updatedEpisode
-              })
-            },
-            disabled: QueueModel.queueChanging
-          }, [
-            QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : (ep.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue'])
-          ])
+              },
+              disabled: QueueModel.queueChanging
+            }, [
+              QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : (ep.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue'])
+            ])
+          ]),
         ])
       })),
       m('button.bg-purple-500.text-white.mx-3.mb-3.p-3', {

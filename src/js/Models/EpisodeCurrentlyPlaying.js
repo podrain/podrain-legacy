@@ -31,13 +31,8 @@ let EpisodeCurrentlyPlaying = {
     }))
 
     // Queue up new episode
-    let episodeToPlay = await State.db.find({
-      selector: {
-        _id: id,
-        type: 'episode'
-      }
-    })
-    this.episode = episodeToPlay.docs[0]
+    let episodeToPlay = await State.db.get(id)
+    this.episode = episodeToPlay
 
     // Get episode podcast data side-loaded
     let episodePodcast = await State.db.find({
@@ -53,6 +48,11 @@ let EpisodeCurrentlyPlaying = {
       currently_playing: true
     })
     await State.db.put(currentlyPlayingEpisodeUpdate)
+
+    // Add episode to end of queue
+    if (!this.episode.queue) {
+      await QueueModel.addToQueue(this.episode._id)
+    }
 
     // Start playing the episode
     // Check if episode is downloaded
