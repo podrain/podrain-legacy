@@ -51,10 +51,16 @@ function PodcastCreate() {
                     m('.w-3/4.ml-3', [
                       m('h3', sr.collectionName),
                       PodcastCreateModel.feedUrl == sr.feedUrl
-                      ? PodcastCreateModel.episodesAdded
-                        + ' / ' 
-                        + PodcastCreateModel.episodesTotal
-                      : 'coolbeans'
+                      ? [
+                        m('.italic.text-gray-200', [
+                          'Adding episodes: ',
+                          m('br'),
+                          PodcastCreateModel.episodesAdded
+                          + ' / ' 
+                          + PodcastCreateModel.episodesTotal
+                        ])
+                      ]
+                      : sr.trackCount + ' episodes'
                     ])
                   ]),
                   PodcastCreateModel.feedUrl 
