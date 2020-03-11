@@ -38,7 +38,8 @@ class PodcastShow {
           key: ep._id,
           class: index != 0 ? 'mt-3' : '',
         }, [
-          m('.flex-1.p-3.bg-gray-700.relative', {
+          m('.flex-1.p-3.relative', {
+            class: ep.currently_playing ? 'bg-orange-500' : 'bg-gray-700',
             onclick() {
               m.route.set('/episodes/'+ep._id)
             }
