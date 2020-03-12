@@ -41,7 +41,7 @@ Then, hit `Save` under the `Proxy URL` setting and you're ready to use the app!
 ### Setting up a backup server
 Coming soon.
 
-### Running the app on your own machine
+## Running the app locally (for testing and development)
 Coming soon.
 
 ## Roadmap
