@@ -41,6 +41,9 @@ Then, hit `Save` under the `Proxy URL` setting and you're ready to use the app!
 ### Setting up a backup server
 Coming soon.
 
+### Running the app on your own machine
+Coming soon.
+
 ## Roadmap
 - Progressive web app functionality (service workers, web app manifest file) which will allow for true offline-first capability
 - Better interface for tablet/desktop screen sizes
