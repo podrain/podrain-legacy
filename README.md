@@ -2,6 +2,7 @@
 Podrain is a web-based podcast app with offline capabilities. This app was built to scratch my own itch, and there are a *lot* of rough edges, but I'm using the app for all of my podcast-listening needs now. Some features include:
 
 - Pure focus on podcasts (no radio, news, video podcasts, music, etc.)
+- Mobile-first design
 - Customizable episode queue
 - All podcast data is stored in your browser, no need to sign up for a service
 - Respects privacy, doesn't track your listening habits
