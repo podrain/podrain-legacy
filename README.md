@@ -40,3 +40,7 @@ Then, hit `Save` under the `Proxy URL` setting and you're ready to use the app!
 
 ### Setting up a backup server
 Coming soon.
+
+## Roadmap
+- A true progressive web app, which will allow for true offline-first capability
+- Better interface for tablet/desktop screen sizes
