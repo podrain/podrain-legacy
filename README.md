@@ -38,7 +38,7 @@ Follow the setup instructions, then copy the URL for that dyno and paste it into
 
 Then, hit `Save` under the `Proxy URL` setting and you're ready to use the app!
 
-### Setting up a backup server
+### Set up a backup server
 Coming soon.
 
 ## Running the app locally (for testing and development)
