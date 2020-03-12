@@ -4,6 +4,7 @@ Podrain is a web-based podcast app with offline capabilities. This app was built
 - Pure focus on podcasts (no radio, news, video podcasts, music, etc.)
 - Customizable episode queue
 - All podcast data is stored in your browser, no need to sign up for a service
+- Respects privacy, doesn't track your listening habits
 - Optionally store audio files offline for an uninterrupted listening experience
 - Back up all your podcast data to a cloud server (including queues, current progress of episodes, etc.) using CouchDB
 
@@ -35,3 +36,6 @@ When you visit, you'll immediately see two settings. The first one (Proxy URL) i
 Follow the setup instructions, then copy the URL for that dyno and paste it into the `Proxy URL` field (make sure you include the `/` at the end of the URL! For example, `https://my-proxy-server.herokuapp.com/`)
 
 Then, hit `Save` under the `Proxy URL` setting and you're ready to use the app!
+
+### Setting up a backup server
+Coming soon.
