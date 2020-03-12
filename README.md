@@ -42,5 +42,5 @@ Then, hit `Save` under the `Proxy URL` setting and you're ready to use the app!
 Coming soon.
 
 ## Roadmap
-- A true progressive web app, which will allow for true offline-first capability
+- Progressive web app functionality (service workers, web app manifest file) which will allow for true offline-first capability
 - Better interface for tablet/desktop screen sizes
