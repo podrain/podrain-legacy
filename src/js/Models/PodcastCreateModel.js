@@ -6,7 +6,6 @@ import _ from 'lodash'
 import PodcastListModel from './PodcastListModel'
 
 let PodcastCreateModel = {
-  proxyUrl: localStorage.getItem('proxy_url') || "",
   feedUrl: '',
   manualRssUrl: '',
   search: '',
@@ -23,7 +22,7 @@ let PodcastCreateModel = {
 
   addPodcast(podcastUrl) {
     this.feedUrl = podcastUrl
-    return m.request(this.proxyUrl + this.feedUrl, {
+    return m.request(localStorage.getItem('proxy_url') + this.feedUrl, {
       extract: function(xhr) {
         return xhr
       },
