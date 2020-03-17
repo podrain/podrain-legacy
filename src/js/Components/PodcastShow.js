@@ -31,8 +31,18 @@ class PodcastShow {
                 class: PodcastShowModel.refreshing ? 'fa-pulse' : ''
               }),
               'Refresh'
+            ]),
+            m('button.text-white.bg-red-500.p2.text-sm.flex-1', {
+              onclick() {
+                PodcastShowModel.deletePodcast(PodcastShowModel.podcast._id)
+              }
+            }, [
+              m('i.fas.mr-3', {
+                class: PodcastShowModel.deleting ? 'fa-spinner fa-spin' : 'fa-times'
+              }),
+              'Delete'
             ])
-          ])
+          ]),
         ])
       ]),
       m('ul.text-white.mx-3.mb-3', PodcastShowModel.episodes.map((ep, index) => {

@@ -2,13 +2,17 @@ import m from 'mithril'
 import State from '../State'
 import _ from 'lodash'
 import pfp from 'podcast-feed-parser'
+import localforage from 'localforage'
 import uuidv4 from 'uuid/v4'
+import PodcastModel from './PodcastModel'
+import EpisodeModel from './EpisodeModel'
 
 let PodcastShowModel = {
   podcast: {},
   episodes: [],
   loading: false,
   refreshing: false,
+  deleting: false,
 
   async getPodcast(id) {
     let podcast = await State.db.get(id)
@@ -119,6 +123,29 @@ let PodcastShowModel = {
 
     await State.db.bulkDocs(newEpisodes)
     this.refreshing = false
+  },
+
+  async deletePodcast(id) {
+    this.deleting = true
+    let podcast = await State.db.get(id)
+    let removePodcast = State.db.remove(podcast)
+    let removePodcastEpisodes = []
+
+    let episodes = await PodcastModel.getEpisodes(id)
+    for (let ep of episodes) {
+      removePodcastEpisodes.push(State.db.remove(ep))
+
+      if (await localforage.getItem('podrain_episode_'+ep._id)) {
+        await localforage.removeItem('podrain_episode_'+ep._id)
+      }
+    }
+
+    await Promise.all([removePodcast, ...removePodcastEpisodes])
+
+    await localforage.removeItem('podrain_episode_'+id)
+
+    this.deleting = false
+    m.route.set('/podcasts')
   }
 }
 
