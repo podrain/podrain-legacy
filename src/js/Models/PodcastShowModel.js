@@ -6,6 +6,7 @@ import localforage from 'localforage'
 import uuidv4 from 'uuid/v4'
 import PodcastModel from './PodcastModel'
 import EpisodeModel from './EpisodeModel'
+import QueueModel from './QueueModel'
 
 let PodcastShowModel = {
   podcast: {},
@@ -128,10 +129,24 @@ let PodcastShowModel = {
   async deletePodcast(id) {
     this.deleting = true
     let podcast = await State.db.get(id)
-    let removePodcast = State.db.remove(podcast)
-    let removePodcastEpisodes = []
+
+    let episodesInQueue = (await State.db.find({
+      selector: {
+        podcast_id: id,
+        queue: {
+          $gt: 0
+        }
+      }
+    })).docs
+
+    for (let eiq of episodesInQueue) {
+      await QueueModel.removeFromQueue(eiq._id)
+    }
+    await State.db.remove(podcast)
 
     let episodes = await PodcastModel.getEpisodes(id)
+
+    let removePodcastEpisodes = []
     for (let ep of episodes) {
       removePodcastEpisodes.push(State.db.remove(ep))
 
@@ -140,9 +155,7 @@ let PodcastShowModel = {
       }
     }
 
-    await Promise.all([removePodcast, ...removePodcastEpisodes])
-
-    await localforage.removeItem('podrain_episode_'+id)
+    await Promise.all([...removePodcastEpisodes])
 
     this.deleting = false
     m.route.set('/podcasts')
