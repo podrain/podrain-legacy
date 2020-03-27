@@ -1,7 +1,7 @@
 import m from 'mithril'
 import State from '../State'
 import _ from 'lodash'
-import pfp from 'podcast-feed-parser'
+import feedParser from 'podrain-feed-parser'
 import localforage from 'localforage'
 import uuidv4 from 'uuid/v4'
 import PodcastModel from './PodcastModel'
@@ -106,7 +106,10 @@ let PodcastShowModel = {
     })
     
     let feedData = feedResponse.responseText
-    let podcastParsed = pfp.getPodcastFromFeed(feedData)
+    let podcastParsed = await feedParser.parseFeed(feedData, {
+      proxyURL: localStorage.getItem('proxy_url'),
+      getAllPages: true
+    })
 
     let newEpisodes = podcastParsed.episodes.filter((ep) => {
       return ep.pubDate > _.max(currentEpisodes.map(epCurr => epCurr.pubDate))

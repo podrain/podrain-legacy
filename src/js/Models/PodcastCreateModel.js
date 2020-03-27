@@ -1,6 +1,6 @@
 import m from 'mithril'
 import State from '../State'
-import podcastFeedParser from 'podcast-feed-parser'
+import feedParser from 'podrain-feed-parser'
 import uuidv4 from 'uuid/v4'
 import _ from 'lodash'
 import PodcastListModel from './PodcastListModel'
@@ -31,7 +31,11 @@ let PodcastCreateModel = {
       }
     }).then(response => {
       let feedData = response.responseText
-      let podcast = podcastFeedParser.getPodcastFromFeed(feedData)
+      return feedParser.parseFeed(feedData, {
+        proxyURL: localStorage.getItem('proxy_url'),
+        getAllPages: true
+      })
+    }).then(podcast => {
       let podcastOnly = _.clone(podcast)
 
       delete podcastOnly.episodes
