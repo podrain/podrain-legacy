@@ -61,6 +61,8 @@ m.route(document.body, '/podcasts', {
 
   '/podcasts/:id/search': {
     onmatch(args) {
+      EpisodeSearchModel.episodes = []
+      EpisodeSearchModel.searchResults = []
       let getPodcast = EpisodeSearchModel.fetchPodcast(args.id)
       let getEpisodes = EpisodeSearchModel.fetchEpisodes(args.id)
 

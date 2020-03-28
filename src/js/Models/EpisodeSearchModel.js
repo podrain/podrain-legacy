@@ -11,7 +11,6 @@ let EpisodeSearchModel = {
   },
 
   async fetchEpisodes(id) {
-    this.episodes = []
     this.episodes = (await State.db.find({
       selector: {
         type: 'episode',
