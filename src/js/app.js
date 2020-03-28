@@ -61,14 +61,17 @@ m.route(document.body, '/podcasts', {
 
   '/podcasts/:id/search': {
     onmatch(args) {
+      EpisodeSearchModel.loading = true
       EpisodeSearchModel.episodes = []
       EpisodeSearchModel.searchResults = []
       let getPodcast = EpisodeSearchModel.fetchPodcast(args.id)
       let getEpisodes = EpisodeSearchModel.fetchEpisodes(args.id)
 
-      return Promise.all([getPodcast, getEpisodes]).then(() => {
-        return EpisodeSearch
+      Promise.all([getPodcast, getEpisodes]).then(() => {
+        EpisodeSearchModel.loading = false
       })
+
+      return EpisodeSearch
     },
 
     render(vnode) {

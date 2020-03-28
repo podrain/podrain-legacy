@@ -4,7 +4,9 @@ import EpisodeSearchModel from '../Models/EpisodeSearchModel'
 function EpisodeSearch() {
   return {
     view() {
-      return [
+      return EpisodeSearchModel.loading 
+      ? m('.flex.text-white.text-5xl.h-full.justify-center.items-center', 'Loading...')
+      : [
         m('h1.text-white', 'Search '+EpisodeSearchModel.podcast.meta.title),
         m('input.p-3.w-full', {
           oninput(e) {

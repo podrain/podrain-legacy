@@ -4,6 +4,7 @@ let EpisodeSearchModel = {
   episodes: [],
   podcast: {},
   searchResults: [],
+  loading: false,
 
   async fetchPodcast(id) {
     this.podcast = await State.db.get(id)
