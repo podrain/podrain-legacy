@@ -24,7 +24,7 @@ let EpisodeSearchModel = {
     this.searchResults = this.episodes.filter(ep => {
       let lowerCaseDesc = ep.description.toLowerCase()
       let lowerCaseTitle = ep.title.toLowerCase()
-      return lowerCaseDesc.includes(search) || lowerCaseTitle.includes(search)
+      return lowerCaseDesc.includes(search.toLowerCase()) || lowerCaseTitle.includes(search.toLowerCase())
     })
   }
 }
