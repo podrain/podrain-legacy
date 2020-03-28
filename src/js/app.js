@@ -11,6 +11,8 @@ import PodcastList from './Components/PodcastList'
 import PodcastListModel from './Models/PodcastListModel'
 import PodcastShow from './Components/PodcastShow'
 import PodcastShowModel from './Models/PodcastShowModel'
+import EpisodeSearch from './Components/EpisodeSearch'
+import EpisodeSearchModel from './Models/EpisodeSearchModel'
 import PodcastCreate from './Components/PodcastCreate'
 import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
@@ -50,6 +52,21 @@ m.route(document.body, '/podcasts', {
   '/podcasts/add': {
     onmatch() {
       return PodcastCreate
+    },
+
+    render(vnode) {
+      return m(Layout, vnode)
+    }
+  },
+
+  '/podcasts/:id/search': {
+    onmatch(args) {
+      let getPodcast = EpisodeSearchModel.fetchPodcast(args.id)
+      let getEpisodes = EpisodeSearchModel.fetchEpisodes(args.id)
+
+      return Promise.all([getPodcast, getEpisodes]).then(() => {
+        return EpisodeSearch
+      })
     },
 
     render(vnode) {
