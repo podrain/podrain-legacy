@@ -1,4 +1,5 @@
 import State from '../State'
+import _ from 'lodash'
 
 let EpisodeSearchModel = {
   episodes: [],
@@ -21,13 +22,13 @@ let EpisodeSearchModel = {
     console.log(this.episodes)
   },
 
-  searchEpisodes(search) {
+  searchEpisodes: _.debounce(function(search) {
     this.searchResults = this.episodes.filter(ep => {
       let lowerCaseDesc = ep.description.toLowerCase()
       let lowerCaseTitle = ep.title.toLowerCase()
       return lowerCaseDesc.includes(search.toLowerCase()) || lowerCaseTitle.includes(search.toLowerCase())
     })
-  }
+  }, 250),
 }
 
 export default EpisodeSearchModel
