@@ -1,5 +1,6 @@
 import m from 'mithril'
 import EpisodeSearchModel from '../Models/EpisodeSearchModel'
+import Episode from './Episode'
 
 function EpisodeSearch() {
   return {
@@ -13,9 +14,12 @@ function EpisodeSearch() {
             EpisodeSearchModel.searchEpisodes(e.target.value)
           }
         }),
-        m('ul', EpisodeSearchModel.searchResults.map(sr => {
-          return m('li.text-white', sr.title)
-        }))
+        m('ul.text-white.m-3', EpisodeSearchModel.searchResults.map((ep) => {
+          return m(Episode, {
+            episode: ep,
+            partOf: EpisodeSearchModel.searchResults
+          })
+        })),
       ]
     }
   }
