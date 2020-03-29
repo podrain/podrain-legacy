@@ -9,7 +9,6 @@ let EpisodeSearchModel = {
 
   async fetchPodcast(id) {
     this.podcast = await State.db.get(id)
-    console.log(this.podcast)
   },
 
   async fetchEpisodes(id) {
@@ -19,7 +18,6 @@ let EpisodeSearchModel = {
         podcast_id: id
       }
     })).docs
-    console.log(this.episodes)
   },
 
   searchEpisodes: _.debounce(function(search) {
