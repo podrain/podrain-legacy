@@ -7,12 +7,9 @@ let PodcastListModel = {
 
   getPodcasts() {
     this.loading = true
-    State.db.find({
-      selector: {
-        type: 'podcast'
-      }
-    }).then(response => {
-      this.podcasts = response.docs
+
+    State.dexieDB.podcasts.toArray().then(result => {
+      this.podcasts = result
       this.loading = false
       m.redraw()
     })

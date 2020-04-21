@@ -7,7 +7,7 @@ let EpisodeModel = {
   downloading: [],
 
   async getEpisode(id) {
-    return await State.db.get(id)
+    return (await State.dexieDB.episodes.where({ _id: id }).toArray())[0]
   },
 
   async downloadEpisode(id) {
@@ -15,7 +15,7 @@ let EpisodeModel = {
       id: id,
       progress: 0
     })
-    let episode = await State.db.get(id)
+    let episode = (await State.dexieDB.episodes.where({ _id: id }).toArray())[0]
     let proxyUrl = localStorage.getItem('proxy_url') || ""
 
     let episodeAudio = await m.request(proxyUrl + episode.enclosure.url, {

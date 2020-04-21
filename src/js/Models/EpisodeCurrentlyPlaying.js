@@ -17,37 +17,22 @@ let EpisodeCurrentlyPlaying = {
       this.audio.pause()
     }
 
-    // Get currently playing episode
-    let currentlyPlayingEpisode = await State.db.find({
-      selector: {
-        currently_playing: true
-      }
-    })
-
-    // Set episode to not playing anymore
-    await State.db.bulkDocs(currentlyPlayingEpisode.docs.map(doc => {
-      doc.currently_playing = false
-      return doc
-    }))
+    // Get currently playing episode and set episode to not playing anymore
+    await State.dexieDB.episodes
+      .filter(ep => ep.currently_playing == true)
+      .modify({ currently_playing: false })
 
     // Queue up new episode
-    let episodeToPlay = await State.db.get(id)
+    let episodeToPlay = (await State.dexieDB.episodes.where({_id: id}).toArray())[0]
     this.episode = episodeToPlay
 
     // Get episode podcast data side-loaded
-    let episodePodcast = await State.db.find({
-      selector: {
-        _id: this.episode.podcast_id,
-        type: 'podcast'
-      }
-    })
-    this.episode.podcast = episodePodcast.docs[0]
+    let episodePodcast = (await State.dexieDB.podcasts
+      .where({ _id: this.episode.podcast_id }).toArray())[0]
+    this.episode.podcast = episodePodcast
 
     // Update currently playing to the new episode
-    let currentlyPlayingEpisodeUpdate = _.merge(this.episode, {
-      currently_playing: true
-    })
-    await State.db.put(currentlyPlayingEpisodeUpdate)
+    await State.dexieDB.episodes.where({ _id: id }).modify({ currently_playing: true })
 
     // Add episode to end of queue
     if (!this.episode.queue) {
@@ -100,11 +85,7 @@ let EpisodeCurrentlyPlaying = {
     this.playhead = this.audio.currentTime
 
     if (updateDB) {
-      let episode = await State.db.get(this.episode._id)
-
-      await State.db.put(_.merge(episode, {
-        playhead: this.playhead
-      }))
+      await State.dexieDB.episodes.where({ _id: this.episode._id }).modify({ playhead: this.playhead })
     }
 
     await m.redraw()
@@ -126,7 +107,7 @@ let EpisodeCurrentlyPlaying = {
 
   async playNext(startPlaying = false, finishEpisode = false) {
     let oldEpisodeId = _.clone(this.episode._id)
-    this.episode = await State.db.get(this.episode._id)
+    this.episode = (await State.dexieDB.episodes.where({ _id: this.episode._id }).toArray())[0]
 
     // if last in queue, play the first in queue after
     if (this.episode.queue == (await QueueModel.lastInQueue()).queue) {
@@ -142,12 +123,8 @@ let EpisodeCurrentlyPlaying = {
       await QueueModel.removeFromQueue(oldEpisodeId)
 
       // set mark as done and reset playhead
-      let oldEpisode = await State.db.get(oldEpisodeId)
 
-      await State.db.put(_.merge(oldEpisode, {
-        playhead: 0,
-        played: true
-      }))
+      await State.dexieDB.episodes.where({ _id: oldEpisodeId }).modify({ playhead: 0, played: true })
 
       this.episode = await EpisodeModel.getEpisode(this.episode._id)
     }
@@ -156,7 +133,7 @@ let EpisodeCurrentlyPlaying = {
   },
 
   async playPrev(startPlaying = false) {
-    this.episode = await State.db.get(this.episode._id)
+    this.episode = (await State.dexieDB.episodes.where({ _id: this.episode._id }).toArray())[0]
 
     if (this.episode.queue == 1) {
       let lastInQueue = await QueueModel.lastInQueue()

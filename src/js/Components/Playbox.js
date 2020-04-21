@@ -24,14 +24,12 @@ class PlayBox {
     })
 
     // Get currently playing episode if available
-    State.db.find({
-      selector: {
-        type: 'episode',
-        currently_playing: true
-      }
-    }).then(result => {
-      return EpisodeCurrentlyPlaying.playEpisode(result.docs[0]._id)
-    })
+
+    State.dexieDB.episodes
+      .filter(ep => ep.currently_playing == true)
+      .toArray().then(result => {
+        return EpisodeCurrentlyPlaying.playEpisode(result[0]._id)
+      })
   }
 
   view() {

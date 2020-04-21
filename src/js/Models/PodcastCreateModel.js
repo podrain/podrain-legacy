@@ -43,9 +43,8 @@ let PodcastCreateModel = {
       let podcastID = uuidv4()
       this.episodesTotal = podcast.episodes.length
 
-      let addPodcast = State.db.put(_.merge(podcastOnly, {
+      let addPodcast = State.dexieDB.podcasts.add(_.merge(podcastOnly, {
         '_id': podcastID,
-        'type': 'podcast',
         'feed_url': this.feedUrl
       }))
 
@@ -64,10 +63,9 @@ let PodcastCreateModel = {
 
       let addPodcastEpisodes = []
       for (let ep of podcast.episodes) {
-        addPodcastEpisodes.push(State.db.put(_.merge(ep, {
+        addPodcastEpisodes.push(State.dexieDB.episodes.add(_.merge(ep, {
           '_id': uuidv4(),
           'podcast_id': podcastID,
-          'type': 'episode',
           'queue': 0,
           'playhead': 0,
           'currently_playing': false,

@@ -11,88 +11,39 @@ import QueueModel from './QueueModel'
 let PodcastShowModel = {
   podcast: {},
   episodes: [],
+  allEpisodes: [],
   loading: false,
   refreshing: false,
   deleting: false,
 
   async getPodcast(id) {
-    let podcast = await State.db.get(id)
+    let podcast = await State.dexieDB.podcasts.where({_id: id}).first()
     this.podcast = podcast
     m.redraw()
   },
 
   async getEpisodes(id) {
-    await State.db.createIndex({
-      index: {
-        fields: [
-          'pubDate',
-          'podcast_id',
-          'type'
-        ]
-      }
-    })
+    let episodes = await State.dexieDB.episodes.where({
+      podcast_id: id
+    }).reverse().sortBy('pubDate')
 
-    let episodes = (await State.db.find({
-      selector: {
-        podcast_id: id,
-        type: 'episode',
-        pubDate: {
-          $gt: true
-        }
-      },
-      sort: [
-        {'pubDate': 'desc'}
-      ],
-      limit: 10
-    })).docs
-
-    this.episodes = episodes
+    this.allEpisodes = episodes
+    this.episodes = this.allEpisodes.slice(0, 10)
     m.redraw()
   },
 
   async getMoreEpisodes(id, numEpisodes) {
-    await State.db.createIndex({
-      index: {
-        fields: [
-          'pubDate',
-          'podcast_id',
-          'type'
-        ]
-      }
-    })
-
-    let newEpisodes = (await State.db.find({
-      selector: {
-        podcast_id: id,
-        type: 'episode',
-        pubDate: {
-          $lt: this.episodes[this.episodes.length - 1].pubDate
-        }
-      },
-      sort: [
-        {'pubDate': 'desc'}
-      ],
-      limit: numEpisodes
-    })).docs
-
-    for (let ne of newEpisodes) {
-      this.episodes.push(ne)
-    }
+    let newBatch = this.allEpisodes.slice(this.episodes.length, this.episodes.length + numEpisodes)
+    this.episodes = this.episodes.concat(newBatch)
 
     m.redraw()
   },
 
   async refreshEpisodes(id) {
     this.refreshing = true
-    let podcast = await State.db.get(id)
+    let podcast = await State.dexieDB.podcasts.where({_id: id}).first()
 
-    let currentEpisodes = (await State.db.find({
-      selector: {
-        type: 'episode',
-        podcast_id: podcast._id
-      },
-      limit: 99999
-    })).docs
+    let currentEpisodes = await State.dexieDB.episodes.where({ podcast_id: podcast._id }).toArray()
 
     let proxyUrl = localStorage.getItem('proxy_url') || ""
 
@@ -117,7 +68,6 @@ let PodcastShowModel = {
       return _.merge(ep, {
         '_id': uuidv4(),
         'podcast_id': podcast._id,
-        'type': 'episode',
         'queue': 0,
         'playhead': 0,
         'currently_playing': false,
@@ -125,33 +75,28 @@ let PodcastShowModel = {
       })
     })
 
-    await State.db.bulkDocs(newEpisodes)
+    await State.dexieDB.episodes.bulkAdd(newEpisodes)
     this.refreshing = false
   },
 
   async deletePodcast(id) {
     this.deleting = true
-    let podcast = await State.db.get(id)
+    let podcast = await State.dexieDB.podcasts.where({_id: id}).first()
 
-    let episodesInQueue = (await State.db.find({
-      selector: {
-        podcast_id: id,
-        queue: {
-          $gt: 0
-        }
-      }
-    })).docs
+    let episodesInQueue = await State.dexieDB.episodes.where({ podcast_id: id }).filter(ep => {
+      return ep.queue > 0
+    }).toArray()
 
     for (let eiq of episodesInQueue) {
       await QueueModel.removeFromQueue(eiq._id)
     }
-    await State.db.remove(podcast)
+    await State.dexieDB.podcasts.where({ _id: id }).delete()
 
     let episodes = await PodcastModel.getEpisodes(id)
 
     let removePodcastEpisodes = []
     for (let ep of episodes) {
-      removePodcastEpisodes.push(State.db.remove(ep))
+      removePodcastEpisodes.push(State.dexieDB.episodes.where({ _id: ep._id }).delete())
 
       if (await localforage.getItem('podrain_episode_'+ep._id)) {
         await localforage.removeItem('podrain_episode_'+ep._id)

@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import m from 'mithril'
 import PouchDB from 'pouchdb'
 import PouchDBFind from 'pouchdb-find'
+import _ from 'lodash'
 PouchDB.plugin(PouchDBFind)
 
 import Layout from './Components/Layout'
@@ -22,14 +23,65 @@ import EpisodeShow from './Components/EpisodeShow'
 import Settings from './Components/Settings'
 import localforage from 'localforage'
 import State from './State'
+import Dexie from 'dexie'
 
 if (localStorage.getItem('sync_url')) {
   let remoteDB = new PouchDB(localStorage.getItem('sync_url'))
   State.remoteDB = remoteDB
 }
 
-let db = new PouchDB('podrain')
-State.db = db
+let dexieDB = new Dexie('podrain')
+dexieDB.version(1).stores({
+  podcasts: '&_id',
+  episodes: '&_id,podcast_id,pubDate',
+})
+State.dexieDB = dexieDB
+
+// State.db.allDocs({
+//   include_docs: true
+// }).then(result => {
+//   let newPodcasts = result.rows
+//   .filter(row => {
+//     return row.doc.type == 'podcast'
+//   }).map(row => {
+//     // let newDoc = _.merge(row.doc, {
+//     //   id: row.doc._id
+//     // })
+
+//     // // delete newDoc._id
+//     // // delete newDoc.type
+//     // // delete newDoc._rev
+
+//     let newDoc = row.doc
+
+//     return newDoc
+//   })
+
+//   let newEpisodes = result.rows
+//   .filter(row => {
+//     return row.doc.type == 'episode'
+//   }).map(row => {
+//     // let newDoc = _.merge(row.doc, {
+//     //   id: row.doc._id
+//     // })
+
+//     // delete newDoc._id
+//     // delete newDoc.type
+//     // delete newDoc._rev
+
+//     let newDoc = row.doc
+
+//     return newDoc
+//   })
+
+//   let addPodcastsToDexie = State.dexieDB.podcasts.bulkAdd(newPodcasts)
+//   let addEpisodesToDexie = State.dexieDB.episodes.bulkAdd(newEpisodes)
+
+//   console.log(newPodcasts)
+//   console.log(newEpisodes)
+// })
+
+
 
 localforage.config({
   driver: localforage.INDEXEDDB,

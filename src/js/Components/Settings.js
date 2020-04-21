@@ -17,25 +17,28 @@ function Settings() {
   }
 
   function pushToServer() {
-    syncingUp = true
-    State.db.replicate.to(State.remoteDB).on('complete', function() {
-      console.log('data pushed to server')
-      syncingUp = false
-    }).on('error', function() {
-      console.log('something went wrong with push')
-      syncingUp = false
-    })
+    // syncingUp = true
+    // State.db.replicate.to(State.remoteDB).on('complete', function() {
+    //   console.log('data pushed to server')
+    //   syncingUp = false
+    // }).on('error', function() {
+    //   console.log('something went wrong with push')
+    //   syncingUp = false
+    // })
+    console.log('not doin nothin')
   }
 
   function pullFromServer() {
-    syncingDown = true
-    State.db.replicate.from(State.remoteDB).on('complete', function() {
-      console.log('data pulled from server')
-      syncingDown = false
-    }).on('error', function() {
-      console.log('something went wrong with pull')
-      syncingDown = false
-    })
+    // syncingDown = true
+    // State.db.replicate.from(State.remoteDB).on('complete', function() {
+    //   console.log('data pulled from server')
+    //   syncingDown = false
+    // }).on('error', function() {
+    //   console.log('something went wrong with pull')
+    //   syncingDown = false
+    // })
+
+    console.log('not doin nothin')
   }
 
   return {

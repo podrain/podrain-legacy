@@ -8,16 +8,11 @@ let EpisodeSearchModel = {
   loading: false,
 
   async fetchPodcast(id) {
-    this.podcast = await State.db.get(id)
+    this.podcast = (await State.dexieDB.podcasts.where({ _id: id }).toArray())[0]
   },
 
   async fetchEpisodes(id) {
-    this.episodes = (await State.db.find({
-      selector: {
-        type: 'episode',
-        podcast_id: id
-      }
-    })).docs
+    this.episodes = await State.dexieDB.episodes.where({ podcast_id: id }).toArray()
   },
 
   searchEpisodes: _.debounce(function(search) {

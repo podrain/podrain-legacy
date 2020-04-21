@@ -2,17 +2,11 @@ import State from '../State'
 
 let PodcastModel = {
   async getPodcast(id) {
-    return await State.db.get(id)
+    return (await State.dexieDB.podcasts.where({ _id: id }).toArray())[0]
   },
 
   async getEpisodes(id) {
-    return (await State.db.find({
-      selector: {
-        podcast_id: id,
-        type: 'episode',
-      },
-      limit: 99999
-    })).docs
+    return await State.dexieDB.episodes.where({ podcast_id: id }).toArray()
   }
 }
 
