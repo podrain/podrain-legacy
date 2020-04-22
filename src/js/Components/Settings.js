@@ -6,7 +6,9 @@ function Settings() {
 
   let proxyURL = localStorage.getItem('proxy_url') || ''
   let syncURL = localStorage.getItem('sync_url') || ''
-  let uploadStatus = ''
+  let restoreStatus = ''
+  let restoring = false
+  let restoreFile = null
 
   function addProxyURL() {
     localStorage.setItem('proxy_url', proxyURL)
@@ -32,6 +34,28 @@ function Settings() {
 
       FileSaver.saveAs(downloadBlob, 'backup.json')
     })
+  }
+
+  function restoreBackup() {
+    restoring = true
+    restoreStatus = 'starting restore...'
+    restoreFile.text().then(result => {
+      let parsedResult = JSON.parse(result)
+      restoreStatus = 'clearing podcasts...'
+      return Promise.all([
+        State.dexieDB.podcasts.clear(),
+        State.dexieDB.episodes.clear(),
+      ]).then(() => {
+        restoreStatus = 'loading new podcasts...'
+        return Promise.all([
+          State.dexieDB.podcasts.bulkAdd(parsedResult.podcasts),
+          State.dexieDB.episodes.bulkAdd(parsedResult.episodes),
+        ])
+      }).then(() => {
+        restoreStatus = 'podcasts loaded!'
+        restoring = false
+      })
+  })
   }
 
   return {
@@ -65,26 +89,18 @@ function Settings() {
         m('input.text-white.mt-1', {
           type: 'file',
           onchange(e) {
-            e.target.files[0].text()
-              .then(result => {
-                let parsedResult = JSON.parse(result)
-                uploadStatus = 'clearing podcasts...'
-                return Promise.all([
-                  State.dexieDB.podcasts.clear(),
-                  State.dexieDB.episodes.clear(),
-                ]).then(() => {
-                  uploadStatus = 'loading new podcasts...'
-                  return Promise.all([
-                    State.dexieDB.podcasts.bulkAdd(parsedResult.podcasts),
-                    State.dexieDB.episodes.bulkAdd(parsedResult.episodes),
-                  ])
-                }).then(() => {
-                  uploadStatus = 'podcasts loaded!'
-                })
-            })
+            restoreFile = e.target.files[0]
           }
         }),
-        m('.text-white', uploadStatus)
+        m('button.bg-orange-600.p-1.text-white.mr-1.w-full.mt-3', {
+          disabled: restoring ? true : false,
+          onclick() {
+            restoreBackup()
+          }
+        }, [
+          restoring ? m('.fas.fa-spinner.fa-spin.mr-1') : m('i.fas.fa-upload.mr-1'),
+          restoring ? restoreStatus : 'Restore backup'
+        ]),
       ])
     }
   }
