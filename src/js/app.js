@@ -37,52 +37,6 @@ dexieDB.version(1).stores({
 })
 State.dexieDB = dexieDB
 
-// State.db.allDocs({
-//   include_docs: true
-// }).then(result => {
-//   let newPodcasts = result.rows
-//   .filter(row => {
-//     return row.doc.type == 'podcast'
-//   }).map(row => {
-//     // let newDoc = _.merge(row.doc, {
-//     //   id: row.doc._id
-//     // })
-
-//     // // delete newDoc._id
-//     // // delete newDoc.type
-//     // // delete newDoc._rev
-
-//     let newDoc = row.doc
-
-//     return newDoc
-//   })
-
-//   let newEpisodes = result.rows
-//   .filter(row => {
-//     return row.doc.type == 'episode'
-//   }).map(row => {
-//     // let newDoc = _.merge(row.doc, {
-//     //   id: row.doc._id
-//     // })
-
-//     // delete newDoc._id
-//     // delete newDoc.type
-//     // delete newDoc._rev
-
-//     let newDoc = row.doc
-
-//     return newDoc
-//   })
-
-//   let addPodcastsToDexie = State.dexieDB.podcasts.bulkAdd(newPodcasts)
-//   let addEpisodesToDexie = State.dexieDB.episodes.bulkAdd(newEpisodes)
-
-//   console.log(newPodcasts)
-//   console.log(newEpisodes)
-// })
-
-
-
 localforage.config({
   driver: localforage.INDEXEDDB,
   name: 'Podrain Episodes'

@@ -1,5 +1,6 @@
 import m from 'mithril'
 import State from '../State'
+import FileSaver from 'file-saver'
 
 function Settings() {
 
@@ -25,7 +26,22 @@ function Settings() {
     //   console.log('something went wrong with push')
     //   syncingUp = false
     // })
-    console.log('not doin nothin')
+
+    let getPodcasts = State.dexieDB.podcasts.toArray()
+    let getEpisodes = State.dexieDB.episodes.toArray()
+
+    Promise.all([getPodcasts, getEpisodes]).then(result => {
+      let downloadPayload = {
+        podcasts: result[0],
+        episodes: result[1]
+      }
+
+      let downloadBlob = new Blob([JSON.stringify(downloadPayload)], {
+        type: 'text/plain;charset=utf8'
+      })
+
+      FileSaver.saveAs(downloadBlob, 'backup.json')
+    })
   }
 
   function pullFromServer() {
@@ -39,6 +55,8 @@ function Settings() {
     // })
 
     console.log('not doin nothin')
+
+    
   }
 
   return {
@@ -59,31 +77,36 @@ function Settings() {
           }
         }, 'Save'),
         m('.flex.mt-6.justify-between', [
-          m('.text-white.flex.items-end', 'Sync URL'),
           m('div', [
             m('button.bg-purple-600.p-1.text-white.mr-1', {
               onclick() {
                 pushToServer()
               }
             }, [
-              syncingUp ? m('i.fas.fa-sync-alt.fa-spin') : m('i.fas.fa-arrow-up.mr-1'),
-              'Push up'
-            ]),
-            m('button.bg-purple-400.p-1.text-white', {
-              onclick() {
-                pullFromServer()
-              }
-            }, [
-              syncingDown ? m('i.fas.fa-sync-alt.fa-spin') : m('i.fas.fa-arrow-down.mr-1'),
-              'Pull down'
+              syncingUp ? m('i.fas.fa-sync-alt.fa-spin') : m('i.fas.fa-arrow-download.mr-1'),
+              'Download backup'
             ]),
           ])
         ]),
         m('input.w-full.p-1.mt-1', {
-          oninput(e) {
-            syncURL = e.target.value
-          },
-          value: syncURL
+          type: 'file',
+          onchange(e) {
+            e.target.files[0].text()
+              .then(result => {
+                let parsedResult = JSON.parse(result)
+                console.log('clearing current db')
+                return Promise.all([
+                  State.dexieDB.podcasts.clear(),
+                  State.dexieDB.episodes.clear(),
+                ]).then(() => {
+                  // console.log('appending file to db')
+                  // Promise.all([
+                  //   State.dexieDB.podcasts.bulkAdd(parsedResult.podcasts),
+                  //   State.dexieDB.episodes.bulkAdd(parsedResult.episodes),
+                  // ])
+                })
+            })
+          }
         }),
         m('button.w-full.bg-green-500.h-8.text-white.mt-3', {
           onclick() {

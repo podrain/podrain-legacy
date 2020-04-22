@@ -2,6 +2,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.1",
     "dexie": "^2.0.4",
+    "file-saver": "^2.0.2",
     "localforage": "^1.7.3",
     "lodash": "^4.17.15",
     "mithril": "^2.0.4",
