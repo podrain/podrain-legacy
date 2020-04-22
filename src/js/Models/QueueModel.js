@@ -76,6 +76,7 @@ let QueueModel = {
   async reorder(episodeID, newOrder) {
     this.queueChanging = true
     let currentEpisode = (await State.dexieDB.episodes.where({ _id: episodeID }).toArray())[0]
+    let reorderPromises = []
 
     if (newOrder < currentEpisode.queue) {
       let higherInQueue = await State.dexieDB.episodes.filter(ep => {
@@ -83,20 +84,23 @@ let QueueModel = {
       }).toArray()
 
       for (let hiq of higherInQueue) {
-        await State.dexieDB.episodes.where({ _id: hiq._id }).modify({ queue: hiq.queue + 1 })
+        reorderPromises.push(State.dexieDB.episodes.where({ _id: hiq._id }).modify({ queue: hiq.queue + 1 }))
       }
+
     } else if (newOrder > currentEpisode.queue) {
       let lowerInQueue = await State.dexieDB.episodes.filter(ep => {
         return ep.queue <= newOrder && ep.queue > currentEpisode.queue
       }).toArray()
 
       for (let liq of lowerInQueue) {
-
-        await State.dexieDB.episodes.where({ _id: liq._id }).modify({ queue: liq.queue - 1 })
+        reorderPromises.push(State.dexieDB.episodes.where({ _id: liq._id }).modify({ queue: liq.queue - 1 }))
       }
     }
 
-    await State.dexieDB.episodes.where({ _id: episodeID }).modify({ queue: newOrder })
+    await Promise.all([
+      State.dexieDB.episodes.where({ _id: episodeID }).modify({ queue: newOrder }),
+      ...reorderPromises
+    ])
 
     await this.getQueue()
     this.queueChanging = false
