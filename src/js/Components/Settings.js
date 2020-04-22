@@ -6,8 +6,6 @@ function Settings() {
 
   let proxyURL = localStorage.getItem('proxy_url') || ''
   let syncURL = localStorage.getItem('sync_url') || ''
-  let syncingUp = false
-  let syncingDown = false
   let uploadStatus = ''
 
   function addProxyURL() {
@@ -18,16 +16,7 @@ function Settings() {
     localStorage.setItem('sync_url', syncURL)
   }
 
-  function pushToServer() {
-    // syncingUp = true
-    // State.db.replicate.to(State.remoteDB).on('complete', function() {
-    //   console.log('data pushed to server')
-    //   syncingUp = false
-    // }).on('error', function() {
-    //   console.log('something went wrong with push')
-    //   syncingUp = false
-    // })
-
+  function downloadBackup() {
     let getPodcasts = State.dexieDB.podcasts.toArray()
     let getEpisodes = State.dexieDB.episodes.toArray()
 
@@ -43,21 +32,6 @@ function Settings() {
 
       FileSaver.saveAs(downloadBlob, 'backup.json')
     })
-  }
-
-  function pullFromServer() {
-    // syncingDown = true
-    // State.db.replicate.from(State.remoteDB).on('complete', function() {
-    //   console.log('data pulled from server')
-    //   syncingDown = false
-    // }).on('error', function() {
-    //   console.log('something went wrong with pull')
-    //   syncingDown = false
-    // })
-
-    console.log('not doin nothin')
-
-    
   }
 
   return {
@@ -77,19 +51,18 @@ function Settings() {
             m.route.set('/')
           }
         }, 'Save'),
-        m('.flex.mt-6.justify-between', [
-          m('div', [
-            m('button.bg-purple-600.p-1.text-white.mr-1', {
-              onclick() {
-                pushToServer()
-              }
-            }, [
-              syncingUp ? m('i.fas.fa-sync-alt.fa-spin') : m('i.fas.fa-arrow-download.mr-1'),
-              'Download backup'
-            ]),
-          ])
+        m('.mt-6', [
+          m('button.bg-purple-600.p-1.text-white.mr-1.w-full', {
+            onclick() {
+              downloadBackup()
+            }
+          }, [
+            m('i.fas.fa-download.mr-1'),
+            'Download backup'
+          ]),
         ]),
-        m('input.w-full.p-1.mt-1', {
+        m('h2.text-white.mt-3', 'Restore backup'),
+        m('input.text-white.mt-1', {
           type: 'file',
           onchange(e) {
             e.target.files[0].text()
@@ -101,7 +74,7 @@ function Settings() {
                   State.dexieDB.episodes.clear(),
                 ]).then(() => {
                   uploadStatus = 'loading new podcasts...'
-                  Promise.all([
+                  return Promise.all([
                     State.dexieDB.podcasts.bulkAdd(parsedResult.podcasts),
                     State.dexieDB.episodes.bulkAdd(parsedResult.episodes),
                   ])
@@ -111,12 +84,7 @@ function Settings() {
             })
           }
         }),
-        m('button.w-full.bg-green-500.h-8.text-white.mt-3', {
-          onclick() {
-            addSyncURL()
-            m.route.set('/')
-          }
-        }, uploadStatus)
+        m('.text-white', uploadStatus)
       ])
     }
   }
