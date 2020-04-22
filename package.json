@@ -35,5 +35,6 @@
       ],
       "genFavicons": true
     }
-  }
+  },
+  "cache": {}
 }
