@@ -90,7 +90,7 @@ function Settings() {
             restoreFile = e.target.files[0]
           }
         }),
-        m('button.bg-orange-600.p-1.text-white.mr-1.w-full.mt-3', {
+        restoreFile ? m('button.bg-orange-600.p-1.text-white.mr-1.w-full.mt-3', {
           disabled: restoring ? true : false,
           onclick() {
             restoreBackup()
@@ -98,7 +98,7 @@ function Settings() {
         }, [
           restoring ? m('.fas.fa-spinner.fa-spin.mr-3') : m('i.fas.fa-upload.mr-3'),
           restoring ? restoreStatus : 'Restore backup'
-        ]),
+        ]) : null,
       ])
     }
   }
