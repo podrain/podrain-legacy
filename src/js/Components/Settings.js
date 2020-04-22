@@ -8,6 +8,7 @@ function Settings() {
   let syncURL = localStorage.getItem('sync_url') || ''
   let syncingUp = false
   let syncingDown = false
+  let uploadStatus = ''
 
   function addProxyURL() {
     localStorage.setItem('proxy_url', proxyURL)
@@ -94,16 +95,18 @@ function Settings() {
             e.target.files[0].text()
               .then(result => {
                 let parsedResult = JSON.parse(result)
-                console.log('clearing current db')
+                uploadStatus = 'clearing podcasts...'
                 return Promise.all([
                   State.dexieDB.podcasts.clear(),
                   State.dexieDB.episodes.clear(),
                 ]).then(() => {
-                  // console.log('appending file to db')
-                  // Promise.all([
-                  //   State.dexieDB.podcasts.bulkAdd(parsedResult.podcasts),
-                  //   State.dexieDB.episodes.bulkAdd(parsedResult.episodes),
-                  // ])
+                  uploadStatus = 'loading new podcasts...'
+                  Promise.all([
+                    State.dexieDB.podcasts.bulkAdd(parsedResult.podcasts),
+                    State.dexieDB.episodes.bulkAdd(parsedResult.episodes),
+                  ])
+                }).then(() => {
+                  uploadStatus = 'podcasts loaded!'
                 })
             })
           }
@@ -113,7 +116,7 @@ function Settings() {
             addSyncURL()
             m.route.set('/')
           }
-        }, 'Save')
+        }, uploadStatus)
       ])
     }
   }
