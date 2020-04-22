@@ -18,6 +18,7 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-pwa-manifest": "^3.0.6",
+    "parcel-plugin-sw-cache": "^0.3.1",
     "postcss-input-range": "^4.0.0",
     "postcss-nested": "^4.2.1"
   },
@@ -28,7 +29,10 @@
     "theme": "#2d3748",
     "generateIconOptions": {
       "baseIcon": "./media/podrain-logo-512.png",
-      "sizes": [192, 512],
+      "sizes": [
+        192,
+        512
+      ],
       "genFavicons": true
     }
   }
