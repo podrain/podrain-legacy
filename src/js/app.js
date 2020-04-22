@@ -25,11 +25,6 @@ import localforage from 'localforage'
 import State from './State'
 import Dexie from 'dexie'
 
-if (localStorage.getItem('sync_url')) {
-  let remoteDB = new PouchDB(localStorage.getItem('sync_url'))
-  State.remoteDB = remoteDB
-}
-
 let dexieDB = new Dexie('podrain')
 dexieDB.version(1).stores({
   podcasts: '&_id',

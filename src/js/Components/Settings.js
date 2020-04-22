@@ -5,17 +5,12 @@ import FileSaver from 'file-saver'
 function Settings() {
 
   let proxyURL = localStorage.getItem('proxy_url') || ''
-  let syncURL = localStorage.getItem('sync_url') || ''
   let restoreStatus = ''
   let restoring = false
   let restoreFile = null
 
   function addProxyURL() {
     localStorage.setItem('proxy_url', proxyURL)
-  }
-
-  function addSyncURL() {
-    localStorage.setItem('sync_url', syncURL)
   }
 
   function downloadBackup() {
@@ -38,15 +33,15 @@ function Settings() {
 
   function restoreBackup() {
     restoring = true
-    restoreStatus = 'starting restore...'
+    restoreStatus = 'Starting restore...'
     restoreFile.text().then(result => {
       let parsedResult = JSON.parse(result)
-      restoreStatus = 'clearing podcasts...'
+      restoreStatus = 'Clearing podcasts...'
       return Promise.all([
         State.dexieDB.podcasts.clear(),
         State.dexieDB.episodes.clear(),
       ]).then(() => {
-        restoreStatus = 'loading new podcasts...'
+        restoreStatus = 'Loading new podcasts...'
         return Promise.all([
           State.dexieDB.podcasts.bulkAdd(parsedResult.podcasts),
           State.dexieDB.episodes.bulkAdd(parsedResult.episodes),
@@ -69,19 +64,22 @@ function Settings() {
           },
           value: proxyURL
         }),
-        m('button.w-full.bg-green-500.h-8.text-white.mt-3', {
+        m('button.w-full.bg-green-500.h-8.text-white', {
           onclick() {
             addProxyURL()
             m.route.set('/')
           }
-        }, 'Save'),
+        }, [
+          m('i.fas.fa-save.mr-3'),
+          'Save'
+        ]),
         m('.mt-6', [
           m('button.bg-purple-600.p-1.text-white.mr-1.w-full', {
             onclick() {
               downloadBackup()
             }
           }, [
-            m('i.fas.fa-download.mr-1'),
+            m('i.fas.fa-download.mr-3'),
             'Download backup'
           ]),
         ]),
@@ -98,7 +96,7 @@ function Settings() {
             restoreBackup()
           }
         }, [
-          restoring ? m('.fas.fa-spinner.fa-spin.mr-1') : m('i.fas.fa-upload.mr-1'),
+          restoring ? m('.fas.fa-spinner.fa-spin.mr-3') : m('i.fas.fa-upload.mr-3'),
           restoring ? restoreStatus : 'Restore backup'
         ]),
       ])
