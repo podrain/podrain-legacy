@@ -135,10 +135,10 @@ let EpisodeCurrentlyPlaying = {
 
     if (this.episode.queue == 1) {
       let lastInQueue = await QueueModel.lastInQueue()
-      this.playEpisode(lastInQueue._id, startPlaying)
+      await this.playEpisode(lastInQueue._id, startPlaying)
     } else { // Otherwise, play next in queue
       let prevInQueue = QueueModel.queue.filter(q => q.queue == this.episode.queue - 1)[0]
-      this.playEpisode(prevInQueue._id, startPlaying)
+      await this.playEpisode(prevInQueue._id, startPlaying)
     }
 
     QueueModel.getQueue()
