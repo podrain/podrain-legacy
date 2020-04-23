@@ -34,7 +34,7 @@ let EpisodeCurrentlyPlaying = {
     // Update currently playing to the new episode
     await State.dexieDB.episodes.where({ _id: id }).modify({ currently_playing: true })
 
-    // Add episode to end of queue
+    // Add episode to end of queue (if not in there already, otherwise leave alone)
     if (!this.episode.queue) {
       await QueueModel.addToQueue(this.episode._id)
     }
@@ -77,18 +77,16 @@ let EpisodeCurrentlyPlaying = {
     } else {
       this.audio.pause()
     }
-
-    m.redraw()
   },
 
   async updatePlayhead(updateDB = false) {
     this.playhead = this.audio.currentTime
 
     if (updateDB) {
-      await State.dexieDB.episodes.where({ _id: this.episode._id }).modify({ playhead: this.playhead })
+      State.dexieDB.episodes.where({ _id: this.episode._id }).modify({ playhead: this.playhead })
     }
 
-    await m.redraw()
+    m.redraw()
   },
 
   setPlayhead(value) {

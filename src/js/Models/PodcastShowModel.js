@@ -19,7 +19,6 @@ let PodcastShowModel = {
   async getPodcast(id) {
     let podcast = await State.dexieDB.podcasts.where({_id: id}).first()
     this.podcast = podcast
-    m.redraw()
   },
 
   async getEpisodes(id) {
@@ -29,14 +28,11 @@ let PodcastShowModel = {
 
     this.allEpisodes = episodes
     this.episodes = this.allEpisodes.slice(0, 10)
-    m.redraw()
   },
 
   async getMoreEpisodes(id, numEpisodes) {
     let newBatch = this.allEpisodes.slice(this.episodes.length, this.episodes.length + numEpisodes)
     this.episodes = this.episodes.concat(newBatch)
-
-    m.redraw()
   },
 
   async refreshEpisodes(id) {

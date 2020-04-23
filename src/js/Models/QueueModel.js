@@ -32,8 +32,8 @@ let QueueModel = {
     let highestQueue = episodesInQueue.length > 0 ? Math.max(...episodesInQueue.map(ep => ep.queue)) : 0
 
     await State.dexieDB.episodes.where({ _id: id }).modify({ queue: highestQueue + 1 })
+    await this.getQueue()
     this.queueChanging = false
-    m.redraw()
   },
 
   async removeFromQueue(id) {
@@ -60,7 +60,6 @@ let QueueModel = {
     }
     await this.getQueue()
     this.queueChanging = false
-    m.redraw()
   },
 
   async lastInQueue() {

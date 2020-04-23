@@ -11,7 +11,6 @@ let PodcastListModel = {
     State.dexieDB.podcasts.toArray().then(result => {
       this.podcasts = result
       this.loading = false
-      m.redraw()
     })
   }
 }
