@@ -867,10 +867,10 @@
     "@parcel/utils" "^1.11.0"
     physical-cpu-count "^2.0.0"
 
-"@pwa-manifest/core@^1.3.4":
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/@pwa-manifest/core/-/core-1.3.4.tgz#db695a4c78ba3e46cdf57db0b2c49b94c1131d51"
-  integrity sha512-uHRQ5/rCWyMcLLO1aDKq4m64CB3Y2fOG7yNORgiubKxVqyQr48dd/8SYnEqWNFxUYYeNejwovE9lAiqmiQTq6A==
+"@pwa-manifest/core@^1.3.5":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@pwa-manifest/core/-/core-1.4.0.tgz#5affc33ff0f9c3adb194e6f9dcfd4a474a158a37"
+  integrity sha512-YLQf+BPDzQWyqcn7qiW81mDAbeY4TRcSGq+rGWrwXHhokcxHX5KqvQksbpqw/6/UMU6fiCbqdMUegEc70Un7Ig==
   dependencies:
     sharp "^0.25.2"
 
@@ -896,11 +896,13 @@ abort-controller@3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-abstract-leveldown@^6.2.1, abstract-leveldown@~6.2.1:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-6.2.2.tgz#677425beeb28204367c7639e264e93ea4b49971a"
-  integrity sha512-/a+Iwj0rn//CX0EJOasNyZJd2o8xur8Ce9C57Sznti/Ilt/cb6Qd8/k98A4ZOklXgTG+iAYYUs1OTG0s1eH+zQ==
+abstract-leveldown@^6.2.1:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-6.3.0.tgz#d25221d1e6612f820c35963ba4bd739928f6026a"
+  integrity sha512-TU5nlYgta8YrBMNpc9FwQzRbiXsj49gsALsXadbGHt9CROPzX5fB0rWDR5mtdpOOKa5XqRFpbj1QroPAoPzVjQ==
   dependencies:
+    buffer "^5.5.0"
+    immediate "^3.2.3"
     level-concat-iterator "~2.0.0"
     level-supports "~1.0.0"
     xtend "~4.0.0"
@@ -911,6 +913,17 @@ abstract-leveldown@~6.0.0:
   integrity sha512-jzewKKpZbaYUa6HTThnrl+GrJhzjEAeuc7hTVpZdzg7kupXZFoqQDFwyOwLNbmJKJlmzw8yiipMPkDiuKkT06Q==
   dependencies:
     level-concat-iterator "~2.0.0"
+    xtend "~4.0.0"
+
+abstract-leveldown@~6.2.1, abstract-leveldown@~6.2.3:
+  version "6.2.3"
+  resolved "https://registry.yarnpkg.com/abstract-leveldown/-/abstract-leveldown-6.2.3.tgz#036543d87e3710f2528e47040bc3261b77a9a8eb"
+  integrity sha512-BsLm5vFMRUrrLeCcRc+G0t2qOaTzpoJQLOubq2XM72eNpjF5UdU5o/5NvlNhx95XHcAvcl8OMXr4mlg/fRgUXQ==
+  dependencies:
+    buffer "^5.5.0"
+    immediate "^3.2.3"
+    level-concat-iterator "~2.0.0"
+    level-supports "~1.0.0"
     xtend "~4.0.0"
 
 acorn-globals@^4.3.0:
@@ -3025,7 +3038,7 @@ immediate@3.0.6, immediate@~3.0.5:
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
   integrity sha1-nbHb0Pr43m++D13V5Wu2BigN5ps=
 
-immediate@~3.2.3:
+immediate@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.2.3.tgz#d140fa8f614659bd6541233097ddaac25cdd991c"
   integrity sha1-0UD6j2FGWb1lQSMwl92qwlzdmRw=
@@ -3507,12 +3520,12 @@ level-iterator-stream@~4.0.0:
     xtend "^4.0.2"
 
 level-js@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/level-js/-/level-js-5.0.1.tgz#c68f8e55c3331bcba1f5b448b5cc833f21c68628"
-  integrity sha512-Jse0/UP2qFl2YN8HISnxwQIRHNM3vJLafkTKjw4tZs9Vi8VGUFVmGvg/WMn5To/6KHyYJTXZvUzuouoaZuPGXA==
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/level-js/-/level-js-5.0.2.tgz#5e280b8f93abd9ef3a305b13faf0b5397c969b55"
+  integrity sha512-SnBIDo2pdO5VXh02ZmtAyPP6/+6YTJg2ibLtl9C34pWvmtMEmRTWpra+qO/hifkUtBTOtfx6S9vLDjBsBK4gRg==
   dependencies:
-    abstract-leveldown "~6.2.1"
-    immediate "~3.2.3"
+    abstract-leveldown "~6.2.3"
+    buffer "^5.5.0"
     inherits "^2.0.3"
     ltgt "^2.1.2"
 
@@ -3548,10 +3561,19 @@ level@6.0.0:
     leveldown "^5.4.0"
     opencollective-postinstall "^2.0.0"
 
-leveldown@5.4.1, leveldown@^5.4.0:
+leveldown@5.4.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/leveldown/-/leveldown-5.4.1.tgz#83a8fdd9bb52b1ed69be2ef59822b6cdfcdb51ec"
   integrity sha512-3lMPc7eU3yj5g+qF1qlALInzIYnkySIosR1AsUKFjL9D8fYbTLuENBAeDRZXIG4qeWOAyqRItOoLu2v2avWiMA==
+  dependencies:
+    abstract-leveldown "~6.2.1"
+    napi-macros "~2.0.0"
+    node-gyp-build "~4.1.0"
+
+leveldown@^5.4.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/leveldown/-/leveldown-5.6.0.tgz#16ba937bb2991c6094e13ac5a6898ee66d3eee98"
+  integrity sha512-iB8O/7Db9lPaITU1aA2txU/cBEXAt4vWwKQRrrWuS6XDgbP4QZGj9BL2aNbwb002atoQ/lIotJkfyzz+ygQnUQ==
   dependencies:
     abstract-leveldown "~6.2.1"
     napi-macros "~2.0.0"
@@ -3568,9 +3590,9 @@ levelup@4.1.0:
     xtend "~4.0.0"
 
 levelup@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/levelup/-/levelup-4.3.2.tgz#31c5b1b29f146d1d35d692e01a6da4d28fa55ebd"
-  integrity sha512-cRTjU4ktWo59wf13PHEiOayHC3n0dOh4i5+FHr4tv4MX9+l7mqETicNq3Aj07HKlLdk0z5muVoDL2RD+ovgiyA==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/levelup/-/levelup-4.4.0.tgz#f89da3a228c38deb49c48f88a70fb71f01cafed6"
+  integrity sha512-94++VFO3qN95cM/d6eBXvd894oJE0w3cInq9USsyQzzoJxmiYzPAocNcuGCPGGjoXqDVJcr3C1jzt1TSjyaiLQ==
   dependencies:
     deferred-leveldown "~5.3.0"
     level-errors "~2.0.0"
@@ -4309,12 +4331,12 @@ parcel-bundler@^1.12.4:
     v8-compile-cache "^2.0.0"
     ws "^5.1.1"
 
-parcel-plugin-pwa-manifest@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/parcel-plugin-pwa-manifest/-/parcel-plugin-pwa-manifest-3.0.6.tgz#310521dfc00e21a05f80476607382ee480ed9158"
-  integrity sha512-i8mtzY9oG1gZd2h/wgS0STG5VIjYvam54be2tPEpg1M6XFA3uml3HVwIF3X0OL0telFeea2rmklFq4WJPWDAlQ==
+parcel-plugin-pwa-manifest@^3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-pwa-manifest/-/parcel-plugin-pwa-manifest-3.0.7.tgz#610d32149fbf253cb05f309bd7d254a24f0be8af"
+  integrity sha512-tSOyfhhRZ8JgQadWA594vxPJLp3/68c1v4zfsDRQCRNDeAR19VfKKB3+Kt0IyXapQ2L5fi72VQub+tD00+KbOg==
   dependencies:
-    "@pwa-manifest/core" "^1.3.4"
+    "@pwa-manifest/core" "^1.3.5"
 
 parcel-plugin-sw-cache@^0.3.1:
   version "0.3.1"
