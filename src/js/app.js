@@ -2,10 +2,7 @@ import '../css/app.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 import m from 'mithril'
-import PouchDB from 'pouchdb'
-import PouchDBFind from 'pouchdb-find'
 import _ from 'lodash'
-PouchDB.plugin(PouchDBFind)
 
 import Layout from './Components/Layout'
 import PodcastList from './Components/PodcastList'
@@ -134,5 +131,5 @@ m.route(document.body, '/podcasts', {
 })
 
 if (!localStorage.getItem('proxy_url')) {
-  m.route.set('/settings')
+  localStorage.setItem('proxy_url', 'https://podrain-proxy.herokuapp.com/')
 }
