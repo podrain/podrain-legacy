@@ -21,10 +21,8 @@ Two things are needed to use Podrain, which are:
 - Firefox (desktop)
 - ... and probably others, but the above have been confirmed to work throughout the development process.
 
-At this time, it will not work well on iOS on any browser, Safari or otherwise. iOS just doesn't have enough storage for web apps to use to store the amount of data this app requires for normal usage. Workarounds will be needed.
-
-### A proxy service
-Because this is a web app, and podcast feeds are at URLs that don't share the domain of Podrain, you'll need a proxy service that can bypass CORS (Cross-Origin Resource Sharing) for most podcasts. Instructions for this will be in the Setup section.
+### Note about iOS
+At this time, Podrain is not fully functional on iOS on any browser, Safari or otherwise. iOS doesn't have enough storage for for downloading the audio files for offline listening. Other functionality should work fine, however.
 
 ## Setup
 ### Visit the app web page
