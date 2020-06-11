@@ -25,19 +25,9 @@ Two things are needed to use Podrain, which are:
 At this time, Podrain is not fully functional on iOS on any browser, Safari or otherwise. iOS doesn't have enough storage for for downloading the audio files for offline listening. Other functionality should work fine, however.
 
 ## Setup
-### Visit the app web page
 Installing Podrain is very easy. It's a single-page web application, so all you have to do load the app is visit the page!
 
 https://podrain.gitlab.io/podrain/#!/podcasts
-
-### Set up a proxy server
-When you visit, you'll immediately see two settings. The first one (Proxy URL) is required. You can use any proxy service you like, but the easiest way is to click the button below to create a Heroku Dyno with everything pre-configured for you:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/puzzleboss/cors-anywhere/tree/master)
-
-Follow the setup instructions, then copy the URL for that dyno and paste it into the `Proxy URL` field (make sure you include the `/` at the end of the URL! For example, `https://my-proxy-server.herokuapp.com/`)
-
-Then, hit `Save` under the `Proxy URL` setting and you're ready to use the app!
 
 ## Running the app locally (for testing and development)
 Coming soon.
