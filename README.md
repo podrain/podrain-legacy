@@ -30,7 +30,19 @@ Installing Podrain is very easy. It's a single-page web application, so all you 
 https://podrain.gitlab.io/podrain/#!/podcasts
 
 ## Running the app locally (for testing and development)
-Coming soon.
+
+### Requirements
+- [Node](https://nodejs.org/en/)
+- [Yarn](https://yarnpkg.com/)
+
+```bash
+git clone https://github.com/podrain/podrain
+cd podrain
+yarn install
+npx parcel src/index.html
+```
+
+Then, just visit http://localhost:1234 in your browser to see the app running. It's a HMR server so you should see changes to the code without having to refresh your browser.
 
 ## Roadmap
 - Progressive web app functionality (service workers, web app manifest file) which will allow for true offline-first capability
