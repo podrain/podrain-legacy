@@ -4443,9 +4443,9 @@ pn@^1.1.0:
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
 
-"podrain-feed-parser@https://gitlab.com/podrain/podrain-feed-parser":
+"podrain-feed-parser@https://github.com/podrain/podrain-feed-parser":
   version "0.1.1"
-  resolved "https://gitlab.com/podrain/podrain-feed-parser#d7ae52b2ca2efa0bd83e87d702a183fe7c7e879e"
+  resolved "https://github.com/podrain/podrain-feed-parser#7066902b07418f3cb505724fd2306c3d0cb0448e"
   dependencies:
     axios "^0.19.2"
     lodash "^4.17.15"
