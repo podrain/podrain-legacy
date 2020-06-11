@@ -13,16 +13,15 @@ Podrain is a web-based podcast app with offline capabilities. It was built to sc
 - Easily back up all your podcast data to a file
 
 ## Requirements
-Two things are needed to use Podrain, which are:
+All you need to to use Podrain is a modern web browser.
 
-### A browser
 - Chrome (Android, desktop)
 - Chromium-based browsers (Brave, Edge, etc.)
 - Firefox (desktop)
 - ... and probably others, but the above have been confirmed to work throughout the development process.
 
 ### Note about iOS
-At this time, Podrain is not fully functional on iOS on any browser, Safari or otherwise. iOS doesn't have enough storage for for downloading the audio files for offline listening. Other functionality should work fine, however.
+At this time, Podrain is not fully functional on iOS on any browser, Safari or otherwise. You can add feeds and listen to them, but iOS doesn't have enough storage for for downloading the audio files for offline listening.
 
 ## Setup
 Installing Podrain is very easy. It's a single-page web application, so all you have to do load the app is visit the page!
