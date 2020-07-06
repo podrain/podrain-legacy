@@ -23,11 +23,6 @@ All you need to to use Podrain is a modern web browser.
 ### Note about iOS
 At this time, Podrain is not fully functional on iOS on any browser, Safari or otherwise. You can add feeds and listen to them, but iOS doesn't have enough storage for for downloading the audio files for offline listening.
 
-## Setup
-Installing Podrain is very easy. It's a single-page web application, so all you have to do load the app is visit the page!
-
-https://podrain.gitlab.io/podrain/#!/podcasts
-
 ## Running the app locally (for testing and development)
 
 ### Requirements
