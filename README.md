@@ -39,5 +39,4 @@ npx parcel src/index.html
 Then, just visit http://localhost:1234 in your browser to see the app running. It's a HMR server so you should see changes to the code without having to refresh your browser.
 
 ## Roadmap
-- Progressive web app functionality (service workers, web app manifest file) which will allow for true offline-first capability
 - Better interface for tablet/desktop screen sizes
