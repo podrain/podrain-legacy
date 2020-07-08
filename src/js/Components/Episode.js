@@ -24,7 +24,7 @@ function Episode() {
             ]) : null,
             m('.leading-tight.text-xs.font-bold.truncate', vnode.attrs.episode.title),
             m('.flex.mt-3', [
-              m('.w-1/5', m('img', { src: vnode.attrs.episode.imageURL })),
+              m('.w-1/5', m('img', { src: vnode.attrs.episode.imageURL || vnode.attrs.alternateImageURL })),
               m('.w-4/5.text-xs.font-light.ml-3', vnode.attrs.episode.description ? (
                 Helpers.cleanHTMLString(vnode.attrs.episode.description).length > 125 
                 ? Helpers.cleanHTMLString(vnode.attrs.episode.description).substr(0, 125) + '...' 

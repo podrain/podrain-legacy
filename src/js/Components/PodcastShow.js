@@ -54,6 +54,7 @@ class PodcastShow {
       m('ul.text-white.mx-3.mb-3', PodcastShowModel.episodes.map((ep, index) => {
         return m(Episode, {
           episode: ep,
+          alternateImageURL: PodcastShowModel.podcast.meta.imageURL,
           partOf: PodcastShowModel.episodes
         })
       })),
