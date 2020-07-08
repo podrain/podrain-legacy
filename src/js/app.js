@@ -22,6 +22,11 @@ import localforage from 'localforage'
 import State from './State'
 import Dexie from 'dexie'
 
+if ('serviceWorker' in navigator) {
+  let serviceWorkerPath = './service-worker.js'
+  navigator.serviceWorker.register(serviceWorkerPath)
+}
+
 let dexieDB = new Dexie('podrain')
 dexieDB.version(1).stores({
   podcasts: '&_id',
