@@ -48,12 +48,6 @@ let EpisodeModel = {
     let episodeIndex = EpisodeModel.downloading.indexOf(episodeDownloading)
     await this.syncDownloadedEpisodes()
     this.downloading.splice(episodeIndex, 1)
-
-    // let audioSrcUrl = window.URL.createObjectURL(audioBlob)
-    // let audio = new Audio
-    // audio.src = audioSrcUrl
-    // audio.load()
-    // audio.play()
   },
 
   async removeDownload(id) {
