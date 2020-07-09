@@ -4,6 +4,7 @@ import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import QueueModel from '../Models/QueueModel'
 import EpisodeModel from '../Models/EpisodeModel'
 import _ from 'lodash'
+import Icon from './Icon'
 
 function Episode() {
   return {
@@ -20,7 +21,10 @@ function Episode() {
             }
           }, [
             vnode.attrs.episode.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
-              m('i.fas.fa-check.text-black')
+              m(Icon, {
+                icon: 'check',
+                class: 'text-black'
+              })
             ]) : null,
             m('.leading-tight.text-xs.font-bold.truncate', vnode.attrs.episode.title),
             m('.flex.mt-3', [
@@ -38,8 +42,9 @@ function Episode() {
                 EpisodeCurrentlyPlaying.playEpisode(vnode.attrs.episode._id, true)
               }
             }, [
-              !EpisodeCurrentlyPlaying.audio.paused 
-              && EpisodeCurrentlyPlaying.episode._id == vnode.attrs.episode._id ? m('i.fas.fa-pause') : m('i.fas.fa-play')
+              m(Icon, {
+                icon: !EpisodeCurrentlyPlaying.audio.paused && EpisodeCurrentlyPlaying.episode._id == vnode.attrs.episode._id ? 'pause' : 'play'
+              })
             ]),
             m('button.w-3/4.flex.justify-center.items-center', {
               class: vnode.attrs.episode.queue ? 'bg-red-500' : 'bg-green-500',
@@ -63,7 +68,7 @@ function Episode() {
               },
               disabled: QueueModel.queueChanging
             }, [
-              QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : (vnode.attrs.episode.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue'])
+              QueueModel.queueChanging ? m(Icon, { icon: 'spinner' }) : (vnode.attrs.episode.queue ? [m(Icon, { icon: 'minus', class: 'mr-3' }),'Remove from queue'] : [m(Icon, {icon: 'plus', class: 'mr-3' }),'Add to queue'])
             ])
           ]),
         ])

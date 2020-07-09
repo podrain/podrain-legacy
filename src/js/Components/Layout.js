@@ -1,27 +1,36 @@
 import m from 'mithril'
 import Playbox from './Playbox'
+import Icon from './Icon'
 
 class Layout {
   view(vnode) {
     return [
       m('.flex.flex-col.h-screen', [
         m('.flex.items-center.justify-between.h-16.bg-teal-800.px-4.text-white', [
-          m('i.fas.fa-home.text-4xl', {
-            onclick() {
+          m(Icon, { 
+            icon: 'home',
+            class: 'text-4xl',
+            onclick: () => {
               m.route.set('/')
             }
           }),
-          m('i.fas.fa-list-ol.text-4xl', {
-            onclick() {
+          m(Icon, { 
+            icon: 'list-ol',
+            class: 'text-4xl',
+            onclick: () => {
               m.route.set('/queue')
             }
           }),
-          m('i.fas.fa-plus.text-4xl', {
+          m(Icon, { 
+            icon: 'plus',
+            class: 'text-4xl',
             onclick: () => {
               m.route.set('/podcasts/add')
             }
           }),
-          m('i.fas.fa-cog.text-4xl', {
+          m(Icon, { 
+            icon: 'cog',
+            class: 'text-4xl',
             onclick: () => {
               m.route.set('/settings')
             }

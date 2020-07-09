@@ -1,5 +1,6 @@
 import m from 'mithril'
 import PodcastCreateModel from '../Models/PodcastCreateModel'
+import Icon from './Icon'
 
 function PodcastCreate() {
   let selectedTab = 'search'
@@ -16,7 +17,10 @@ function PodcastCreate() {
                 selectedTab = 'search'
               }
             }, [
-              m('i.fas.fa-search.mr-3'),
+              m(Icon, {
+                icon: 'search',
+                class: 'mr-3'
+              }),
               'Search'
             ]),
             m('button.flex-1.p-3', {
@@ -25,7 +29,10 @@ function PodcastCreate() {
                 selectedTab = 'rss'
               }
             }, [
-              m('i.fas.fa-rss.mr-3'),
+              m(Icon, {
+                icon: 'rss',
+                class: 'mr-3'
+              }),
               'RSS Feed'
             ]),
           ]),
@@ -74,10 +81,13 @@ function PodcastCreate() {
                     }
                   }, [
                     PodcastCreateModel.feedUrl == sr.feedUrl
-                    ? m('i.fas.fa-spinner.fa-spin', {
+                    ? m(Icon, {
+                      icon: 'spinner',
                       disabled: true
                     })
-                    : m('i.fas.fa-plus')
+                    : m(Icon, {
+                      icon: 'plus'
+                    })
                   ])
                 ])
               })

@@ -1,6 +1,7 @@
 import m from 'mithril'
 import PodcastShowModel from '../Models/PodcastShowModel'
 import Episode from './Episode'
+import Icon from './Icon'
 
 class PodcastShow {
   view() {
@@ -24,8 +25,11 @@ class PodcastShow {
                   })
                 }
               }, [
-                m('i.fas.fa-sync-alt.mr-3', {
-                  class: PodcastShowModel.refreshing ? 'fa-pulse' : ''
+                m(Icon, {
+                  icon: PodcastShowModel.refreshing ? 'spinner' : 'sync-alt',
+                  class: [
+                    'mr-3',
+                  ].join(' ')
                 }),
                 'Refresh'
               ]),
@@ -34,8 +38,9 @@ class PodcastShow {
                   PodcastShowModel.deletePodcast(PodcastShowModel.podcast._id)
                 }
               }, [
-                m('i.fas.mr-3', {
-                  class: PodcastShowModel.deleting ? 'fa-spinner fa-spin' : 'fa-times'
+                m(Icon, {
+                  icon: 'times',
+                  class: 'mr-3'
                 }),
                 'Delete'
               ])
@@ -45,7 +50,10 @@ class PodcastShow {
                 m.route.set('/podcasts/'+PodcastShowModel.podcast._id+'/search')
               }
             }, [
-              m('i.fas.fa-search.mr-3'),
+              m(Icon, {
+                icon: 'search',
+                class: 'mr-3'
+              }),
               'Search episodes'
             ])
           ])

@@ -2,6 +2,7 @@ import m from 'mithril'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import State from '../State'
 import Helpers from '../Helpers'
+import Icon from './Icon'
 
 class PlayBox {
   constructor() {
@@ -50,37 +51,49 @@ class PlayBox {
             ]),
           ]),
           m('.flex.justify-end.items-start.w-1/5', [
-            m('i.fas.fa-chevron-down.text-4xl', {
+            m(Icon, {
+              icon: 'chevron-down',
+              class: 'text-4xl',
               onclick: () => {
                 this.expanded = false
               }
             })
+
           ])
         ]),
         m('.flex.justify-between', [
-          m('i.fas.fa-step-backward.text-4xl', {
-            onclick() {
+          m(Icon, {
+            icon: 'step-backward',
+            class: 'text-4xl',
+            onclick: () => {
               EpisodeCurrentlyPlaying.playPrev()
             }
           }),
-          m('i.fas.fa-undo.text-4xl', {
-            onclick() {
+          m(Icon, {
+            icon: 'undo',
+            class: 'text-4xl',
+            onclick: () => {
               EpisodeCurrentlyPlaying.jumpBack()
             }
           }),
-          m('i.fas.text-4xl.text-teal-500', {
-            class: EpisodeCurrentlyPlaying.audio && EpisodeCurrentlyPlaying.audio.paused ? 'fa-play' : 'fa-pause',
-            onclick() {
+          m(Icon, {
+            icon: EpisodeCurrentlyPlaying.audio && EpisodeCurrentlyPlaying.audio.paused ? 'play' : 'pause',
+            class: 'text-4xl text-teal-500',
+            onclick: () => {
               EpisodeCurrentlyPlaying.playOrPause()
             }
           }),
-          m('i.fas.fa-redo.text-4xl', {
-            onclick() {
+          m(Icon, {
+            icon: 'redo',
+            class: 'text-4xl',
+            onclick: () => {
               EpisodeCurrentlyPlaying.jumpAhead()
             }
           }),
-          m('i.fas.fa-step-forward.text-4xl', {
-            onclick() {
+          m(Icon, {
+            icon: 'step-forward',
+            class: 'text-4xl',
+            onclick: () => {
               EpisodeCurrentlyPlaying.playNext()
             }
           }),
@@ -113,7 +126,10 @@ class PlayBox {
           this.expanded = true
         }
       }, [
-        m('i.fas.fa-chevron-up.text-4xl')
+        m(Icon, {
+          icon: 'chevron-up',
+          class: 'text-4xl'
+        })
       ])
     ]
   }

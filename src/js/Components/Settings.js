@@ -1,6 +1,7 @@
 import m from 'mithril'
 import State from '../State'
 import FileSaver from 'file-saver'
+import Icon from './Icon'
 
 function Settings() {
 
@@ -70,7 +71,7 @@ function Settings() {
             m.route.set('/')
           }
         }, [
-          m('i.fas.fa-save.mr-3'),
+          m(Icon, { icon: 'save', class: 'mr-3'}),
           'Save'
         ]),
         m('.mt-6', [
@@ -79,7 +80,7 @@ function Settings() {
               downloadBackup()
             }
           }, [
-            m('i.fas.fa-download.mr-3'),
+            m(Icon, { icon: 'download', class: 'mr-3' }),
             'Download backup'
           ]),
         ]),
@@ -96,7 +97,7 @@ function Settings() {
             restoreBackup()
           }
         }, [
-          restoring ? m('.fas.fa-spinner.fa-spin.mr-3') : m('i.fas.fa-upload.mr-3'),
+          restoring ? m(Icon, { icon: 'spinner', class: 'mr-3' }) : m(Icon, { icon: 'upload', class: 'mr-3'}),
           restoring ? restoreStatus : 'Restore backup'
         ]) : null,
       ])

@@ -1,6 +1,7 @@
 import m from 'mithril'
 import EpisodeShowModel from '../Models/EpisodeShowModel'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
+import Icon from './Icon'
 
 class EpisodeShow {
   view() {
@@ -15,7 +16,10 @@ class EpisodeShow {
               EpisodeCurrentlyPlaying.playEpisode(EpisodeShowModel.episode._id, true)
             }
           }, [
-            m('i.fas.fa-play.mr-3'),
+            m(Icon, {
+              icon: 'play',
+              class: 'mr-3'
+            }),
             'Play'
           ])
         ]),

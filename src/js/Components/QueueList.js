@@ -4,6 +4,7 @@ import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import Sortable from 'sortablejs'
 import EpisodeModel from '../Models/EpisodeModel'
 import Helpers from '../Helpers'
+import Icon from './Icon'
 
 class QueueList {
   oncreate() {
@@ -42,7 +43,10 @@ class QueueList {
               },
             }, [
               ep.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
-                m('i.fas.fa-check.text-black')
+                m(Icon, {
+                  icon: 'check',
+                  class: 'text-black'
+                })
               ]) : null,
               m('.leading-tight.text-xs.font-bold', ep.title),
               m('.flex.mt-3', [
@@ -55,7 +59,7 @@ class QueueList {
               ])
             ]),
             m('.queue-dragbar.w-10.bg-indigo-500.flex.items-center.justify-center', [
-              QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : m('i.fas.fa-bars')
+              QueueModel.queueChanging ? m(Icon, { icon: 'spinner' }) : m(Icon, { icon: 'bars' })
             ]),
           ]),
           m('.h-8.flex', [
@@ -65,8 +69,8 @@ class QueueList {
                 QueueModel.removeFromQueue(ep._id)
               },
               disabled: QueueModel.queueChanging
-            }, QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : [
-              m('i.fas.fa-minus.mr-3'),'Remove'
+            }, QueueModel.queueChanging ? m(Icon, { icon: 'spinner', class: 'mr-3' }) : [
+              m(Icon, { icon: 'minus', class: 'mr-3' }),'Remove'
             ]),
             m('.flex-1.relative', {
               class: 'bg-blue-500',
@@ -83,13 +87,13 @@ class QueueList {
                 ? EpisodeModel.downloading.filter(dl => dl.id == ep._id)[0].progress : '0')) + '%;'
               }),
               m('.flex.h-full.justify-center.items-center.relative', EpisodeModel.isDownloaded(ep._id) ?  [
-                m('i.fas.fa-check.mr-3'),
+                m(Icon, { icon: 'check', class: 'mr-3' }),
                 'Downloaded'
               ] : [
                 EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) 
                 ? 'Downloading...' 
                 : [
-                  m('i.fas.fa-download.mr-3'),
+                  m(Icon, { icon: 'download', class: 'mr-3' }),
                   'Download'
                 ]
               ]) 
