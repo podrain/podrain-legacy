@@ -12,6 +12,11 @@ Podrain is a web-based podcast app with offline capabilities. It was built to sc
 - Optionally store audio files offline for an uninterrupted listening experience
 - Easily back up all your podcast data to a file
 
+## Demo
+https://podrain.github.io/podrain
+
+Keep in mind, this version of the app is updated with the `master` branch, generally. If you don't mind dealing with possible occasional breaking changes, rock on! 🤘
+
 ## Requirements
 All you need to to use Podrain is a modern web browser.
 
@@ -37,6 +42,15 @@ npx parcel src/index.html
 ```
 
 Then, just visit http://localhost:1234 in your browser to see the app running. It's a HMR server so you should see changes to the code without having to refresh your browser.
+
+## Deployment
+
+### Using CI/CD
+Formal instructions coming soon. In the meantime, you can read the [Parcel docs](https://parceljs.org/production.html).
+
+### FTP (old school!)
+- Run `npx parcel build src/index.html --public-url .` in the project root
+-  Take the contents of the `dist` folder and upload it to your favorite web host via FTP
 
 ## Roadmap
 - Better interface for tablet/desktop screen sizes
