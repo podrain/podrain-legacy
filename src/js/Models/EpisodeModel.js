@@ -51,8 +51,10 @@ let EpisodeModel = {
   },
 
   async removeDownload(id) {
-    await localforage.removeItem('podrain_episode_'+id)
-    await this.syncDownloadedEpisodes()
+    if (await localforage.getItem('podrain_episode_'+id)) {
+      await localforage.removeItem('podrain_episode_'+id)
+      await this.syncDownloadedEpisodes()
+    }
   },
 
   isDownloaded(id) {

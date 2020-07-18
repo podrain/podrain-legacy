@@ -119,10 +119,10 @@ let EpisodeCurrentlyPlaying = {
     if (finishEpisode) {
       // Remove from queue
       await QueueModel.removeFromQueue(oldEpisodeId)
-
       // set mark as done and reset playhead
-
       await State.dexieDB.episodes.where({ _id: oldEpisodeId }).modify({ playhead: 0, played: true })
+      // Delete downloaded episode if there is one
+      EpisodeModel.removeDownload(oldEpisodeId)
 
       this.episode = await EpisodeModel.getEpisode(this.episode._id)
     }
