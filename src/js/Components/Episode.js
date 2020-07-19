@@ -61,9 +61,9 @@ function Episode() {
                   vnode.attrs.partOf[episodeIndex] = updatedEpisode
                 })
               },
-              disabled: QueueModel.queueChanging.get()
+              disabled: QueueModel.queueChanging
             }, [
-              QueueModel.queueChanging.get() ? m('i.fas.fa-spinner.fa-spin') : (vnode.attrs.episode.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue'])
+              QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : (vnode.attrs.episode.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue'])
             ])
           ]),
         ])

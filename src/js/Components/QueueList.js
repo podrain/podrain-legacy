@@ -14,7 +14,8 @@ class QueueList {
       animation: 150,
 
       onUpdate(evt) {
-        QueueModel.queueChanging.set(true)
+        QueueModel.queueChanging = true
+        m.redraw()
         let newOrder = evt.newIndex + 1
         let episodeID = evt.item.dataset.id
         QueueModel.reorder(episodeID, newOrder)
@@ -54,7 +55,7 @@ class QueueList {
               ])
             ]),
             m('.queue-dragbar.w-10.bg-indigo-500.flex.items-center.justify-center', [
-              QueueModel.queueChanging.get() ? m('i.fas.fa-spinner.fa-spin') : m('i.fas.fa-bars')
+              QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : m('i.fas.fa-bars')
             ]),
           ]),
           m('.h-8.flex', [
@@ -63,8 +64,8 @@ class QueueList {
               onclick() {
                 QueueModel.removeFromQueue(ep._id)
               },
-              disabled: QueueModel.queueChanging.get()
-            }, QueueModel.queueChanging.get() ? m('i.fas.fa-spinner.fa-spin') : [
+              disabled: QueueModel.queueChanging
+            }, QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : [
               m('i.fas.fa-minus.mr-3'),'Remove'
             ]),
             m('.flex-1.relative', {

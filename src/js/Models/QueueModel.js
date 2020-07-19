@@ -1,11 +1,10 @@
 import State from '../State'
 import m from 'mithril'
 import _ from 'lodash'
-import { observable } from 'mobx'
 
 let QueueModel = {
-  queue: observable([]),
-  queueChanging: observable.box(false),
+  queue: [],
+  queueChanging: false,
 
   async getQueue() {
     let queuedEpisodes = await State.dexieDB.episodes.filter(ep => {
@@ -20,10 +19,11 @@ let QueueModel = {
     let episodesWithPodcasts = await Promise.all(episodesWithPodcastsPromises)
 
     this.queue = _.sortBy(episodesWithPodcasts, 'queue')
+    m.redraw()
   },
 
   async addToQueue(id) {
-    this.queueChanging.set(true)
+    this.queueChanging = true
 
     let episodesInQueue = await State.dexieDB.episodes.filter(ep => {
       return ep.queue > 0
@@ -33,11 +33,11 @@ let QueueModel = {
 
     await State.dexieDB.episodes.where({ _id: id }).modify({ queue: highestQueue + 1 })
     await this.getQueue()
-    this.queueChanging.set(false)
+    this.queueChanging = false
   },
 
   async removeFromQueue(id) {
-    this.queueChanging.set(true)
+    this.queueChanging = true
 
     let episode = (await State.dexieDB.episodes.where({ _id: id }).toArray())[0]
 
@@ -59,7 +59,7 @@ let QueueModel = {
       }
     }
     await this.getQueue()
-    this.queueChanging.set(false)
+    this.queueChanging = false
   },
 
   async lastInQueue() {
@@ -73,7 +73,7 @@ let QueueModel = {
   },
 
   async reorder(episodeID, newOrder) {
-    this.queueChanging.set(true)
+    this.queueChanging = true
     let currentEpisode = (await State.dexieDB.episodes.where({ _id: episodeID }).toArray())[0]
     let reorderPromises = []
 
@@ -102,7 +102,7 @@ let QueueModel = {
     ])
 
     await this.getQueue()
-    this.queueChanging.set(false)
+    this.queueChanging = false
   }
 }
 

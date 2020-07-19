@@ -2,7 +2,6 @@ import '../css/app.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 import m from 'mithril'
-import { autorun } from 'mobx'
 import _ from 'lodash'
 
 import Layout from './Components/Layout'
@@ -22,8 +21,6 @@ import Settings from './Components/Settings'
 import localforage from 'localforage'
 import State from './State'
 import Dexie from 'dexie'
-
-autorun(m.redraw)
 
 if ('serviceWorker' in navigator) {
   let serviceWorkerPath = './service-worker.js'
