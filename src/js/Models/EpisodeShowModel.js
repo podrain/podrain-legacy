@@ -10,7 +10,6 @@ let EpisodeShowModel = {
   async getEpisode(id) {
     this.loading = true
     this.episode = await EpisodeModel.getEpisode(id)
-    this.podcast = await PodcastModel.getPodcast(this.episode.podcast_id)
     this.loading = false
   }
 }

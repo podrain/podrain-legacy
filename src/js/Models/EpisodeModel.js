@@ -2,12 +2,15 @@ import State from '../State'
 import localforage from 'localforage'
 import m from 'mithril'
 import _ from 'lodash'
+import PodcastModel from './PodcastModel'
 
 let EpisodeModel = {
   downloading: [],
 
   async getEpisode(id) {
-    return (await State.dexieDB.episodes.where({ _id: id }).toArray())[0]
+    let episode = (await State.dexieDB.episodes.where({ _id: id }).toArray())[0]
+    episode.podcast = await PodcastModel.getPodcast(episode.podcast_id)
+    return episode
   },
 
   async downloadEpisode(id) {
