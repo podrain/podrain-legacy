@@ -17,8 +17,7 @@ let PodcastShowModel = {
   deleting: false,
 
   async getPodcast(id) {
-    let podcast = await State.dexieDB.podcasts.where({_id: id}).first()
-    this.podcast = podcast
+    this.podcast = await PodcastModel.getPodcast(id)
   },
 
   async getEpisodes(id) {
