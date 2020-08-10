@@ -1,6 +1,6 @@
 import m from 'mithril'
 import State from '../State'
-import feedParser from 'podrain-feed-parser'
+import feedParser from 'better-podcast-parser'
 import uuidv4 from 'uuid/v4'
 import _ from 'lodash'
 import PodcastListModel from './PodcastListModel'
