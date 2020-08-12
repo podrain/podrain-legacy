@@ -3,34 +3,20 @@ import Playbox from './Playbox'
 
 class Layout {
   view(vnode) {
-    return [
-      m('.flex.flex-col.h-screen', [
-        m('.flex.items-center.justify-between.h-16.bg-teal-800.px-4.text-white', [
-          m('i.fas.fa-home.text-4xl', {
-            onclick() {
-              m.route.set('/')
-            }
-          }),
-          m('i.fas.fa-list-ol.text-4xl', {
-            onclick() {
-              m.route.set('/queue')
-            }
-          }),
-          m('i.fas.fa-plus.text-4xl', {
-            onclick: () => {
-              m.route.set('/podcasts/add')
-            }
-          }),
-          m('i.fas.fa-cog.text-4xl', {
-            onclick: () => {
-              m.route.set('/settings')
-            }
-          }),
-        ]),
-        m('.flex-1.overflow-y-scroll.bg-gray-800', vnode.children),
-        m(Playbox)
-      ])
-    ]
+    return (
+      <div class="flex flex-col h-screen">
+        <div class="flex items-center justify-between h-16 bg-teal-800 px-4 text-white">
+          <i class="fas fa-home text-4xl" onclick={() => { m.route.set('/') }} />
+          <i class="fas fa-list-ol text-4xl" onclick={() => { m.route.set('/queue') }} />
+          <i class="fas fa-plus text-4xl" onclick={() => { m.route.set('/podcasts/add') }} />
+          <i class="fas fa-cog text-4xl" onclick={() => { m.route.set('/settings') }} />
+        </div>
+        <div class="flex-1 overflow-y-scroll bg-gray-800">
+          {vnode.children}
+        </div>
+        <Playbox />
+      </div>
+    )
   }
 }
 
