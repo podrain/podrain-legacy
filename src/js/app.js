@@ -8,7 +8,6 @@ import Layout from './Components/Layout'
 import PodcastList from './Components/PodcastList'
 import PodcastShow from './Components/PodcastShow'
 import EpisodeSearch from './Components/EpisodeSearch'
-import EpisodeSearchModel from './Models/EpisodeSearchModel'
 import PodcastCreate from './Components/PodcastCreate'
 import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
@@ -61,17 +60,7 @@ m.route(document.body, '/podcasts', {
   },
 
   '/podcasts/:id/search': {
-    onmatch(args) {
-      EpisodeSearchModel.loading = true
-      EpisodeSearchModel.episodes = []
-      EpisodeSearchModel.searchResults = []
-      let getPodcast = EpisodeSearchModel.fetchPodcast(args.id)
-      let getEpisodes = EpisodeSearchModel.fetchEpisodes(args.id)
-
-      Promise.all([getPodcast, getEpisodes]).then(() => {
-        EpisodeSearchModel.loading = false
-      })
-
+    onmatch() {
       return EpisodeSearch
     },
 
@@ -81,8 +70,7 @@ m.route(document.body, '/podcasts', {
   },
 
   '/podcasts/:id': {
-    onmatch(args) {
-      
+    onmatch() {
       return PodcastShow
     },
 

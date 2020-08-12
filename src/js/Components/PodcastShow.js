@@ -20,11 +20,10 @@ function PodcastShow() {
   }
 
   async function getEpisodes(id) {
-    let episodes = await State.dexieDB.episodes.where({
+    allEpisodes = await State.dexieDB.episodes.where({
       podcast_id: id
     }).reverse().sortBy('pubDate')
-
-    allEpisodes = episodes
+    
     episodes = allEpisodes.slice(0, 10)
   }
 
@@ -107,10 +106,10 @@ function PodcastShow() {
     oninit(vnode) {
       loading = true
 
-      let getPodcasts = getPodcast(vnode.attrs.id)
-      let getEpisodes = getEpisodes(vnode.attrs.id)
+      let getPodcastPromise = getPodcast(vnode.attrs.id)
+      let getEpisodesPromise = getEpisodes(vnode.attrs.id)
 
-      Promise.all([getPodcasts, getEpisodes]).then(() => {
+      Promise.all([getPodcastPromise, getEpisodesPromise]).then(() => {
         loading = false
       })
     },
