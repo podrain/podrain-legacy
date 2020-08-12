@@ -1314,9 +1314,9 @@ bcrypt-pbkdf@^1.0.0:
     tweetnacl "^0.14.3"
 
 better-podcast-parser@^0.1.8:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/better-podcast-parser/-/better-podcast-parser-0.1.9.tgz#9e4ee5cece3f594d6b66305ec2ffe481c09c0bf3"
-  integrity sha512-aPXV5u8ngN0063+cAyMLntb4xxxNqGX0Yp0eV9qXbHhNCvVrEXRqKM9xfAu44O1DyRvCtGoFfsgxQAiVDYIalg==
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/better-podcast-parser/-/better-podcast-parser-0.1.10.tgz#4b5a59d0db31faa850a9a957b3ce77e62f452679"
+  integrity sha512-0IK+YPKfvonLXkk82f0WiGSzAtpNXUC54NFeDTGSjJO9TAwkd0CYvDIjIC0E2YFt1hKyoz29tHHz6aVWRINlEQ==
   dependencies:
     axios "^0.19.2"
     fast-xml-parser "^3.17.4"
