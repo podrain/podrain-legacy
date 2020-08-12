@@ -3,7 +3,6 @@ import State from '../State'
 import feedParser from 'better-podcast-parser'
 import uuidv4 from 'uuid/v4'
 import _ from 'lodash'
-import PodcastListModel from './PodcastListModel'
 
 let PodcastCreateModel = {
   feedUrl: '',

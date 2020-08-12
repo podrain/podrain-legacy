@@ -6,7 +6,6 @@ import _ from 'lodash'
 
 import Layout from './Components/Layout'
 import PodcastList from './Components/PodcastList'
-import PodcastListModel from './Models/PodcastListModel'
 import PodcastShow from './Components/PodcastShow'
 import PodcastShowModel from './Models/PodcastShowModel'
 import EpisodeSearch from './Components/EpisodeSearch'
@@ -103,7 +102,6 @@ m.route(document.body, '/podcasts', {
 
   '/podcasts': {
     onmatch() {
-      PodcastListModel.getPodcasts()
       return PodcastList
     },
 
