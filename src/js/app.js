@@ -12,7 +12,6 @@ import PodcastCreate from './Components/PodcastCreate'
 import QueueList from './Components/QueueList'
 import QueueModel from './Models/QueueModel'
 import EpisodeModel from './Models/EpisodeModel'
-import EpisodeShowModel from './Models/EpisodeShowModel'
 import EpisodeShow from './Components/EpisodeShow'
 import Settings from './Components/Settings'
 import localforage from 'localforage'
@@ -90,8 +89,7 @@ m.route(document.body, '/podcasts', {
   },
 
   '/episodes/:id': {
-    onmatch(args) {
-      EpisodeShowModel.getEpisode(args.id)
+    onmatch() {
       return EpisodeShow
     },
 

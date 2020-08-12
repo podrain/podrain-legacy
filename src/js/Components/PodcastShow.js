@@ -6,6 +6,7 @@ import localforage from 'localforage'
 import uuidv4 from 'uuid/v4'
 import PodcastModel from '../Models/PodcastModel'
 import QueueModel from '../Models/QueueModel'
+import _ from 'lodash'
 
 function PodcastShow() {
   let podcast = {}
