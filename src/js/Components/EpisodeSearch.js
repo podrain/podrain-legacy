@@ -51,9 +51,10 @@ function EpisodeSearch() {
               searchEpisodes(e.target.value)
             }
           }),
-          m('ul.text-white.m-3', searchResults.map((ep) => {
+          m('ul.text-white', searchResults.map((ep) => {
             return m(Episode, {
               episode: ep,
+              alternateImageURL: podcast.meta.imageURL,
               partOf: searchResults
             })
           })),
