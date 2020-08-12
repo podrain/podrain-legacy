@@ -7,7 +7,6 @@ import _ from 'lodash'
 import Layout from './Components/Layout'
 import PodcastList from './Components/PodcastList'
 import PodcastShow from './Components/PodcastShow'
-import PodcastShowModel from './Models/PodcastShowModel'
 import EpisodeSearch from './Components/EpisodeSearch'
 import EpisodeSearchModel from './Models/EpisodeSearchModel'
 import PodcastCreate from './Components/PodcastCreate'
@@ -83,15 +82,7 @@ m.route(document.body, '/podcasts', {
 
   '/podcasts/:id': {
     onmatch(args) {
-      PodcastShowModel.loading = true
-
-      let getPodcasts = PodcastShowModel.getPodcast(args.id)
-      let getEpisodes = PodcastShowModel.getEpisodes(args.id)
-
-      Promise.all([getPodcasts, getEpisodes]).then(() => {
-        PodcastShowModel.loading = false
-      })
-
+      
       return PodcastShow
     },
 
