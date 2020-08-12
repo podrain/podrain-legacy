@@ -1,6 +1,7 @@
 import m from 'mithril'
 import EpisodeModel from '../Models/EpisodeModel'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
+import { divide } from 'lodash'
 
 function EpisodeShow() {
   let episode = {}
@@ -20,23 +21,21 @@ function EpisodeShow() {
 
     view() {
       return loading
-      ? m('.flex.text-white.text-5xl.h-full.justify-center.items-center', 'Loading...')
-      : [
-        m('.p-3', [
-          m('h1.text-white.text.text-xl', episode.title),
-          m('.flex.mt-3', [
-            m('button.bg-green-500.text-white.w-full.p-3', {
-              onclick() {
-                EpisodeCurrentlyPlaying.playEpisode(episode._id, true)
-              }
-            }, [
-              m('i.fas.fa-play.mr-3'),
-              'Play'
-            ])
-          ]),
-          m('.markdown.text-gray-300.leading-snug.mt-3.text-sm', m.trust(episode.description))
-        ])
-      ]
+      ? 
+      <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+      : 
+      <div class="p-3">
+        <h1 class="text-white text-xl">{episode.title}</h1>
+        <div class="flex mt-3">
+          <button class="bg-green-500 text-white w-full p-3">
+            <i class="fas fa-play mr-3"></i>
+            Play
+          </button>
+        </div>
+        <div class="markdown text-gray-300 leading-snug mt-3 text-sm">
+          {m.trust(episode.description)}
+        </div>
+      </div>
     }
   }
 }
