@@ -25,7 +25,7 @@ function PodcastList() {
       : 
         podcasts.length > 0 ?
         <div class="flex flex-wrap">
-          {podcasts.map((pc) => (
+          {podcasts.map((pc) => 
             <div class="w-1/3 flex-none">
               <img 
                 src={pc.meta.imageURL}
@@ -34,7 +34,7 @@ function PodcastList() {
                 }}
               />
             </div>
-          ))}
+          )}
         </div>
         : 
         <div class="flex flex-col h-full justify-center items-center">
