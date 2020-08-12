@@ -21,27 +21,31 @@ function PodcastList() {
 
     view() {
       return loading
-      ? m('.flex.text-white.text-5xl.h-full.justify-center.items-center', 'Loading...')
-      : [
+      ? <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+      : 
         podcasts.length > 0 ?
-        m('.flex.flex-wrap', podcasts.map((pc) => {
-          return m('.w-1/3.flex-none', [
-            m('img', {
-              src: pc.meta.imageURL,
-              onclick() {
-                m.route.set('/podcasts/'+pc._id)
-              }
-            })
-          ])
-        })) : m('.flex.flex-col.h-full.justify-center.items-center', [
-          m('h2.text-white', 'No podcasts.'),
-          m('button.bg-green-500.mt-3.p-2.text-white', {
-            onclick() {
-              m.route.set('/podcasts/add')
-            }
-          }, 'Add some!')
-        ])
-      ]
+        <div class="flex flex-wrap">
+          {podcasts.map((pc) => (
+            <div class="w-1/3 flex-none">
+              <img 
+                src={pc.meta.imageURL}
+                onclick={() => {
+                  m.route.set('/podcasts/'+pc._id)
+                }}
+              />
+            </div>
+          ))}
+        </div>
+        : 
+        <div class="flex flex-col h-full justify-center items-center">
+          <h2 class="text-white">No podcasts.</h2>
+          <button 
+            class="bg-green-500 mt-3 p-2 text-white"
+            onclick={() => { 
+              m.route.set('/podcasts/add') 
+            }}
+          >Add some!</button>
+        </div>
     }
   }
 }
