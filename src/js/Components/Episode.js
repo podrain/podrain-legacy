@@ -46,7 +46,12 @@ function Episode(vnode) {
           </div>
 
           <div class="flex h-8 w-full">
-            <button class="w-1/4 flex justify-center items-center bg-blue-500">
+            <button 
+              class="w-1/4 flex justify-center items-center bg-blue-500"
+              onclick={() => {
+                EpisodeCurrentlyPlaying.playEpisode(vnode.attrs.episode._id, true)
+              }}
+            >
               {
                 !EpisodeCurrentlyPlaying.audio.paused
                 && EpisodeCurrentlyPlaying.episode._id == vnode.attrs.episode._id ? 

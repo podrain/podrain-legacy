@@ -114,7 +114,7 @@ function PlayBox() {
                           min="0"
                           max={EpisodeCurrentlyPlaying.episode.duration || 0}
                           value={EpisodeCurrentlyPlaying.playhead || 0}
-                          onchange={() => {
+                          onchange={(e) => {
                             EpisodeCurrentlyPlaying.setPlayhead(e.target.value)
                           }}
                         />

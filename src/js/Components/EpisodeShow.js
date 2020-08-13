@@ -27,7 +27,12 @@ function EpisodeShow() {
       <div class="p-3">
         <h1 class="text-white text-xl">{episode.title}</h1>
         <div class="flex mt-3">
-          <button class="bg-green-500 text-white w-full p-3">
+          <button 
+            class="bg-green-500 text-white w-full p-3"
+            onclick={() => {
+              EpisodeCurrentlyPlaying.playEpisode(episode._id, true)
+            }}
+          >
             <i class="fas fa-play mr-3"></i>
             Play
           </button>
