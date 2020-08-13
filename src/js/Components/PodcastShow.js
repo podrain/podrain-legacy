@@ -116,66 +116,71 @@ function PodcastShow() {
     },
 
     view() {
-      return loading
-      ? m('.flex.text-white.text-5xl.h-full.justify-center.items-center', 'Loading...')
-      : m('.flex.flex-col', [
-        m('.flex', [
-          m('.w-1/3.m-3', [
-            m('img', {
-              src: podcast.meta.imageURL
-            })
-          ]),
-          m('.w-2/3.flex.flex-col.justify-center.text-lg.py-3.pr-3', [
-            m('h1.text-white.font-bold.leading.snug', podcast.meta.title),
-            m('.mt-3.flex-col', [
-              m('.flex', [
-                m('button.text-white.bg-indigo-500.p-2.text-sm.flex-1', {
-                  onclick() {
-                    refreshEpisodes(podcast._id).then(() => {
-                      getEpisodes(podcast._id)
-                    })
-                  }
-                }, [
-                  m('i.fas.fa-sync-alt.mr-3', {
-                    class: refreshing ? 'fa-pulse' : ''
-                  }),
-                  'Refresh'
-                ]),
-                m('button.text-white.bg-red-500.p2.text-sm.flex-1', {
-                  onclick() {
-                    deletePodcast(podcast._id)
-                  }
-                }, [
-                  m('i.fas.mr-3', {
-                    class: deleting ? 'fa-spinner fa-spin' : 'fa-times'
-                  }),
-                  'Delete'
-                ])
-              ]),
-              m('button.bg-yellow-500.p-2.text-sm.w-full', {
-                onclick() {
-                  m.route.set('/podcasts/'+podcast._id+'/search')
-                }
-              }, [
-                m('i.fas.fa-search.mr-3'),
-                'Search episodes'
-              ])
-            ])
-          ])
-        ]),
-        m('ul.text-white.mx-3.mb-3', episodes.map((ep, index) => {
-          return m(Episode, {
-            episode: ep,
-            alternateImageURL: podcast.meta.imageURL,
-            partOf: episodes
-          })
-        })),
-        m('button.bg-purple-500.text-white.mx-3.mb-3.p-3', {
-          onclick() {
-            getMoreEpisodes(podcast._id, 10)
-          }
-        }, 'Load more')
-      ])
+      return loading ?
+        <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+      :
+        <div class="flex flex-col">
+          <div class="flex">
+            <div class="w-1/3 m-3">
+              <img src={podcast.meta.imageURL} />
+            </div>
+            <div class="w-2/3 flex flex-col justify-center text-lg py-3 pr-3">
+              <h1 class="text-white font-bold leading-snug">{podcast.meta.title}</h1>
+              <div class="mt-3 flex-col">
+                <div class="flex">
+                  <button 
+                    class="text-white bg-indigo-500 p-2 text-sm flex-1"
+                    onclick={() => {
+                      refreshEpisodes(podcast._id).then(() => {
+                        getEpisodes(podcast._id)
+                      })
+                    }}
+                  >
+                    <i class={`fas fa-sync-alt mr-3 ${refreshing && 'fa-pulse'}`}></i>
+                    Refresh
+                  </button>
+                  <button 
+                    class="text-white bg-red-500 p-2 text-sm flex-1"
+                    onclick={() => {
+                      deletePodcast(podcast._id)
+                    }}
+                  >
+                    <i class={`fas mr-3 ${deleting ? 'fa-spinner fa-spin' : 'fa-times'}`} />
+                    Delete
+                  </button>
+                </div>
+                <button 
+                  class="bg-yellow-500 p-2 text-sm w-full"
+                  onclick={() => {
+                    m.route.set('/podcasts/'+podcast._id+'/search')
+                  }}
+                >
+                  <i class="fas fa-search mr-3"></i>
+                  Search episodes
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ul class="text-white mx-3 mb-3">
+            {episodes.map((ep, index) => 
+              <Episode 
+                episode={ep}
+                alternateImageURL={podcast.meta.imageURL}
+                partOf={episodes}
+              />
+            )}
+          </ul>
+
+          <button 
+            class="bg-purple-500 text-white mx-3 mb-3 p-3"
+            onclick={() => {
+              getMoreEpisodes(podcast._id, 10)
+            }}
+          >
+            Load more
+          </button>
+        </div>
     }
   }
 }
