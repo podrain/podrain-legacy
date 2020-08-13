@@ -39,26 +39,27 @@ function EpisodeSearch() {
     },
 
     view() {
-      return loading 
-      ? m('.flex.text-white.text-5xl.h-full.justify-center.items-center', 'Loading...')
-      : m('.p-3', [
-          m('h1.text-white', [
-            'Search episodes in ',
-            m('span.italic', podcast.meta.title)
-          ]),
-          m('input.p-1.w-full.mt-1', {
-            oninput(e) {
+      return loading ?
+        <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+      :
+        <div class="p-3">
+          <h1 class="text-white">Search episodes in <span class="italic">{podcast.meta.title}</span></h1>
+          <input 
+            class="p-1 w-full mt-1"
+            oninput={(e) => {
               searchEpisodes(e.target.value)
-            }
-          }),
-          m('ul.text-white', searchResults.map((ep) => {
-            return m(Episode, {
-              episode: ep,
-              alternateImageURL: podcast.meta.imageURL,
-              partOf: searchResults
-            })
-          })),
-        ])
+            }}
+          />
+          <ul class="text-white">
+            {searchResults.map((ep) => 
+              <Episode 
+                episode={ep}
+                alternateImageURL={podcast.meta.imageURL}
+                partOf={searchResults}
+              />
+            )}
+          </ul>
+        </div>
     }
   }
 }
