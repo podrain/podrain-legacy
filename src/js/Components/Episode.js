@@ -5,45 +5,60 @@ import QueueModel from '../Models/QueueModel'
 import EpisodeModel from '../Models/EpisodeModel'
 import _ from 'lodash'
 
-function Episode() {
+function Episode(vnode) {
+  let cleanDescription = Helpers.cleanHTMLString(vnode.attrs.episode.description)
+
   return {
     view(vnode) {
       return [
-        m('li.flex.flex-col', {
-          key: vnode.attrs.episode._id,
-          class: 'mt-3'
-        }, [
-          m('.flex-1.p-3.relative', {
-            class: vnode.attrs.episode.currently_playing ? 'bg-orange-500' : 'bg-gray-700',
-            onclick() {
+        <li 
+          class="flex flex-col mt-3"
+          key={vnode.attrs.episode._id}
+        >
+          <div 
+            class={`flex1 p-3 relative ${vnode.attrs.episode.currently_playing ? 'bg-orange-500' : 'bg-gray-700'}`}
+            onclick={() => {
               m.route.set('/episodes/'+vnode.attrs.episode._id)
+            }}
+          >
+            {vnode.attrs.episode.played &&
+            <div class="w-8 h-8 bg-yellow-500 absolute bottom-0 left-0 flex justify-center items-center">
+              <i class="fas fa-check text-black"></i>
+            </div>
             }
-          }, [
-            vnode.attrs.episode.played ? m('.w-8.h-8.bg-yellow-500.absolute.bottom-0.left-0.flex.justify-center.items-center', [
-              m('i.fas.fa-check.text-black')
-            ]) : null,
-            m('.leading-tight.text-xs.font-bold.truncate', vnode.attrs.episode.title),
-            m('.flex.mt-3', [
-              m('.w-1/5', m('img', { src: vnode.attrs.episode.imageURL || vnode.attrs.alternateImageURL })),
-              m('.w-4/5.text-xs.font-light.ml-3', vnode.attrs.episode.description ? (
-                Helpers.cleanHTMLString(vnode.attrs.episode.description).length > 125 
-                ? Helpers.cleanHTMLString(vnode.attrs.episode.description).substr(0, 125) + '...' 
-                : Helpers.cleanHTMLString(vnode.attrs.episode.description)) 
-              : 'No description provided')
-            ])
-          ]),
-          m('.flex.h-8.w-full', [
-            m('button.w-1/4.flex.justify-center.items-center.bg-blue-500', {
-              onclick() {
-                EpisodeCurrentlyPlaying.playEpisode(vnode.attrs.episode._id, true)
+
+            <div class="leading-tight text-xs font-bold truncate">{vnode.attrs.episode.title}</div>
+            <div class="flex mt-3">
+              <div class="w-1/5">
+                <img src={vnode.attrs.episode.imageURL || vnode.attrs.alternateImageURL } />
+              </div>
+              <div class="w-4/5 text-xs font-light ml-3">
+                {
+                  cleanDescription ? (
+                    cleanDescription.length > 125 ?
+                      cleanDescription.substr(0, 125) + '...'
+                    :
+                      cleanDescription
+                  ) : 'No description provided.'
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="flex h-8 w-full">
+            <button class="w-1/4 flex justify-center items-center bg-blue-500">
+              {
+                !EpisodeCurrentlyPlaying.audio.paused
+                && EpisodeCurrentlyPlaying.episode._id == vnode.attrs.episode._id ? 
+                  <i class="fas fa-pause"></i>
+                :
+                  <i class="fas fa-play"></i>
               }
-            }, [
-              !EpisodeCurrentlyPlaying.audio.paused 
-              && EpisodeCurrentlyPlaying.episode._id == vnode.attrs.episode._id ? m('i.fas.fa-pause') : m('i.fas.fa-play')
-            ]),
-            m('button.w-3/4.flex.justify-center.items-center', {
-              class: vnode.attrs.episode.queue ? 'bg-red-500' : 'bg-green-500',
-              onclick() {
+            </button>
+
+            <button 
+              class={`w-3/4 flex justify-center items-center ${vnode.attrs.episode.queue ? 'bg-red-500' : 'bg-green-500'}`}
+              onclick={() => {
                 let method = null
   
                 if (vnode.attrs.episode.queue) {
@@ -60,13 +75,27 @@ function Episode() {
                   })
                   vnode.attrs.partOf[episodeIndex] = updatedEpisode
                 })
-              },
-              disabled: QueueModel.queueChanging
-            }, [
-              QueueModel.queueChanging ? m('i.fas.fa-spinner.fa-spin') : (vnode.attrs.episode.queue ? [m('i.fas.fa-minus.mr-3'),'Remove from queue'] : [m('i.fas.fa-plus.mr-3'),'Add to queue'])
-            ])
-          ]),
-        ])
+              }}
+              disabled={QueueModel.queueChanging}
+            >
+              {
+                QueueModel.queueChanging ?
+                  <i class="fas fa-spinner fa-spin"></i>
+                :
+                  vnode.attrs.episode.queue ?
+                    <div>
+                      <i class="fas fa-minus mr-3"></i>
+                      Remove from Queue
+                    </div>
+                  :
+                    <div>
+                      <i class="fas fa-plus mr-3"></i>
+                      Add to Queue
+                    </div>
+              }
+            </button>
+          </div>
+        </li>
       ]
     }
   }
