@@ -120,7 +120,7 @@ function PodcastCreate() {
                 <input 
                   type="text"
                   class="w-full mt-3 p-1"
-                  placeholder="Podcast title to search...!"
+                  placeholder="Podcast title to search..."
                   oninput={(e) => {
                     setSearch(e.target.value)
                   }}
