@@ -57,7 +57,7 @@ function PodcastShow() {
     })
 
     let newEpisodes = podcastParsed.episodes.filter((ep) => {
-      return ep.pubDate > _.max(currentEpisodes.map(epCurr => epCurr.pubDate))
+      return ep && ep.hasOwnProperty('pubDate') && ep.pubDate > _.max(currentEpisodes.map(epCurr => epCurr.pubDate))
     }).map(ep => {
       return _.merge(ep, {
         '_id': uuidv4(),

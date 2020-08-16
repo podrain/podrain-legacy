@@ -23,6 +23,7 @@ function PodcastCreate() {
 
   function addPodcast(podcastUrl) {
     feedUrl = podcastUrl
+    feedUrl = feedUrl.replace(/(?!:\/\/):/g, '%3A')
     return m.request(localStorage.getItem('proxy_url') + feedUrl, {
       extract: function(xhr) {
         return xhr
