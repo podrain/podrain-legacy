@@ -1,6 +1,7 @@
 import m from 'mithril'
 import Episode from './Episode'
 import _ from 'lodash'
+import Loading from './Loading'
 import State from '../State'
 
 function EpisodeSearch() {
@@ -40,7 +41,7 @@ function EpisodeSearch() {
 
     view() {
       return loading ?
-        <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+        <Loading />
       :
         <div class="p-3">
           <h1 class="text-white">Search episodes in <span class="italic">{podcast.meta.title}</span></h1>

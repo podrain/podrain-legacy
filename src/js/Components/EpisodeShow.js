@@ -2,6 +2,7 @@ import m from 'mithril'
 import EpisodeModel from '../Models/EpisodeModel'
 import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import { divide } from 'lodash'
+import Loading from './Loading'
 
 function EpisodeShow() {
   let episode = {}
@@ -22,7 +23,7 @@ function EpisodeShow() {
     view() {
       return loading
       ? 
-      <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+      <Loading />
       : 
       <div class="p-3">
         <h1 class="text-white text-xl">{episode.title}</h1>

@@ -59,3 +59,9 @@
     }
   }
 }
+
+.anim-fade-in {animation:fade-in 0.5s;}
+@keyframes fade-in {
+    from {opacity:0;}
+    to {opacity:1;}
+}

@@ -1,5 +1,6 @@
 import m from 'mithril'
 import State from '../State'
+import Loading from './Loading'
 
 function PodcastList() {
   let podcasts = []
@@ -21,7 +22,7 @@ function PodcastList() {
 
     view() {
       return loading ? 
-        <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+        <Loading />
       : 
         podcasts.length > 0 ?
           <div class="flex flex-wrap">

@@ -1,5 +1,6 @@
 import m from 'mithril'
 import Episode from './Episode'
+import Loading from './Loading'
 import State from '../State'
 import feedParser from 'better-podcast-parser'
 import localforage from 'localforage'
@@ -117,7 +118,7 @@ function PodcastShow() {
 
     view() {
       return loading ?
-        <div class="flex text-white text-5xl h-full justify-center items-center">Loading...</div>
+        <Loading />
       :
         <div class="flex flex-col">
           <div class="flex">
