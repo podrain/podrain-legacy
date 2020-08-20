@@ -6,7 +6,10 @@ import EpisodeModel from '../Models/EpisodeModel'
 import _ from 'lodash'
 
 function Episode(vnode) {
-  let cleanDescription = Helpers.cleanHTMLString(vnode.attrs.episode.description)
+  
+  function cleanHTML(str) {
+    return Helpers.cleanHTMLString(str)
+  }
 
   return {
     view(vnode) {
@@ -34,11 +37,11 @@ function Episode(vnode) {
               </div>
               <div class="w-4/5 text-xs font-light ml-3">
                 {
-                  cleanDescription ? (
-                    cleanDescription.length > 125 ?
-                      cleanDescription.substr(0, 125) + '...'
+                  cleanHTML(vnode.attrs.episode.description) ? (
+                    cleanHTML(vnode.attrs.episode.description).length > 125 ?
+                    cleanHTML(vnode.attrs.episode.description).substr(0, 125) + '...'
                     :
-                      cleanDescription
+                    cleanHTML(vnode.attrs.episode.description)
                   ) : 'No description provided.'
                 }
               </div>
