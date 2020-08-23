@@ -92,47 +92,49 @@ class QueueList {
                 }
               </button>
 
-              <div 
-                class="flex-1 relative bg-blue-500"
-                onclick={() => {
-                  if (EpisodeModel.isDownloaded(ep._id)) {
-                    EpisodeModel.removeDownload(ep._id)
-                  } else {
-                    EpisodeModel.downloadEpisode(ep._id)
-                  }
-                }}
-              >
+              { !Helpers.iOS() &&
                 <div 
-                  class="h-full bg-green-500 absolute"
-                  style={'width: ' + (
-                    EpisodeModel.isDownloaded(ep._id) ? 
-                      '100' 
-                    : (EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) ? 
-                        EpisodeModel.downloading.filter(dl => dl.id == ep._id)[0].progress 
-                      : 
-                        '0'
-                      )
-                    ) + '%;' 
-                  }
-                ></div>
-                <div class="flex h-full justify-center items-center relative">
-                  {
-                    EpisodeModel.isDownloaded(ep._id) ?
-                      <div>
-                        <i class="fas fa-check mr-3"></i>
-                        Downloaded
-                      </div>
-                    :
-                      EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) ?
-                        'Downloading...'
-                      :
+                  class="flex-1 relative bg-blue-500"
+                  onclick={() => {
+                    if (EpisodeModel.isDownloaded(ep._id)) {
+                      EpisodeModel.removeDownload(ep._id)
+                    } else {
+                      EpisodeModel.downloadEpisode(ep._id)
+                    }
+                  }}
+                >
+                  <div 
+                    class="h-full bg-green-500 absolute"
+                    style={'width: ' + (
+                      EpisodeModel.isDownloaded(ep._id) ? 
+                        '100' 
+                      : (EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) ? 
+                          EpisodeModel.downloading.filter(dl => dl.id == ep._id)[0].progress 
+                        : 
+                          '0'
+                        )
+                      ) + '%;' 
+                    }
+                  ></div>
+                  <div class="flex h-full justify-center items-center relative">
+                    {
+                      EpisodeModel.isDownloaded(ep._id) ?
                         <div>
-                          <i class="fas fa-download mr-3"></i>
-                          Download
+                          <i class="fas fa-check mr-3"></i>
+                          Downloaded
                         </div>
-                  }
+                      :
+                        EpisodeModel.downloading.map(dl => dl.id).includes(ep._id) ?
+                          'Downloading...'
+                        :
+                          <div>
+                            <i class="fas fa-download mr-3"></i>
+                            Download
+                          </div>
+                    }
+                  </div>
                 </div>
-              </div>
+              }
             </div>
           </li>
         )}
