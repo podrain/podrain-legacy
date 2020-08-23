@@ -4,6 +4,7 @@ import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import Sortable from 'sortablejs'
 import EpisodeModel from '../Models/EpisodeModel'
 import Helpers from '../Helpers'
+import { DateTime } from 'luxon'
 
 class QueueList {
   oncreate() {
@@ -52,6 +53,7 @@ class QueueList {
                     <img src={ep.imageURL || ep.podcast.meta.imageURL} />
                   </div>
                   <div class="w-4/5 text-xs font-light ml-3">
+                  <span class="italic text-gray-300">{ DateTime.fromISO(ep.pubDate).toFormat('D') }</span>&nbsp;—&nbsp; 
                     {
                       ep.description ? 
                         (Helpers.cleanHTMLString(ep.description).length > 125 ? 

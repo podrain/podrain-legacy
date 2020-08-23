@@ -4,6 +4,7 @@ import EpisodeCurrentlyPlaying from '../Models/EpisodeCurrentlyPlaying'
 import QueueModel from '../Models/QueueModel'
 import EpisodeModel from '../Models/EpisodeModel'
 import _ from 'lodash'
+import { DateTime } from 'luxon'
 
 function Episode(vnode) {
   
@@ -30,12 +31,15 @@ function Episode(vnode) {
             </div>
             }
 
+            
             <div class="leading-tight text-xs font-bold truncate">{vnode.attrs.episode.title}</div>
+              
             <div class="flex mt-3">
               <div class="w-1/5">
                 <img src={vnode.attrs.episode.imageURL || vnode.attrs.alternateImageURL } />
               </div>
               <div class="w-4/5 text-xs font-light ml-3">
+              <span class="italic text-gray-300">{ DateTime.fromISO(vnode.attrs.episode.pubDate).toFormat('D') }</span>&nbsp;—&nbsp; 
                 {
                   cleanHTML(vnode.attrs.episode.description) ? (
                     cleanHTML(vnode.attrs.episode.description).length > 125 ?
