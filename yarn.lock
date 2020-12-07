@@ -1314,9 +1314,9 @@ bcrypt-pbkdf@^1.0.0:
     tweetnacl "^0.14.3"
 
 better-podcast-parser@^0.1.8:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/better-podcast-parser/-/better-podcast-parser-0.1.10.tgz#4b5a59d0db31faa850a9a957b3ce77e62f452679"
-  integrity sha512-0IK+YPKfvonLXkk82f0WiGSzAtpNXUC54NFeDTGSjJO9TAwkd0CYvDIjIC0E2YFt1hKyoz29tHHz6aVWRINlEQ==
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/better-podcast-parser/-/better-podcast-parser-0.1.11.tgz#57f7dbf9f4d7548361bdf089d993912123d4db67"
+  integrity sha512-Gs0fOAnCDN4X892GeQRAa7PBrteIgRnjLA0jqWVxtCzEt71WXQ+3MVk3n3+mce1emhwlA56lIRfndJbiKwnocA==
   dependencies:
     axios "^0.19.2"
     fast-xml-parser "^3.17.4"
@@ -2722,9 +2722,9 @@ fast-levenshtein@~2.0.6:
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
 fast-xml-parser@^3.17.4:
-  version "3.17.4"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.17.4.tgz#d668495fb3e4bbcf7970f3c24ac0019d82e76477"
-  integrity sha512-qudnQuyYBgnvzf5Lj/yxMcf4L9NcVWihXJg7CiU1L+oUCq8MUnFEfH2/nXR/W5uq+yvUN1h7z6s7vs2v1WkL1A==
+  version "3.17.5"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.17.5.tgz#760bc7755681d2e1d70329c9ac6a1a7cb38b135e"
+  integrity sha512-lEvThd1Xq+CCylf1n+05bUZCDZjTufaaaqpxM3JZ+4iDqtlG+d/oKgtMmg9GEMOuzBgUoalIzFOaClht9YiGJQ==
 
 fastparse@^1.1.2:
   version "1.1.2"
