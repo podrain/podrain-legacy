@@ -7,6 +7,9 @@ let QueueModel = {
   queueChanging: false,
 
   async getQueue() {
+    // Fix queue each time it's fetched
+    await this.fixQueue()
+
     let queuedEpisodes = await State.dexieDB.episodes.filter(ep => {
       return ep.queue > 0
     }).toArray()
@@ -102,6 +105,26 @@ let QueueModel = {
     ])
 
     await this.getQueue()
+    this.queueChanging = false
+  },
+
+  async fixQueue() {
+    this.queueChanging = true
+
+    let queuedEpisodes = await State.dexieDB.episodes.filter(ep => {
+      return ep.queue > 0
+    }).toArray()
+
+    let queuedEpisodesSorted = _.orderBy(queuedEpisodes, ['queue'], ['asc'])
+
+    let i = 1
+    for (let qes of queuedEpisodesSorted) {
+      if (qes.queue != i) {
+        await State.dexieDB.episodes.where({ _id: qes._id }).modify({ queue: i })
+      }
+      i++
+    }
+
     this.queueChanging = false
   }
 }
