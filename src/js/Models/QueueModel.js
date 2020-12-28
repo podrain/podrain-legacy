@@ -8,7 +8,6 @@ let QueueModel = {
 
   async getQueue() {
     // Fix queue each time it's fetched
-    await this.fixQueue()
 
     let queuedEpisodes = await State.dexieDB.episodes.filter(ep => {
       return ep.queue > 0
