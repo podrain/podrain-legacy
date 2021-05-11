@@ -6,7 +6,7 @@
     "dexie": "^2.0.4",
     "file-saver": "^2.0.2",
     "localforage": "^1.7.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "luxon": "^1.24.1",
     "mithril": "^2.0.4",
     "sortablejs": "^1.10.2",
